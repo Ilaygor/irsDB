@@ -1,0 +1,4 @@
+sizeparam 100000000
+periodH 2
+periodM 0
+periodS 0
