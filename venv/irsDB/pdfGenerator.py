@@ -6,4 +6,3 @@ pdf.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
 pdf.set_font('DejaVu', '', 14)
 pdf.cell(200, 10, txt="Заявка №_01-000001", ln=1, align="C")
 pdf.output("simple_demo.pdf")
-
