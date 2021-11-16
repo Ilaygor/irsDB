@@ -5,6 +5,7 @@ from GUI import *
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QTableWidgetItem as twi
+from PIL import Image, ImageQt
 #pyuic5 -x base.ui -o gui.py
 
 
@@ -31,12 +32,16 @@ with db:
 class UImodif(Ui_MainWindow):
 
     otype = ""
+    imgs = []
 
     def btnFunction(self):
         self.loginBtn.clicked.connect(self.login)
         self.addBtn.clicked.connect(lambda: self.redirect(2))
         self.addDetImg.clicked.connect(self.newImg)
         self.saveChalenges.clicked.connect(self.saveDeteil)
+        self.makePdf.clicked.connect(lambda: print("pdf"))
+
+
         self.exit.triggered.connect(lambda: self.redirect(1))
         self.detail.triggered.connect(lambda: self.adpanel("detail"))
         self.connections.triggered.connect(lambda: self.adpanel("connections"))
@@ -65,14 +70,18 @@ class UImodif(Ui_MainWindow):
         self.chooseTable()
         self.stackedWidget.setCurrentIndex(4)
 
-
     def redirect(self, n):
         self.stackedWidget.setCurrentIndex(n)
 
     def newImg(self):
         filename = QtWidgets.QFileDialog.getOpenFileName()[0]
-        print(filename)
-        self.DetImg.setPixmap(QtGui.QPixmap(filename))
+        img = Image.open(filename)
+
+        self.imgs.append(img)
+        qim = ImageQt.ImageQt(img)
+        pix = QtGui.QPixmap.fromImage(qim)
+        self.DetImg.setPixmap(pix)
+        print(img)
 
     def saveDeteil(self):
         print("ok")
@@ -180,18 +189,6 @@ class UImodif(Ui_MainWindow):
             self.connectTable()
 
 
-
-
-
-
-
-with db:
-    #db.create_tables([User, Detail, Connection, Seam])
-    #User(login="admin", passWord="admin", name="admin").save()
-    db.commit()
-
-
-
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
 ui = UImodif()
@@ -199,8 +196,3 @@ ui.setupUi(MainWindow)
 ui.btnFunction()
 MainWindow.show()
 sys.exit(app.exec_())
-
-
-
-
-
