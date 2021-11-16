@@ -42,7 +42,7 @@ class Detail(BaseModel):
 class Connection(BaseModel):
     ctype = CharField()
     thicknessOfElement1 = DoubleField()
-    thicknessOfElement1 = DoubleField()
+    thicknessOfElement2 = DoubleField()
     jointBevelling = CharField()
     jointBevellingImg = BlobField()
     seamDimensions = CharField()

@@ -15,14 +15,14 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>C:/Users/Ilay/Desktop/kjuj 2.png</normaloff>C:/Users/Ilay/Desktop/kjuj 2.png</iconset>
+    <normaloff>C:/Users/Ilay/Desktop/kjuj 2 — копия (2).png</normaloff>C:/Users/Ilay/Desktop/kjuj 2 — копия (2).png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_12">
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="protocol">
        <property name="sizePolicy">
@@ -1050,9 +1050,6 @@ p, li { white-space: pre-wrap; }
           <column/>
          </widget>
         </item>
-        <item>
-         <widget class="QListView" name="listView"/>
-        </item>
        </layout>
       </widget>
      </widget>
@@ -1068,7 +1065,75 @@ p, li { white-space: pre-wrap; }
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <addaction name="chooseArch"/>
+    <addaction name="action_3"/>
+    <addaction name="action"/>
+    <addaction name="separator"/>
+    <addaction name="exit"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Выбор БД</string>
+    </property>
+    <addaction name="detail"/>
+    <addaction name="connections"/>
+    <addaction name="realDetail"/>
+    <addaction name="seams"/>
+    <addaction name="separator"/>
+    <addaction name="users"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
   </widget>
+  <action name="chooseArch">
+   <property name="text">
+    <string>Выбрать архив</string>
+   </property>
+  </action>
+  <action name="exit">
+   <property name="text">
+    <string>Выход из системы</string>
+   </property>
+  </action>
+  <action name="detail">
+   <property name="text">
+    <string>Чертежи</string>
+   </property>
+  </action>
+  <action name="connections">
+   <property name="text">
+    <string>Соединения</string>
+   </property>
+  </action>
+  <action name="realDetail">
+   <property name="text">
+    <string>Детали</string>
+   </property>
+  </action>
+  <action name="seams">
+   <property name="text">
+    <string>Швы</string>
+   </property>
+  </action>
+  <action name="users">
+   <property name="text">
+    <string>Пользователи</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>Настройки</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>Создать архив</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
