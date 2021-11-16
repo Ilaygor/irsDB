@@ -6,19 +6,23 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1060</width>
-    <height>935</height>
+    <width>960</width>
+    <height>621</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>IRS протоколирование параметров сварки</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>C:/Users/Ilay/Desktop/kjuj 2.png</normaloff>C:/Users/Ilay/Desktop/kjuj 2.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_12">
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="protocol">
        <property name="sizePolicy">
@@ -404,6 +408,16 @@ p, li { white-space: pre-wrap; }
              </spacer>
             </item>
            </layout>
+          </item>
+          <item>
+           <widget class="QLabel" name="loginStatus">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="verticalSpacer">
@@ -1013,7 +1027,31 @@ p, li { white-space: pre-wrap; }
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="tableWidget"/>
+         <widget class="QTableWidget" name="tableWidget">
+          <property name="baseSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="rowCount">
+           <number>2</number>
+          </property>
+          <property name="columnCount">
+           <number>6</number>
+          </property>
+          <row/>
+          <row/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+          <column/>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListView" name="listView"/>
         </item>
        </layout>
       </widget>
@@ -1026,7 +1064,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1060</width>
+     <width>960</width>
      <height>21</height>
     </rect>
    </property>
