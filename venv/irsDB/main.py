@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QTableWidgetItem as twi
-from PyQt5.QtChart import QChart, QChartView, QLineSeries, QCategoryAxis
-from PyQt5.QtCore import QPoint
+from PyQt5.QtChart import QChart, QChartView, QLineSeries, QCategoryAxis, QValueAxis
+from PyQt5.QtCore import QPoint, QPointF
 from PyQt5.Qt import QPen, QFont, Qt, QSize
 from PyQt5.QtGui import QColor, QBrush, QPainter
 from PIL import Image, ImageQt
@@ -58,34 +58,117 @@ class UImodif(Ui_MainWindow):
         self.initChart()
 
     def initChart(self):
-        series = QLineSeries()
-        data = [
-            QPoint(0, 0),
-            QPoint(1, 1),
-            QPoint(2, 2),
-            QPoint(3, 3)
-        ]
-        series.append(data)
-        chart = QChart()
-        chart.legend().hide()
-        chart.addSeries(series)
+        #7+3(2)#получение данных
+        duration = 2
+        fraqency = 10
+        wireConsumption = 10
+        shieldingGasConsumption = 15
+        weldingTime = 2.0
+        print(np.linspace(0, duration, duration * fraqency + 1))
+        data = []
+        y = np.ones(duration * fraqency + 1) * 13
+        y2 = np.ones(duration * fraqency + 1) * 14
+        y3 = np.ones(duration * fraqency + 1) * 15
+        y4 = np.ones(duration * fraqency + 1) * 16
+        y5 = np.ones(duration * fraqency + 1) * 17
+        y6 = np.ones(duration * fraqency + 1) * 18
+        y7 = np.ones(duration * fraqency + 1) * 19
 
-        pen = QPen(QColor(200,200,200))
+        #вывод данных на график
+        #рассчётные значения
+        wireCC = QLineSeries()
+        wireCC.setName("Рассчётный расход проволоки")
+        gasCC = QLineSeries()
+        gasCC.setName("Рассчётный расход газа")
+        #реальные показатели
+        #обявления
+        torchSpeed = QLineSeries()
+        torchSpeed.setName("Скорость горелки")
+        burnerOscillation = QLineSeries()
+        burnerOscillation.setName("Колебания горелки")
+        current = QLineSeries()
+        current.setName("Ток")
+        voltage = QLineSeries()
+        voltage.setName("Напряжение")
+        voltageCorrection = QLineSeries()
+        voltageCorrection.setName("Коррекция напряжения")
+        wireSpeed = QLineSeries()
+        wireSpeed.setName("Скорость подачи проволоки")
+        gasConsumption = QLineSeries()
+        gasConsumption.setName("Расход газа")
+
+        #цвета
+        pen = QPen(QColor(150, 10, 10))
         pen.setWidth(3)
-        series.setPen(pen)
+        gasCC.setPen(pen)
+        pen = QPen(QColor(10, 10, 255))
+        pen.setWidth(3)
+        wireCC.setPen(pen)
+        pen = QPen(QColor(10, 255, 10))
+        pen.setWidth(3)
+        torchSpeed.setPen(pen)
+        pen = QPen(QColor(10, 255, 255))
+        pen.setWidth(3)
+        burnerOscillation.setPen(pen)
+        pen = QPen(QColor(255, 10, 10))
+        pen.setWidth(3)
+        current.setPen(pen)
+        pen = QPen(QColor(255, 10, 255))
+        pen.setWidth(3)
+        voltage.setPen(pen)
+        pen = QPen(QColor(255, 255, 10))
+        pen.setWidth(3)
+        voltageCorrection.setPen(pen)
+        pen = QPen(QColor(10, 10, 10))
+        pen.setWidth(3)
+        wireSpeed.setPen(pen)
+        pen = QPen(QColor(10, 120, 10))
+        pen.setWidth(3)
+        gasConsumption.setPen(pen)
+
+        #данные
+        for x, y, y2, y3, y4, y5, y6, y7 in zip(np.linspace(0, duration, duration * fraqency + 1),y,y2,y3,y4,y5,y6,y7):
+            gasCC.append(x, y)
+            wireCC.append(x, y2)
+            torchSpeed.append(x, y3)
+            burnerOscillation.append(x, y4)
+            current.append(x, y5)
+            voltage.append(x, y6)
+            voltageCorrection.append(x, y7)
+            wireSpeed.append(x, y6)
+            gasConsumption.append(x, y7)
+
+        #легенды
+        chart = QChart()
+        chart.legend().setVisible(True)
+        chart.legend().setAlignment(Qt.AlignBottom)
+
+        #вывод на график
+        chart.addSeries(gasCC)
+        chart.addSeries(wireCC)
+        chart.addSeries(torchSpeed)
+        chart.addSeries(burnerOscillation)
+        chart.addSeries(current)
+        chart.addSeries(voltage)
+        chart.addSeries(voltageCorrection)
+        chart.addSeries(wireSpeed)
+        chart.addSeries(gasConsumption)
 
         font = QFont('Open Sans')
         font.setPixelSize(14)
         chart.setTitleFont(font)
         chart.setTitle('Параметры сварки')
-        q = QChartView()
-
-
-
+        chart.createDefaultAxes()
+        self.graph.setRenderHint(QPainter.Antialiasing)
+        """axisX = QValueAxis()
+        axisX.setLabelFormat("%f")
+        axisY = QValueAxis()
+        axisY.setLabelFormat("%f")
+        chart.addAxis(axisX, Qt.AlignBottom)
+        chart.addAxis(axisY, Qt.AlignLeft)
+        series.attachAxis(axisX)
+        series.attachAxis(axisY)"""
         self.graph.setChart(chart)
-
-
-
 
 
     def login(self):
@@ -226,9 +309,7 @@ class UImodif(Ui_MainWindow):
         elif self.otype == "connections":
             self.connectTable()
 
-duration = 2
-fraqency = 10
-print(np.linspace(0, duration, duration*fraqency+1))
+
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
 ui = UImodif()
