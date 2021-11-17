@@ -67,7 +67,7 @@ class Seam(BaseModel):
     startTime = DateTimeField()
     endTime = DateTimeField()
     endStatus = BooleanField()
-    torchTpeed = BlobField()
+    torchSpeed = BlobField()
     burnerOscillation = BlobField()
     current = BlobField()
     voltage = BlobField()

@@ -1,16 +1,23 @@
-import datetime
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QTableWidgetItem as twi
+from PyQt5.QtChart import QChart, QChartView, QLineSeries, QCategoryAxis
+from PyQt5.QtCore import QPoint
+from PyQt5.Qt import QPen, QFont, Qt, QSize
+from PyQt5.QtGui import QColor, QBrush, QPainter
+from PIL import Image, ImageQt
+import numpy as np
 import peewee
 from models import *
 from GUI import *
 import sys
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QTableWidgetItem as twi
-from PIL import Image, ImageQt
+
+
+
 #pyuic5 -x base.ui -o gui.py
 
 
 with db:
-    db.create_tables([User, Detail, Connection, Seam])
+    db.create_tables([Seam])
 
     db.commit()
 """
@@ -48,6 +55,37 @@ class UImodif(Ui_MainWindow):
         self.realDetail.triggered.connect(lambda: self.adpanel("realDetail"))
         self.seams.triggered.connect(lambda: self.adpanel("seams"))
         self.users.triggered.connect(lambda: self.adpanel("user"))
+        self.initChart()
+
+    def initChart(self):
+        series = QLineSeries()
+        data = [
+            QPoint(0, 0),
+            QPoint(1, 1),
+            QPoint(2, 2),
+            QPoint(3, 3)
+        ]
+        series.append(data)
+        chart = QChart()
+        chart.legend().hide()
+        chart.addSeries(series)
+
+        pen = QPen(QColor(200,200,200))
+        pen.setWidth(3)
+        series.setPen(pen)
+
+        font = QFont('Open Sans')
+        font.setPixelSize(14)
+        chart.setTitleFont(font)
+        chart.setTitle('Параметры сварки')
+        q = QChartView()
+
+
+
+        self.graph.setChart(chart)
+
+
+
 
 
     def login(self):
@@ -188,7 +226,9 @@ class UImodif(Ui_MainWindow):
         elif self.otype == "connections":
             self.connectTable()
 
-
+duration = 2
+fraqency = 10
+print(np.linspace(0, duration, duration*fraqency+1))
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
 ui = UImodif()

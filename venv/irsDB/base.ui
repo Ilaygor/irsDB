@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>960</width>
+    <width>980</width>
     <height>621</height>
    </rect>
   </property>
@@ -22,7 +22,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="protocol">
        <property name="sizePolicy">
@@ -34,6 +34,9 @@
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
           <property name="rightMargin">
            <number>0</number>
           </property>
@@ -41,88 +44,17 @@
            <number>0</number>
           </property>
           <item>
-           <layout class="QFormLayout" name="formLayout_3">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_12">
-              <property name="text">
-               <string>Шов</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_13">
-              <property name="text">
-               <string>Номер шва:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLabel" name="seamNumber">
-              <property name="text">
-               <string>нет данных</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_15">
-              <property name="text">
-               <string>TextLabel</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLabel" name="label_16">
-              <property name="text">
-               <string>нет данных</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_17">
-              <property name="text">
-               <string>Завершён:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QCheckBox" name="checkBox">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="label_21">
-              <property name="text">
-               <string>TextLabel</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QLabel" name="label_18">
-              <property name="text">
-               <string>нет данных</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_19">
-              <property name="text">
-               <string>TextLabel</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QLabel" name="label_20">
-              <property name="text">
-               <string>нет данных</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
            <layout class="QFormLayout" name="formLayout_4">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetMinimumSize</enum>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_36">
+              <property name="text">
+               <string>Оборудование</string>
+              </property>
+             </widget>
+            </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_25">
               <property name="text">
@@ -179,24 +111,73 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_33">
+           </layout>
+          </item>
+          <item>
+           <layout class="QFormLayout" name="formLayout_3">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetMinimumSize</enum>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_12">
               <property name="text">
-               <string>Расположение</string>
+               <string>Шов</string>
               </property>
              </widget>
             </item>
-            <item row="5" column="1">
-             <widget class="QLabel" name="label_30">
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_13">
+              <property name="text">
+               <string>Программа сварки:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLabel" name="seamNumber">
               <property name="text">
                <string>нет данных</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_36">
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_15">
               <property name="text">
-               <string>Оборудование</string>
+               <string>Время начала:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLabel" name="label_16">
+              <property name="text">
+               <string>нет данных</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_21">
+              <property name="text">
+               <string>Время окончания</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLabel" name="label_18">
+              <property name="text">
+               <string>нет данных</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_17">
+              <property name="text">
+               <string>Завершён:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QCheckBox" name="checkBox">
+              <property name="text">
+               <string/>
               </property>
              </widget>
             </item>
@@ -204,10 +185,13 @@
           </item>
           <item>
            <layout class="QFormLayout" name="formLayout_5">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetMinimumSize</enum>
+            </property>
             <item row="1" column="0">
              <widget class="QLabel" name="label_35">
               <property name="text">
-               <string>Артикуль:</string>
+               <string>Номер партии:</string>
               </property>
              </widget>
             </item>
@@ -221,7 +205,7 @@
             <item row="2" column="0">
              <widget class="QLabel" name="label_34">
               <property name="text">
-               <string>Серийный номер:</string>
+               <string>Номер детали:</string>
               </property>
              </widget>
             </item>
@@ -235,7 +219,21 @@
             <item row="0" column="0">
              <widget class="QLabel" name="label_37">
               <property name="text">
-               <string>TextLabel</string>
+               <string>Деталь:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_59">
+              <property name="text">
+               <string>Пользователь:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLabel" name="label_60">
+              <property name="text">
+               <string>Нет данных</string>
               </property>
              </widget>
             </item>
@@ -244,14 +242,10 @@
          </layout>
         </item>
         <item>
-         <widget class="QLabel" name="label_14">
-          <property name="text">
-           <string>TextLabel</string>
-          </property>
-         </widget>
+         <widget class="QChartView" name="graph"/>
         </item>
         <item>
-         <spacer name="verticalSpacer_4">
+         <spacer name="verticalSpacer_8">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -262,9 +256,6 @@
            </size>
           </property>
          </spacer>
-        </item>
-        <item>
-         <widget class="QWidget" name="widget" native="true"/>
         </item>
        </layout>
       </widget>
@@ -1061,8 +1052,8 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>960</width>
-     <height>21</height>
+     <width>980</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -1135,6 +1126,13 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QGraphicsView</extends>
+   <header>QtCharts</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
