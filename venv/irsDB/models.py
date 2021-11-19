@@ -9,7 +9,6 @@ class BaseModel(Model):
         database = db
         order_by = 'id'
 
-
 class User(BaseModel):
     login = CharField(null=False, unique=True)
     name = CharField()
@@ -24,8 +23,6 @@ class User(BaseModel):
 
     class Meta:
         db_table = 'Users'
-
-
 
 class Detail(BaseModel):
     blueprinNumber = IntegerField()

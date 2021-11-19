@@ -47,7 +47,6 @@ class Archivator: #дописать логику первого запуска
 
 
 def archivete(archivator):
-
   threading.Timer(600.0, archivete).start()
   print("Archiv")
   archivator.autoarch()
