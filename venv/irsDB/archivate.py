@@ -2,6 +2,9 @@ import zipfile
 import os
 import datetime
 import time
+import threading
+
+
 
 class Archivator: #дописать логику первого запуска
 
@@ -40,6 +43,14 @@ class Archivator: #дописать логику первого запуска
             self.arch("periodic backup")
         elif os.path.getsize(self.database) > maxArchSize:
             self.arch("oversize")
+
+
+
+def archivete(archivator):
+
+  threading.Timer(600.0, archivete).start()
+  print("Archiv")
+  archivator.autoarch()
 
 if __name__ == "__main__":
     #A = Archivator("IRSwelding.db")

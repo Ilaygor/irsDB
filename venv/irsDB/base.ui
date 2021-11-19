@@ -244,7 +244,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_8">
           <item>
-           <widget class="QCheckBox" name="checkBox_4">
+           <widget class="QCheckBox" name="wireCCchb">
             <property name="text">
              <string>Проволока рассчет</string>
             </property>
@@ -254,7 +254,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_3">
+           <widget class="QCheckBox" name="gasCCchb">
             <property name="text">
              <string>Газ рассчёт</string>
             </property>
@@ -264,7 +264,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_5">
+           <widget class="QCheckBox" name="torchSpeedchb">
             <property name="text">
              <string>Vгорелки</string>
             </property>
@@ -274,7 +274,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_10">
+           <widget class="QCheckBox" name="burnerOscillationchb">
             <property name="text">
              <string>Колебания</string>
             </property>
@@ -284,9 +284,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_9">
+           <widget class="QCheckBox" name="currentchb">
             <property name="text">
-             <string>I</string>
+             <string>Ток</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -294,9 +294,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_8">
+           <widget class="QCheckBox" name="voltagechb">
             <property name="text">
-             <string>U</string>
+             <string>Напряжение</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -304,7 +304,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_7">
+           <widget class="QCheckBox" name="voltageCorrectionchb">
             <property name="text">
              <string>коррекция U</string>
             </property>
@@ -314,7 +314,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_6">
+           <widget class="QCheckBox" name="wireSpeedchb">
             <property name="text">
              <string>Vпроволоки</string>
             </property>
@@ -324,7 +324,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_2">
+           <widget class="QCheckBox" name="gasConsumptionchb">
             <property name="text">
              <string>Расход газа</string>
             </property>

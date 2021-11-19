@@ -3,13 +3,15 @@ from PyQt5.QtWidgets import QTableWidgetItem as twi
 from PyQt5.QtChart import QChart, QChartView, QLineSeries, QCategoryAxis, QValueAxis
 from PyQt5.QtCore import QPoint, QPointF
 from PyQt5.Qt import QPen, QFont, Qt, QSize
-from PyQt5.QtGui import QColor, QBrush, QPainter
+from PyQt5.QtGui import QColor, QBrush, QPainter, QMouseEvent
 from PIL import Image, ImageQt
 import numpy as np
 import peewee
 from models import *
 from GUI import *
 import sys
+
+
 
 
 
@@ -35,6 +37,16 @@ with db:
     print('done')
 """
 
+class LineSeries(QLineSeries):
+    def __init__(self, *args, **kwargs):
+        QLineSeries.__init__(self, *args, **kwargs)
+        self.start = QPointF()
+        self.pressed.connect(self.on_pressed)
+
+    def on_pressed(self, point):
+        self.start = point
+        print("on_pressed", round(point.x(), 1))
+
 
 class UImodif(Ui_MainWindow):
 
@@ -55,6 +67,15 @@ class UImodif(Ui_MainWindow):
         self.realDetail.triggered.connect(lambda: self.adpanel("realDetail"))
         self.seams.triggered.connect(lambda: self.adpanel("seams"))
         self.users.triggered.connect(lambda: self.adpanel("user"))
+        self.wireCCchb.stateChanged.connect(self.initChart)
+        self.gasCCchb.stateChanged.connect(self.initChart)
+        self.torchSpeedchb.stateChanged.connect(self.initChart)
+        self.burnerOscillationchb.stateChanged.connect(self.initChart)
+        self.currentchb.stateChanged.connect(self.initChart)
+        self.voltagechb.stateChanged.connect(self.initChart)
+        self.voltageCorrectionchb.stateChanged.connect(self.initChart)
+        self.wireSpeedchb.stateChanged.connect(self.initChart)
+        self.gasConsumptionchb.stateChanged.connect(self.initChart)
         self.initChart()
 
     def initChart(self):
@@ -64,7 +85,7 @@ class UImodif(Ui_MainWindow):
         wireConsumption = 10
         shieldingGasConsumption = 15
         weldingTime = 2.0
-        print(np.linspace(0, duration, duration * fraqency + 1))
+        #print(np.linspace(0, duration, duration * fraqency + 1))
         data = []
         y = np.ones(duration * fraqency + 1) * 13
         y2 = np.ones(duration * fraqency + 1) * 14
@@ -78,6 +99,7 @@ class UImodif(Ui_MainWindow):
         #рассчётные значения
         wireCC = QLineSeries()
         wireCC.setName("Рассчётный расход проволоки")
+        wireCC.pressed.connect(self.on_pressed)
         gasCC = QLineSeries()
         gasCC.setName("Рассчётный расход газа")
         #реальные показатели
@@ -127,7 +149,8 @@ class UImodif(Ui_MainWindow):
         gasConsumption.setPen(pen)
 
         #данные
-        for x, y, y2, y3, y4, y5, y6, y7 in zip(np.linspace(0, duration, duration * fraqency + 1),y,y2,y3,y4,y5,y6,y7):
+        x = np.linspace(0, duration, duration * fraqency + 1)
+        for x, y, y2, y3, y4, y5, y6, y7 in zip(x,y,y2,y3,y4,y5,y6,y7):
             gasCC.append(x, y)
             wireCC.append(x, y2)
             torchSpeed.append(x, y3)
@@ -139,26 +162,36 @@ class UImodif(Ui_MainWindow):
             gasConsumption.append(x, y7)
 
         #легенды
-        chart = QChart()
-        chart.legend().setVisible(True)
-        chart.legend().setAlignment(Qt.AlignBottom)
+        self.chart = QChart()
+        self.chart.setAcceptHoverEvents(True)
+        self.chart.legend().setVisible(True)
+        self.chart.legend().setAlignment(Qt.AlignBottom)
 
         #вывод на график
-        chart.addSeries(gasCC)
-        chart.addSeries(wireCC)
-        chart.addSeries(torchSpeed)
-        chart.addSeries(burnerOscillation)
-        chart.addSeries(current)
-        chart.addSeries(voltage)
-        chart.addSeries(voltageCorrection)
-        chart.addSeries(wireSpeed)
-        chart.addSeries(gasConsumption)
+        if self.wireCCchb.checkState():
+            self.chart.addSeries(wireCC)
+        if self.gasCCchb.checkState():
+            self.chart.addSeries(gasCC)
+        if self.torchSpeedchb.checkState():
+            self.chart.addSeries(torchSpeed)
+        if self.burnerOscillationchb.checkState():
+            self.chart.addSeries(burnerOscillation)
+        if self.currentchb.checkState():
+            self.chart.addSeries(current)
+        if self.voltagechb.checkState():
+            self.chart.addSeries(voltage)
+        if self.voltageCorrectionchb.checkState():
+            self.chart.addSeries(voltageCorrection)
+        if self.wireSpeedchb.checkState():
+            self.chart.addSeries(wireSpeed)
+        if self.gasConsumptionchb.checkState():
+            self.chart.addSeries(gasConsumption)
 
         font = QFont('Open Sans')
         font.setPixelSize(14)
-        chart.setTitleFont(font)
-        chart.setTitle('Параметры сварки')
-        chart.createDefaultAxes()
+        self.chart.setTitleFont(font)
+        self.chart.setTitle('Параметры сварки')
+        self.chart.createDefaultAxes()
         self.graph.setRenderHint(QPainter.Antialiasing)
         """axisX = QValueAxis()
         axisX.setLabelFormat("%f")
@@ -168,7 +201,11 @@ class UImodif(Ui_MainWindow):
         chart.addAxis(axisY, Qt.AlignLeft)
         series.attachAxis(axisX)
         series.attachAxis(axisY)"""
-        self.graph.setChart(chart)
+        self.graph.setChart(self.chart)
+
+    def on_pressed(self, point):
+        print("test")
+        print("on_pressed", round(point.x(), 1))
 
 
     def login(self):
