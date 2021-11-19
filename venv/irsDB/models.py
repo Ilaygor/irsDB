@@ -11,15 +11,15 @@ class BaseModel(Model):
 
 class User(BaseModel):
     login = CharField(null=False, unique=True)
-    name = CharField()
+    name = CharField(null=True)
     passWord = CharField(null=False)
-    accessUser = BooleanField(default = True)
-    accessDetail = BooleanField(default = True)
-    accessConn = BooleanField(default = True)
-    accessProt = BooleanField(default = True)
-    accessArch = BooleanField(default = True)
-    accessAdd = BooleanField(default = True)
-    accessRemove = BooleanField(default = True)
+    accessUser = BooleanField(default = False)
+    accessDetail = BooleanField(default = False)
+    accessConn = BooleanField(default = False)
+    accessProt = BooleanField(default = False)
+    accessArch = BooleanField(default = False)
+    accessAdd = BooleanField(default = False)
+    accessRemove = BooleanField(default = False)
 
     class Meta:
         db_table = 'Users'

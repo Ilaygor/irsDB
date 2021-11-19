@@ -59,6 +59,7 @@ class UImodif(Ui_MainWindow):
         self.saveChalenges.clicked.connect(self.saveDeteil)
         self.saveConn.clicked.connect(self.saveConnChlngs)
         self.makePdf.clicked.connect(lambda: print("pdf"))
+        self.saveBtn.clicked.connect(self.save)
 
         #пункты меню
         self.exit.triggered.connect(lambda: self.redirect(1))
@@ -81,9 +82,39 @@ class UImodif(Ui_MainWindow):
         self.initChart()
 
     #######Область тестовых функций########
+    def save (self):
+        if self.otype == "user":
+            for i in range(self.tableWidget.rowCount()):
+                if self.tableWidget.item(i,0) is None or self.tableWidget.item(i,0).text() == "":
+                    if self.tableWidget.item(i,1) is not None and self.tableWidget.item(i,2) is not None and self.tableWidget.item(i,3) is not None:
+                        print(self.tableWidget.cellWidget(i, 4).isChecked())
+                        try:
+                            User(login = self.tableWidget.item(i,1).text(),
+                                name = self.tableWidget.item(i,2).text(),
+                                passWord = self.tableWidget.item(i,3).text(),
+                                accessUser=self.tableWidget.cellWidget(i, 4).isChecked(),
+                                accessDetail=self.tableWidget.cellWidget(i, 5).isChecked(),
+                                accessConn=self.tableWidget.cellWidget(i, 6).isChecked(),
+                                accessProt=self.tableWidget.cellWidget(i, 7).isChecked(),
+                                accessArch=self.tableWidget.cellWidget(i, 8).isChecked(),
+                                accessAdd=self.tableWidget.cellWidget(i, 9).isChecked(),
+                                accessRemove=self.tableWidget.cellWidget(i, 10).isChecked()
+                            ).save()
+                        except:
+                            print("не создано")
+                        self.userTable()
+
     def add(self):
         if self.otype == "user":
-            pass
+            i =  self.tableWidget.rowCount()
+            self.tableWidget.insertRow(i)
+            self.tableWidget.setCellWidget(i, 4, QtWidgets.QCheckBox())
+            self.tableWidget.setCellWidget(i, 5, QtWidgets.QCheckBox())
+            self.tableWidget.setCellWidget(i, 6, QtWidgets.QCheckBox())
+            self.tableWidget.setCellWidget(i, 7, QtWidgets.QCheckBox())
+            self.tableWidget.setCellWidget(i, 8, QtWidgets.QCheckBox())
+            self.tableWidget.setCellWidget(i, 9, QtWidgets.QCheckBox())
+            self.tableWidget.setCellWidget(i, 10, QtWidgets.QCheckBox())
         elif self.otype == "detail":
             self.redirect(2)
         elif self.otype == "connections":
@@ -296,11 +327,12 @@ class UImodif(Ui_MainWindow):
             print("не создано")
 
     #####################################
+    #Панель администрирования данных
     def adpanel(self, otype):
         self.otype = otype
         self.chooseTable()
         self.stackedWidget.setCurrentIndex(4)
-
+    #Выбор отображения от типа данных
     def chooseTable(self):
         self.tableWidget.clear()
         if self.otype == "user":
@@ -341,36 +373,37 @@ class UImodif(Ui_MainWindow):
 
     def userTable(self):
         self.adPanelName.setText("Панель управления пользователями:")
-        self.tableWidget.setColumnCount(10)
+        self.tableWidget.setColumnCount(11)
         self.tableWidget.setHorizontalHeaderLabels(
-            ["Логин", "Имя", "Пароль", "Пользователи", "Детали", "Соединения", "Протоколы", "Архивы", "Добавление", "Удаление"])
+            ["id", "Логин", "Имя", "Пароль", "Пользователи", "Детали", "Соединения", "Протоколы", "Архивы", "Добавление", "Удаление"])
         users = User.select()
         self.tableWidget.setRowCount(len(users))
         for i in range(len(users)):
             print(users[i].name)
-            self.tableWidget.setItem(i, 0, twi(users[i].login))
-            self.tableWidget.setItem(i, 1, twi(users[i].name))
-            self.tableWidget.setItem(i, 2, twi(users[i].passWord))
-            self.tableWidget.setCellWidget(i, 3, QtWidgets.QCheckBox())
+            self.tableWidget.setItem(i, 0, twi(str(users[i].id)))
+            self.tableWidget.setItem(i, 1, twi(users[i].login))
+            self.tableWidget.setItem(i, 2, twi(users[i].name))
+            self.tableWidget.setItem(i, 3, twi(users[i].passWord))
             self.tableWidget.setCellWidget(i, 4, QtWidgets.QCheckBox())
             self.tableWidget.setCellWidget(i, 5, QtWidgets.QCheckBox())
             self.tableWidget.setCellWidget(i, 6, QtWidgets.QCheckBox())
             self.tableWidget.setCellWidget(i, 7, QtWidgets.QCheckBox())
             self.tableWidget.setCellWidget(i, 8, QtWidgets.QCheckBox())
             self.tableWidget.setCellWidget(i, 9, QtWidgets.QCheckBox())
-            self.tableWidget.cellWidget(i, 3).setCheckState(
-                QtCore.Qt.Checked if users[i].accessUser else QtCore.Qt.Unchecked)
+            self.tableWidget.setCellWidget(i, 10, QtWidgets.QCheckBox())
             self.tableWidget.cellWidget(i, 4).setCheckState(
-                QtCore.Qt.Checked if users[i].accessDetail else QtCore.Qt.Unchecked)
+                QtCore.Qt.Checked if users[i].accessUser else QtCore.Qt.Unchecked)
             self.tableWidget.cellWidget(i, 5).setCheckState(
-                QtCore.Qt.Checked if users[i].accessConn else QtCore.Qt.Unchecked)
+                QtCore.Qt.Checked if users[i].accessDetail else QtCore.Qt.Unchecked)
             self.tableWidget.cellWidget(i, 6).setCheckState(
-                QtCore.Qt.Checked if users[i].accessProt else QtCore.Qt.Unchecked)
+                QtCore.Qt.Checked if users[i].accessConn else QtCore.Qt.Unchecked)
             self.tableWidget.cellWidget(i, 7).setCheckState(
-                QtCore.Qt.Checked if users[i].accessArch else QtCore.Qt.Unchecked)
+                QtCore.Qt.Checked if users[i].accessProt else QtCore.Qt.Unchecked)
             self.tableWidget.cellWidget(i, 8).setCheckState(
-                QtCore.Qt.Checked if users[i].accessAdd else QtCore.Qt.Unchecked)
+                QtCore.Qt.Checked if users[i].accessArch else QtCore.Qt.Unchecked)
             self.tableWidget.cellWidget(i, 9).setCheckState(
+                QtCore.Qt.Checked if users[i].accessAdd else QtCore.Qt.Unchecked)
+            self.tableWidget.cellWidget(i, 10).setCheckState(
                 QtCore.Qt.Checked if users[i].accessRemove else QtCore.Qt.Unchecked)
 
         self.tableWidget.resizeColumnsToContents()
