@@ -50,7 +50,7 @@ class LineSeries(QLineSeries):
 class UImodif(Ui_MainWindow):
 
     otype = ""
-    imgs = b''
+    imgs = b'0'
 
     #инициализация функций нажатий
     def btnFunction(self):
@@ -118,13 +118,13 @@ class UImodif(Ui_MainWindow):
             self.tableWidget.setCellWidget(i, 9, QtWidgets.QCheckBox())
             self.tableWidget.setCellWidget(i, 10, QtWidgets.QCheckBox())
         elif self.otype == "detail":
-            self.redirect(2)
+            self.detailView(1)
         elif self.otype == "connections":
-            self.redirect(3)
+            self.ConnView(1)
         elif self.otype == "realDetail":
             self.redirect(2)
         elif self.otype == "seams":
-            pass
+            self.protocolView(1)
         # отрисовка графиков протоколов
 
     def initChart(self):
@@ -260,10 +260,63 @@ class UImodif(Ui_MainWindow):
         # временная функция
 
     def redirect(self, n):
-            self.stackedWidget.setCurrentIndex(n)
+        self.stackedWidget.setCurrentIndex(n)
 
     def protocolView(self, id):
-        pass
+        self.stackedWidget.setCurrentIndex(0)
+        seam = Seam.get(Seam.id == id)
+        print("its work", seam)
+        self.connId_2.setText(str(seam.connId))
+        self.detailId.setText(str(seam.detailId))
+        self.batchNumber.setText(str(seam.batchNumber))
+        self.detailNumber.setText(str(seam.detailNumber))
+        self.authorizedUser.setText(seam.authorizedUser)
+        self.weldingProgram_2.setText(seam.weldingProgram)
+        self.startTime.setText(str(seam.startTime))
+        self.endTime.setText(str(seam.endTime))
+        self.endStatus.setCheckState(
+            QtCore.Qt.Checked if seam.endStatus else QtCore.Qt.Unchecked)
+
+    def detailView(self, id):
+        self.stackedWidget.setCurrentIndex(2)
+        detail = Detail.get(Detail.id == id)
+        self.blueprinNumber.setText(str(detail.blueprinNumber))
+        self.detailName.setText(detail.detailName)
+        self.materialGrade.setText(detail.materialGrade)
+        self.weldingProgram.setText(detail.weldingProgram)
+        self.processingTime.setValue(detail.processingTime)
+
+
+    def ConnView(self, id):
+        self.stackedWidget.setCurrentIndex(3)
+        connection = Connection.get(Connection.id == id)
+        self.connId.setText(str(connection.id))
+        self.ctype.setText(connection.ctype)
+        self.thicknessOfElement1.setValue(connection.thicknessOfElement1)
+        self.thicknessOfElement2.setValue(connection.thicknessOfElement2)
+        self.jointBevelling.setText(connection.jointBevelling)
+        self.seamDimensions.setText(connection.seamDimensions)
+        self.fillerWireMark.setText(connection.fillerWireMark)
+        self.fillerWireDiam.setValue(connection.fillerWireDiam)
+        self.wireConsumption.setValue(connection.wireConsumption)
+        self.shieldingGasType.setText(connection.shieldingGasType)
+        self.shieldingGasConsumption.setValue(connection.shieldingGasConsumption)
+        self.programmName.setText(connection.programmName)
+        self.weldingTime.setValue(connection.weldingTime)
+
+    """ctype = CharField()
+    thicknessOfElement1 = DoubleField()
+    thicknessOfElement2 = DoubleField()
+    jointBevelling = CharField()
+    jointBevellingImg = BlobField()
+    seamDimensions = CharField()
+    fillerWireMark = CharField()
+    fillerWireDiam = DoubleField()
+    wireConsumption = DoubleField()
+    shieldingGasType = CharField()
+    shieldingGasConsumption = DoubleField()
+    programmName = CharField()
+    weldingTime = DoubleField()"""
     ###############
 
     #авторизация
@@ -446,9 +499,9 @@ class UImodif(Ui_MainWindow):
              "Программа сварки", "Пользователь"])
         seams = Seam.select()
         self.tableWidget.setRowCount(len(seams))
+        self.tableWidget.doubleClicked.connect(lambda: print("1"))
         for i in range(len(seams)):
             self.tableWidget.setItem(i, 0, twi(str(seams[i].id)))
-            self.tableWidget.doubleClicked.connect(lambda: self.redirect(0))
             self.tableWidget.setItem(i, 1, twi(str(seams[i].connId)))
             self.tableWidget.setItem(i, 2, twi(str(seams[i].detailId)))
             self.tableWidget.setItem(i, 3, twi(str(seams[i].batchNumber)))

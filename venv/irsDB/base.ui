@@ -22,7 +22,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="protocol">
        <property name="sizePolicy">
@@ -133,7 +133,7 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLabel" name="seamNumber">
+             <widget class="QLabel" name="weldingProgram_2">
               <property name="text">
                <string>нет данных</string>
               </property>
@@ -147,7 +147,7 @@
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QLabel" name="label_16">
+             <widget class="QLabel" name="startTime">
               <property name="text">
                <string>нет данных</string>
               </property>
@@ -161,7 +161,7 @@
              </widget>
             </item>
             <item row="3" column="1">
-             <widget class="QLabel" name="label_18">
+             <widget class="QLabel" name="endTime">
               <property name="text">
                <string>нет данных</string>
               </property>
@@ -175,7 +175,7 @@
              </widget>
             </item>
             <item row="4" column="1">
-             <widget class="QCheckBox" name="checkBox">
+             <widget class="QCheckBox" name="endStatus">
               <property name="text">
                <string/>
               </property>
@@ -196,7 +196,7 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLabel" name="label_31">
+             <widget class="QLabel" name="batchNumber">
               <property name="text">
                <string>нет данных</string>
               </property>
@@ -210,7 +210,7 @@
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QLabel" name="label_32">
+             <widget class="QLabel" name="detailNumber">
               <property name="text">
                <string>нет данных</string>
               </property>
@@ -231,9 +231,37 @@
              </widget>
             </item>
             <item row="3" column="1">
-             <widget class="QLabel" name="label_60">
+             <widget class="QLabel" name="authorizedUser">
               <property name="text">
                <string>Нет данных</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_19">
+              <property name="text">
+               <string>Название детали:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLabel" name="detailId">
+              <property name="text">
+               <string>нет данных</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_30">
+              <property name="text">
+               <string>Соединение:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLabel" name="connId_2">
+              <property name="text">
+               <string>нет данных</string>
               </property>
              </widget>
             </item>
