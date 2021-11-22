@@ -261,6 +261,9 @@ class UImodif(Ui_MainWindow):
 
     def redirect(self, n):
             self.stackedWidget.setCurrentIndex(n)
+
+    def protocolView(self, id):
+        pass
     ###############
 
     #авторизация
@@ -445,6 +448,7 @@ class UImodif(Ui_MainWindow):
         self.tableWidget.setRowCount(len(seams))
         for i in range(len(seams)):
             self.tableWidget.setItem(i, 0, twi(str(seams[i].id)))
+            self.tableWidget.doubleClicked.connect(lambda: self.redirect(0))
             self.tableWidget.setItem(i, 1, twi(str(seams[i].connId)))
             self.tableWidget.setItem(i, 2, twi(str(seams[i].detailId)))
             self.tableWidget.setItem(i, 3, twi(str(seams[i].batchNumber)))
