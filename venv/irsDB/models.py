@@ -63,14 +63,14 @@ class Seam(BaseModel):
     weldingProgram = CharField()
     startTime = DateTimeField()
     endTime = DateTimeField()
-    endStatus = BooleanField()
-    torchSpeed = BlobField()
-    burnerOscillation = BlobField()
-    current = BlobField()
-    voltage = BlobField()
-    voltageCorrection = BlobField()
-    wireSpeed = BlobField()
-    gasConsumption = BlobField()
+    endStatus = BooleanField(default = b'0')
+    torchSpeed = BlobField(default = b'0')
+    burnerOscillation = BlobField(default = b'0')
+    current = BlobField(default = b'0')
+    voltage = BlobField(default = b'0')
+    voltageCorrection = BlobField(default = b'0')
+    wireSpeed = BlobField(default = b'0')
+    gasConsumption = BlobField(default = b'0')
 
     class Meta:
         db_table = 'Seams'

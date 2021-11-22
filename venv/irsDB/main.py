@@ -10,6 +10,8 @@ import peewee
 from models import *
 from GUI import *
 import sys
+import datetime
+from io import BytesIO
 
 
 #pyuic5 -x base.ui -o gui.py
@@ -48,7 +50,7 @@ class LineSeries(QLineSeries):
 class UImodif(Ui_MainWindow):
 
     otype = ""
-    imgs = []
+    imgs = b''
 
     #инициализация функций нажатий
     def btnFunction(self):
@@ -124,6 +126,7 @@ class UImodif(Ui_MainWindow):
         elif self.otype == "seams":
             pass
         # отрисовка графиков протоколов
+
     def initChart(self):
             # 7+3(2)#получение данных
             duration = 2
@@ -250,7 +253,6 @@ class UImodif(Ui_MainWindow):
             self.graph.setChart(self.chart)
 
         # !!!!!!!не работает
-
     def on_pressed(self, point):
             print("test")
             print("on_pressed", round(point.x(), 1))
@@ -279,13 +281,18 @@ class UImodif(Ui_MainWindow):
 
     def newImg(self):
         filename = QtWidgets.QFileDialog.getOpenFileName()[0]
-        img = Image.open(filename)
-
-        self.imgs.append(img)
-        qim = ImageQt.ImageQt(img)
+        f = open(filename, 'rb')
+        d = f.read()
+        print(len(d), d)
+        stream = BytesIO(d)
+        im = Image.open(stream).convert("RGBA")
+        stream.close()
+        data = im.tobytes("raw", "BGRA")
+        print(len(data))
+        qim = QtGui.QImage(data, im.size[0], im.size[1], QtGui.QImage.Format_ARGB32)
         pix = QtGui.QPixmap.fromImage(qim)
         self.DetImg.setPixmap(pix)
-        print(img)
+
 
     #####################################
     def saveDeteil(self):
@@ -414,7 +421,6 @@ class UImodif(Ui_MainWindow):
         self.tableWidget.setHorizontalHeaderLabels(
             ["Вид сварного соединения", "Толщина элементов", "Разделка кромок", "Размеры шва", "Марка/сечение проволоки", "Расход проволоки","Газ","Расход газа","Программа сварки","Рассчётное время"])
         connections = Connection.select()
-        print(connections)
         self.tableWidget.setRowCount(len(connections))
         for i in range(len(connections)):
             self.tableWidget.setItem(i, 0, twi(connections[i].ctype))
@@ -428,38 +434,58 @@ class UImodif(Ui_MainWindow):
             self.tableWidget.setItem(i, 8, twi(connections[i].programmName))
             self.tableWidget.setItem(i, 9, twi(str(connections[i].weldingTime)))
         self.tableWidget.resizeColumnsToContents()
-        """ctype = CharField()
-        thicknessOfElement1 = DoubleField()
-        thicknessOfElement2 = DoubleField()
-        jointBevelling = CharField()
-        jointBevellingImg = BlobField()
-        seamDimensions = CharField()
-        fillerWireMark = CharField()
-        fillerWireDiam = DoubleField()
-        wireConsumption = DoubleField()
-        shieldingGasType = CharField()
-        shieldingGasConsumption = DoubleField()
-        programmName = CharField()
-        weldingTime = DoubleField()"""
 
     def seamTable(self):
         self.adPanelName.setText("Панель управления швами:")
-        self.tableWidget.setColumnCount(9)
+        self.tableWidget.setColumnCount(10)
         self.tableWidget.setHorizontalHeaderLabels(
-            ["Тип соединения", "Тип детали", "Номер партии", "Номер детали", "Начало", "Окончание", "Статус",
+            ["id", "Тип соединения", "Тип детали", "Номер партии", "Номер детали", "Начало", "Окончание", "Статус",
              "Программа сварки", "Пользователь"])
-        details = Detail.select()
-        self.tableWidget.setRowCount(len(details))
-        for i in range(len(details)):
-            self.tableWidget.setItem(i, 0, twi(str(details[i].blueprinNumber)))
-            self.tableWidget.setItem(i, 1, twi(details[i].detailName))
-            self.tableWidget.setItem(i, 2, twi(details[i].materialGrade))
-            self.tableWidget.setItem(i, 3, twi(details[i].weldingProgram))
-            self.tableWidget.setItem(i, 4, twi(str(details[i].processingTime)))
+        seams = Seam.select()
+        self.tableWidget.setRowCount(len(seams))
+        for i in range(len(seams)):
+            self.tableWidget.setItem(i, 0, twi(str(seams[i].id)))
+            self.tableWidget.setItem(i, 1, twi(str(seams[i].connId)))
+            self.tableWidget.setItem(i, 2, twi(str(seams[i].detailId)))
+            self.tableWidget.setItem(i, 3, twi(str(seams[i].batchNumber)))
+            self.tableWidget.setItem(i, 4, twi(str(seams[i].detailNumber)))
+            self.tableWidget.setItem(i, 5, twi(str(seams[i].startTime)))
+            self.tableWidget.setItem(i, 6, twi(str(seams[i].endTime)))
+            if seams[i].endStatus:
+                self.tableWidget.setItem(i, 7, twi("Успешно"))
+            else:
+                self.tableWidget.setItem(i, 7, twi("Ошибка!"))
+            self.tableWidget.setItem(i, 8, twi(seams[i].weldingProgram))
+            self.tableWidget.setItem(i, 9, twi(seams[i].authorizedUser))
         self.tableWidget.resizeColumnsToContents()
 
+    """connId = ForeignKeyField(Detail)
+    detailId = ForeignKeyField(Connection)
+    batchNumber = IntegerField()
+    detailNumber = IntegerField()
+    authorizedUser = CharField()
+    weldingProgram = CharField()
+    startTime = DateTimeField()
+    endTime = DateTimeField()"""
 
 
+"""Seam(connId = 1,#ForeignKeyField(Detail)
+    detailId = 1,#ForeignKeyField(Connection)
+    batchNumber = 0,#IntegerField()
+    detailNumber = 0,#IntegerField()
+    authorizedUser = "user",#CharField()
+    weldingProgram = "p2",#CharField()
+    startTime = datetime.datetime.now(),#DateTimeField()
+    endTime = datetime.datetime.now(),#DateTimeField()
+    endStatus = True,#BooleanField()
+    torchSpeed = bytes([1,2,3,4,5]),#BlobField()
+    burnerOscillation = bytes([1,2,3,4,5]),#BlobField()
+    current = bytes([1,2,3,4,5]),#BlobField()
+    voltage = bytes([1,2,3,4,5]),#BlobField()
+    voltageCorrection = bytes([1,2,3,4,5]),#BlobField()
+    wireSpeed = bytes([1,2,3,4,5]),#BlobField()
+    gasConsumption = bytes([1,2,3,4,5])#BlobField()
+    ).save()"""
 
 
 app = QtWidgets.QApplication(sys.argv)

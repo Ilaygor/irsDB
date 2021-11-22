@@ -63,12 +63,25 @@ window.resize(400, 300)
 window.show()
 
 sys.exit(app.exec_())"""
-
-
 import threading
-
-def printit():
+import struct
+"""def printit():
   threading.Timer(1.0, printit).start()
   print("Hello, World!")
 
-printit()
+printit()"""
+
+"""l = [1.1, 2.2, 3.1, 4.2]
+buf = struct.pack('%sf' % len(l), *l)
+print(buf)
+print(len(buf))
+lenght = len(buf)/4
+
+l2 = struct.unpack('%sf' % (len(buf)//4), buf)
+print(l2)"""
+
+from PIL import Image, ImageQt
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+filename = QtWidgets.QFileDialog.getOpenFileName()[0]
+
