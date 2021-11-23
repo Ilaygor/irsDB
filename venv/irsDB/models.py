@@ -28,7 +28,7 @@ class Detail(BaseModel):
     blueprinNumber = IntegerField()
     detailName = CharField()
     materialGrade = CharField()
-    img = BlobField(default = None, null=True)
+    img = BlobField(default = b'\x00\x00\x00\x00', null=True)
     weldingProgram = CharField()
     #weldingConnectionID = [] # а может и не нужен
     processingTime = DoubleField()

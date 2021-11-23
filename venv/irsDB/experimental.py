@@ -65,6 +65,9 @@ window.show()
 sys.exit(app.exec_())"""
 import threading
 import struct
+import random
+from models import *
+import datetime
 """def printit():
   threading.Timer(1.0, printit).start()
   print("Hello, World!")
@@ -81,7 +84,7 @@ lenght = len(buf)/4
 l2 = struct.unpack('%sf' % (len(buf)//4), buf)
 print(l2)
 """
-import struct
+"""import struct
 
 def unzip(c):
     par = struct.unpack('%si' % (c[0]+1), c[:4*(c[0]+1)])
@@ -114,13 +117,62 @@ def dell(c, i):
 
 
 
-par = [3, 5, 3, 5]
+par = [0]
 buf = struct.pack('%si' % len(par), *par)
 cafe = bytes('café', encoding="utf_8")
 car = bytes('car', encoding="utf_8")
-c = buf + cafe + car + cafe
+c = buf
+print(c)
 c2 = add(c, car)
 print(c2)
 print(unzip(c2))
-dell(c2, 2)
+dell(c2, 0)"""
+torchSpeed = []
+burnerOscillation = []
+current = []
+voltage = []
+voltageCorrection = []
+wireSpeed = []
+gasConsumption = []
+for t in range(21):
+    torchSpeed.append(random.uniform(0, 1.5))
+    burnerOscillation.append(random.uniform(0, 10))
+    current.append(random.uniform(5, 15))
+    voltage.append(random.uniform(210,230))
+    voltageCorrection.append(random.uniform(0, 15))
+    wireSpeed.append(random.uniform(0, 30))
+    gasConsumption.append(random.uniform(10, 25))
+
+btorchSpeed = struct.pack('%sf' % len(torchSpeed), *torchSpeed)
+bburnerOscillation = struct.pack('%sf' % len(burnerOscillation), *burnerOscillation)
+bcurrent = struct.pack('%sf' % len(current), *current)
+bvoltage = struct.pack('%sf' % len(voltage), *voltage)
+bvoltageCorrection = struct.pack('%sf' % len(voltageCorrection), *voltageCorrection)
+bwireSpeed = struct.pack('%sf' % len(wireSpeed), *wireSpeed)
+bgasConsumption = struct.pack('%sf' % len(gasConsumption), *gasConsumption)
+print(btorchSpeed)
+print(bburnerOscillation)
+print(bcurrent)
+print(bvoltage)
+print(bvoltageCorrection)
+print(bwireSpeed)
+print(bgasConsumption)
+
+Seam(connId = 1,#ForeignKeyField(Detail)
+    detailId = 1,#ForeignKeyField(Connection)
+    batchNumber = 1,#IntegerField()
+    detailNumber = 1,#IntegerField()
+    authorizedUser = "user",#CharField()
+    weldingProgram = "p2",#CharField()
+    startTime = datetime.datetime.now(),#DateTimeField()
+    endTime = datetime.datetime.now(),#DateTimeField()
+    endStatus = True,#BooleanField()
+    torchSpeed = btorchSpeed,#BlobField()
+    burnerOscillation = bburnerOscillation,#BlobField()
+    current = bcurrent,#BlobField()
+    voltage = bvoltage,#BlobField()
+    voltageCorrection = bvoltageCorrection,#BlobField()
+    wireSpeed = bwireSpeed,#BlobField()
+    gasConsumption = bgasConsumption#BlobField()
+    ).save()
 

@@ -12,15 +12,12 @@ from GUI import *
 import sys
 import datetime
 from io import BytesIO
-
+import byteimgs as bi
+import struct
 
 #pyuic5 -x base.ui -o gui.py
 
 
-with db:
-    db.create_tables([Seam])
-
-    db.commit()
 """
 with db:
     db.create_tables([User, Detail, Connection, Seam])
@@ -50,7 +47,8 @@ class LineSeries(QLineSeries):
 class UImodif(Ui_MainWindow):
 
     otype = ""
-    imgs = b'0'
+    imgs = b'\x00\x00\x00\x00'
+    curid = None
 
     #инициализация функций нажатий
     def btnFunction(self):
@@ -62,6 +60,7 @@ class UImodif(Ui_MainWindow):
         self.saveConn.clicked.connect(self.saveConnChlngs)
         self.makePdf.clicked.connect(lambda: print("pdf"))
         self.saveBtn.clicked.connect(self.save)
+        self.delBtn.clicked.connect(self.dell)
 
         #пункты меню
         self.exit.triggered.connect(lambda: self.redirect(1))
@@ -72,7 +71,7 @@ class UImodif(Ui_MainWindow):
         self.users.triggered.connect(lambda: self.adpanel("user"))
 
         #перерисовка и инициализация графика
-        self.wireCCchb.stateChanged.connect(self.initChart)
+        """self.wireCCchb.stateChanged.connect(self.initChart)
         self.gasCCchb.stateChanged.connect(self.initChart)
         self.torchSpeedchb.stateChanged.connect(self.initChart)
         self.burnerOscillationchb.stateChanged.connect(self.initChart)
@@ -80,31 +79,56 @@ class UImodif(Ui_MainWindow):
         self.voltagechb.stateChanged.connect(self.initChart)
         self.voltageCorrectionchb.stateChanged.connect(self.initChart)
         self.wireSpeedchb.stateChanged.connect(self.initChart)
-        self.gasConsumptionchb.stateChanged.connect(self.initChart)
-        self.initChart()
+        self.gasConsumptionchb.stateChanged.connect(self.initChart)"""
+
 
     #######Область тестовых функций########
+    def newImg(self):
+        filename = QtWidgets.QFileDialog.getOpenFileName()[0]
+        f = open(filename, 'rb')
+        d = f.read()
+        self.imgs = bi.add(self.imgs, d)
+        stream = BytesIO(d)
+        im = Image.open(stream).convert("RGBA")
+        stream.close()
+        data = im.tobytes("raw", "BGRA")
+        qim = QtGui.QImage(data, im.size[0], im.size[1], QtGui.QImage.Format_ARGB32)
+        pix = QtGui.QPixmap.fromImage(qim)
+        self.DetImg.setPixmap(pix)
+
+
+    ###########################################
+
+
+    # Удаление, добавление редактирование данных
     def save (self):
         if self.otype == "user":
-            for i in range(self.tableWidget.rowCount()):
-                if self.tableWidget.item(i,0) is None or self.tableWidget.item(i,0).text() == "":
-                    if self.tableWidget.item(i,1) is not None and self.tableWidget.item(i,2) is not None and self.tableWidget.item(i,3) is not None:
-                        print(self.tableWidget.cellWidget(i, 4).isChecked())
-                        try:
-                            User(login = self.tableWidget.item(i,1).text(),
-                                name = self.tableWidget.item(i,2).text(),
-                                passWord = self.tableWidget.item(i,3).text(),
-                                accessUser=self.tableWidget.cellWidget(i, 4).isChecked(),
-                                accessDetail=self.tableWidget.cellWidget(i, 5).isChecked(),
-                                accessConn=self.tableWidget.cellWidget(i, 6).isChecked(),
-                                accessProt=self.tableWidget.cellWidget(i, 7).isChecked(),
-                                accessArch=self.tableWidget.cellWidget(i, 8).isChecked(),
-                                accessAdd=self.tableWidget.cellWidget(i, 9).isChecked(),
-                                accessRemove=self.tableWidget.cellWidget(i, 10).isChecked()
-                            ).save()
-                        except:
-                            print("не создано")
-                        self.userTable()
+            self.saveUser()
+            self.userTable()
+
+    def saveUser(self):
+        for i in range(self.tableWidget.rowCount()):
+            if self.tableWidget.item(i, 0) is None or self.tableWidget.item(i, 0).text() == "":
+                if self.tableWidget.item(i, 1) is not None and self.tableWidget.item(i,
+                                                                                     2) is not None and self.tableWidget.item(
+                        i, 3) is not None:
+                    print(self.tableWidget.cellWidget(i, 4).isChecked())
+                    try:
+                        User(login=self.tableWidget.item(i, 1).text(),
+                             name=self.tableWidget.item(i, 2).text(),
+                             passWord=self.tableWidget.item(i, 3).text(),
+                             accessUser=self.tableWidget.cellWidget(i, 4).isChecked(),
+                             accessDetail=self.tableWidget.cellWidget(i, 5).isChecked(),
+                             accessConn=self.tableWidget.cellWidget(i, 6).isChecked(),
+                             accessProt=self.tableWidget.cellWidget(i, 7).isChecked(),
+                             accessArch=self.tableWidget.cellWidget(i, 8).isChecked(),
+                             accessAdd=self.tableWidget.cellWidget(i, 9).isChecked(),
+                             accessRemove=self.tableWidget.cellWidget(i, 10).isChecked()
+                             ).save()
+                    except:
+                        print("не создано")
+                elif self.tableWidget.item(i, 1) != "" and self.tableWidget.item(i, 2) != "" and self.tableWidget.item(i, 3) != "":
+                    pass
 
     def add(self):
         if self.otype == "user":
@@ -118,31 +142,56 @@ class UImodif(Ui_MainWindow):
             self.tableWidget.setCellWidget(i, 9, QtWidgets.QCheckBox())
             self.tableWidget.setCellWidget(i, 10, QtWidgets.QCheckBox())
         elif self.otype == "detail":
-            self.detailView(1)
+            #self.redirect(2)
+            self.detailView(3)
         elif self.otype == "connections":
-            self.ConnView(1)
+            pass
+            #self.ConnView(1)
         elif self.otype == "realDetail":
             self.redirect(2)
         elif self.otype == "seams":
-            self.protocolView(1)
+            self.protocolView(10)
         # отрисовка графиков протоколов
 
-    def initChart(self):
+    def dell(self):
+        if self.otype == "user":
+            if self.tableWidget.currentRow() >= 0 and self.tableWidget.item(self.tableWidget.currentRow(), 0) is not None:
+                dellId = int(self.tableWidget.item(self.tableWidget.currentRow(), 0).text())
+                dellUser = User.get(User.id == dellId)
+                dellUser.delete_instance()
+                print("dell")
+                self.userTable()
+
+    def initChart(self, seam):
             # 7+3(2)#получение данных
             duration = 2
             fraqency = 10
-            wireConsumption = 10
-            shieldingGasConsumption = 15
+            wireConsumption = 15
+            shieldingGasConsumption = 17
             weldingTime = 2.0
             # print(np.linspace(0, duration, duration * fraqency + 1))
-            data = []
-            y = np.ones(duration * fraqency + 1) * 13
+            """y = np.ones(duration * fraqency + 1) * 13
             y2 = np.ones(duration * fraqency + 1) * 14
             y3 = np.ones(duration * fraqency + 1) * 15
             y4 = np.ones(duration * fraqency + 1) * 16
             y5 = np.ones(duration * fraqency + 1) * 17
             y6 = np.ones(duration * fraqency + 1) * 18
-            y7 = np.ones(duration * fraqency + 1) * 19
+            y7 = np.ones(duration * fraqency + 1) * 19"""
+            print(seam.torchSpeed)
+            storchSpeed = struct.unpack('%sf' % (len(seam.torchSpeed)//4), seam.torchSpeed)
+            sburnerOscillation = struct.unpack('%sf' % (len(seam.burnerOscillation)//4), seam.burnerOscillation)
+            scurrent = struct.unpack('%sf' % (len(seam.current)//4), seam.current)
+            svoltage = struct.unpack('%sf' % (len(seam.voltage)//4), seam.voltage)
+            svoltageCorrection = struct.unpack('%sf' % (len(seam.voltageCorrection)//4), seam.voltageCorrection)
+            swireSpeed = struct.unpack('%sf' % (len(seam.wireSpeed)//4), seam.wireSpeed)
+            sgasConsumption = struct.unpack('%sf' % (len(seam.gasConsumption)//4), seam.gasConsumption)
+            print(storchSpeed)
+            print(sburnerOscillation)
+            print(scurrent)
+            print(svoltage)
+            print(svoltageCorrection)
+            print(swireSpeed)
+            print(sgasConsumption)
 
             # вывод данных на график
             # рассчётные значения
@@ -199,16 +248,16 @@ class UImodif(Ui_MainWindow):
 
             # данные
             x = np.linspace(0, duration, duration * fraqency + 1)
-            for x, y, y2, y3, y4, y5, y6, y7 in zip(x, y, y2, y3, y4, y5, y6, y7):
-                gasCC.append(x, y)
-                wireCC.append(x, y2)
+            for x, y3, y4, y5, y6, y7, y8, y9 in zip(x, storchSpeed, sburnerOscillation, scurrent, svoltage, svoltageCorrection, swireSpeed, sgasConsumption):
+                #gasCC.append(x, y)
+                #wireCC.append(x, y2)
                 torchSpeed.append(x, y3)
                 burnerOscillation.append(x, y4)
                 current.append(x, y5)
                 voltage.append(x, y6)
                 voltageCorrection.append(x, y7)
-                wireSpeed.append(x, y6)
-                gasConsumption.append(x, y7)
+                wireSpeed.append(x, y8)
+                gasConsumption.append(x, y9)
 
             # легенды
             self.chart = QChart()
@@ -257,11 +306,14 @@ class UImodif(Ui_MainWindow):
             print("test")
             print("on_pressed", round(point.x(), 1))
 
-        # временная функция
-
+    # временная функция
     def redirect(self, n):
+        imgs = b'\x00\x00\x00\x00'
         self.stackedWidget.setCurrentIndex(n)
+    ####################################
 
+
+    #Отображение данных в спец формах
     def protocolView(self, id):
         self.stackedWidget.setCurrentIndex(0)
         seam = Seam.get(Seam.id == id)
@@ -276,6 +328,7 @@ class UImodif(Ui_MainWindow):
         self.endTime.setText(str(seam.endTime))
         self.endStatus.setCheckState(
             QtCore.Qt.Checked if seam.endStatus else QtCore.Qt.Unchecked)
+        self.initChart(seam)
 
     def detailView(self, id):
         self.stackedWidget.setCurrentIndex(2)
@@ -285,6 +338,27 @@ class UImodif(Ui_MainWindow):
         self.materialGrade.setText(detail.materialGrade)
         self.weldingProgram.setText(detail.weldingProgram)
         self.processingTime.setValue(detail.processingTime)
+        self.imgs = detail.img
+        print(bi.unzip(self.imgs))
+        detImg = bi.unzip(self.imgs)
+        iter = 0
+        self.veiwDetImg(iter)
+
+    def veiwDetImg(self, iter):
+        detImg = bi.unzip(self.imgs)
+        if len(detImg) > 0:
+            if iter > len(detImg):
+                iter = len(detImg) -1
+            elif iter < 0:
+                iter = 0
+            stream = BytesIO(detImg[iter])
+            im = Image.open(stream).convert("RGBA")
+            stream.close()
+            data = im.tobytes("raw", "BGRA")
+            qim = QtGui.QImage(data, im.size[0], im.size[1], QtGui.QImage.Format_ARGB32)
+            pix = QtGui.QPixmap.fromImage(qim)
+            self.DetImg.setPixmap(pix)
+
 
 
     def ConnView(self, id):
@@ -303,21 +377,7 @@ class UImodif(Ui_MainWindow):
         self.shieldingGasConsumption.setValue(connection.shieldingGasConsumption)
         self.programmName.setText(connection.programmName)
         self.weldingTime.setValue(connection.weldingTime)
-
-    """ctype = CharField()
-    thicknessOfElement1 = DoubleField()
-    thicknessOfElement2 = DoubleField()
-    jointBevelling = CharField()
-    jointBevellingImg = BlobField()
-    seamDimensions = CharField()
-    fillerWireMark = CharField()
-    fillerWireDiam = DoubleField()
-    wireConsumption = DoubleField()
-    shieldingGasType = CharField()
-    shieldingGasConsumption = DoubleField()
-    programmName = CharField()
-    weldingTime = DoubleField()"""
-    ###############
+    #####################################
 
     #авторизация
     def login(self):
@@ -334,23 +394,10 @@ class UImodif(Ui_MainWindow):
         except:
             print("Логин не зарегистрирован")
 """
-
-    def newImg(self):
-        filename = QtWidgets.QFileDialog.getOpenFileName()[0]
-        f = open(filename, 'rb')
-        d = f.read()
-        print(len(d), d)
-        stream = BytesIO(d)
-        im = Image.open(stream).convert("RGBA")
-        stream.close()
-        data = im.tobytes("raw", "BGRA")
-        print(len(data))
-        qim = QtGui.QImage(data, im.size[0], im.size[1], QtGui.QImage.Format_ARGB32)
-        pix = QtGui.QPixmap.fromImage(qim)
-        self.DetImg.setPixmap(pix)
-
-
     #####################################
+
+
+    #save
     def saveDeteil(self):
         try:
             Detail(blueprinNumber = int(self.blueprinNumber.text()),
@@ -358,7 +405,7 @@ class UImodif(Ui_MainWindow):
             materialGrade = self.materialGrade.text(),
             weldingProgram = self.weldingProgram.text(),
             processingTime = float(self.processingTime.text().replace(',','.')),
-            img = 1).save()
+            img = self.imgs).save()
         except:
             print("не создано")
 
@@ -380,16 +427,10 @@ class UImodif(Ui_MainWindow):
             weldingTime = float(self.weldingTime.text().replace(',','.'))).save()#DoubleField()
         except:
             print("не создано")
-
-    def saveUser(self):
-        try:
-            Detail(login = "admin2",
-            name = "admin2",
-            passWord = "admin2").save()
-        except:
-            print("не создано")
-
     #####################################
+
+
+    #Функции вывода таблиц данных
     #Панель администрирования данных
     def adpanel(self, otype):
         self.otype = otype
@@ -515,34 +556,7 @@ class UImodif(Ui_MainWindow):
             self.tableWidget.setItem(i, 8, twi(seams[i].weldingProgram))
             self.tableWidget.setItem(i, 9, twi(seams[i].authorizedUser))
         self.tableWidget.resizeColumnsToContents()
-
-    """connId = ForeignKeyField(Detail)
-    detailId = ForeignKeyField(Connection)
-    batchNumber = IntegerField()
-    detailNumber = IntegerField()
-    authorizedUser = CharField()
-    weldingProgram = CharField()
-    startTime = DateTimeField()
-    endTime = DateTimeField()"""
-
-
-"""Seam(connId = 1,#ForeignKeyField(Detail)
-    detailId = 1,#ForeignKeyField(Connection)
-    batchNumber = 0,#IntegerField()
-    detailNumber = 0,#IntegerField()
-    authorizedUser = "user",#CharField()
-    weldingProgram = "p2",#CharField()
-    startTime = datetime.datetime.now(),#DateTimeField()
-    endTime = datetime.datetime.now(),#DateTimeField()
-    endStatus = True,#BooleanField()
-    torchSpeed = bytes([1,2,3,4,5]),#BlobField()
-    burnerOscillation = bytes([1,2,3,4,5]),#BlobField()
-    current = bytes([1,2,3,4,5]),#BlobField()
-    voltage = bytes([1,2,3,4,5]),#BlobField()
-    voltageCorrection = bytes([1,2,3,4,5]),#BlobField()
-    wireSpeed = bytes([1,2,3,4,5]),#BlobField()
-    gasConsumption = bytes([1,2,3,4,5])#BlobField()
-    ).save()"""
+    #######################################
 
 
 app = QtWidgets.QApplication(sys.argv)
