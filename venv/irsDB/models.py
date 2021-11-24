@@ -55,8 +55,8 @@ class Connection(BaseModel):
         db_table = 'Connections'
 
 class Seam(BaseModel):
-    connId = ForeignKeyField(Detail)
-    detailId = ForeignKeyField(Connection)
+    connId = ForeignKeyField(Connection)
+    detailId = ForeignKeyField(Detail)
     batchNumber = IntegerField()
     detailNumber = IntegerField()
     authorizedUser = CharField()

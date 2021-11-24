@@ -127,41 +127,39 @@ c2 = add(c, car)
 print(c2)
 print(unzip(c2))
 dell(c2, 0)"""
-torchSpeed = []
-burnerOscillation = []
-current = []
-voltage = []
-voltageCorrection = []
-wireSpeed = []
-gasConsumption = []
-for t in range(21):
-    torchSpeed.append(random.uniform(0, 1.5))
-    burnerOscillation.append(random.uniform(0, 10))
-    current.append(random.uniform(5, 15))
-    voltage.append(random.uniform(210,230))
-    voltageCorrection.append(random.uniform(0, 15))
-    wireSpeed.append(random.uniform(0, 30))
-    gasConsumption.append(random.uniform(10, 25))
+with db:
+    db.create_tables([Seam])
+    db.commit()
 
-btorchSpeed = struct.pack('%sf' % len(torchSpeed), *torchSpeed)
-bburnerOscillation = struct.pack('%sf' % len(burnerOscillation), *burnerOscillation)
-bcurrent = struct.pack('%sf' % len(current), *current)
-bvoltage = struct.pack('%sf' % len(voltage), *voltage)
-bvoltageCorrection = struct.pack('%sf' % len(voltageCorrection), *voltageCorrection)
-bwireSpeed = struct.pack('%sf' % len(wireSpeed), *wireSpeed)
-bgasConsumption = struct.pack('%sf' % len(gasConsumption), *gasConsumption)
-print(btorchSpeed)
-print(bburnerOscillation)
-print(bcurrent)
-print(bvoltage)
-print(bvoltageCorrection)
-print(bwireSpeed)
-print(bgasConsumption)
+def addSeam():
+    torchSpeed = []
+    burnerOscillation = []
+    current = []
+    voltage = []
+    voltageCorrection = []
+    wireSpeed = []
+    gasConsumption = []
+    for t in range(21):
+        torchSpeed.append(random.uniform(0, 1.5))
+        burnerOscillation.append(random.uniform(0, 10))
+        current.append(random.uniform(5, 15))
+        voltage.append(random.uniform(210,230))
+        voltageCorrection.append(random.uniform(0, 15))
+        wireSpeed.append(random.uniform(0, 30))
+        gasConsumption.append(random.uniform(10, 25))
 
-Seam(connId = 1,#ForeignKeyField(Detail)
-    detailId = 1,#ForeignKeyField(Connection)
+    btorchSpeed = struct.pack('%sf' % len(torchSpeed), *torchSpeed)
+    bburnerOscillation = struct.pack('%sf' % len(burnerOscillation), *burnerOscillation)
+    bcurrent = struct.pack('%sf' % len(current), *current)
+    bvoltage = struct.pack('%sf' % len(voltage), *voltage)
+    bvoltageCorrection = struct.pack('%sf' % len(voltageCorrection), *voltageCorrection)
+    bwireSpeed = struct.pack('%sf' % len(wireSpeed), *wireSpeed)
+    bgasConsumption = struct.pack('%sf' % len(gasConsumption), *gasConsumption)
+
+    Seam(connId = 1,#ForeignKeyField(Connection)
+    detailId = 4,#ForeignKeyField(Detail)
     batchNumber = 1,#IntegerField()
-    detailNumber = 1,#IntegerField()
+    detailNumber = 2,#IntegerField()
     authorizedUser = "user",#CharField()
     weldingProgram = "p2",#CharField()
     startTime = datetime.datetime.now(),#DateTimeField()
@@ -175,4 +173,26 @@ Seam(connId = 1,#ForeignKeyField(Detail)
     wireSpeed = bwireSpeed,#BlobField()
     gasConsumption = bgasConsumption#BlobField()
     ).save()
+
+
+#             dell                 #
+####################################
+def dellSeam(dellId):
+    dellSeam = Seam.get(Seam.id == dellId)
+    dellSeam.delete_instance()
+
+def dellConn(dellId):
+    dellConnection = Connection.get(Connection.id == dellId)
+    dellConnection.delete_instance()
+
+def dellDetail(dellId):
+    dellDetail = Detail.get(Detail.id == dellId)
+    dellDetail.delete_instance()
+
+def dellRealDetail(detN, detB):
+    dellSeams = Seam.select().where(Seam.detailNumber == detN & Seam.batchNumber == detB)
+    dellSeams.delete_instance()
+####################################
+addSeam()
+
 

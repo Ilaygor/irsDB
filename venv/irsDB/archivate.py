@@ -4,7 +4,7 @@ import datetime
 import time
 import threading
 
-
+print("import archivate")
 
 class Archivator: #дописать логику первого запуска
 

@@ -22,7 +22,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="protocol">
        <property name="sizePolicy">
@@ -1058,14 +1058,14 @@ p, li { white-space: pre-wrap; }
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="lastConnImg">
+             <widget class="QPushButton" name="prvConnImg">
               <property name="text">
                <string>Предыдущее</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="NextConnImg">
+             <widget class="QPushButton" name="nextConnImg">
               <property name="text">
                <string>Следующее</string>
               </property>
@@ -1188,7 +1188,7 @@ p, li { white-space: pre-wrap; }
      <string>Файл</string>
     </property>
     <addaction name="chooseArch"/>
-    <addaction name="action_3"/>
+    <addaction name="makeArch"/>
     <addaction name="action"/>
     <addaction name="separator"/>
     <addaction name="exit"/>
@@ -1247,7 +1247,7 @@ p, li { white-space: pre-wrap; }
     <string>Настройки</string>
    </property>
   </action>
-  <action name="action_3">
+  <action name="makeArch">
    <property name="text">
     <string>Создать архив</string>
    </property>

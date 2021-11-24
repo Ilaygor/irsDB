@@ -14,6 +14,7 @@ import datetime
 from io import BytesIO
 import byteimgs as bi
 import struct
+import archivate
 
 #pyuic5 -x base.ui -o gui.py
 
@@ -48,7 +49,8 @@ class UImodif(Ui_MainWindow):
 
     otype = ""
     imgs = b'\x00\x00\x00\x00'
-    curid = None
+    curImg = 0
+    A = archivate.Archivator("IRSwelding.db")
 
     #инициализация функций нажатий
     def btnFunction(self):
@@ -61,6 +63,10 @@ class UImodif(Ui_MainWindow):
         self.makePdf.clicked.connect(lambda: print("pdf"))
         self.saveBtn.clicked.connect(self.save)
         self.delBtn.clicked.connect(self.dell)
+        self.prvDetImg.clicked.connect(self.veiwPrevImgD)
+        self.nextDetImg.clicked.connect(self.veiwNextImgD)
+        self.prvConnImg.clicked.connect(lambda: print(self.curImg))
+        self.nextConnImg.clicked.connect(lambda: print(self.curImg))
 
         #пункты меню
         self.exit.triggered.connect(lambda: self.redirect(1))
@@ -69,6 +75,9 @@ class UImodif(Ui_MainWindow):
         self.realDetail.triggered.connect(lambda: self.adpanel("realDetail"))
         self.seams.triggered.connect(lambda: self.adpanel("seams"))
         self.users.triggered.connect(lambda: self.adpanel("user"))
+        self.makeArch.triggered.connect(self.ar)
+
+        self.tableWidget.doubleClicked.connect(self.doubleClick)
 
         #перерисовка и инициализация графика
         """self.wireCCchb.stateChanged.connect(self.initChart)
@@ -83,20 +92,8 @@ class UImodif(Ui_MainWindow):
 
 
     #######Область тестовых функций########
-    def newImg(self):
-        filename = QtWidgets.QFileDialog.getOpenFileName()[0]
-        f = open(filename, 'rb')
-        d = f.read()
-        self.imgs = bi.add(self.imgs, d)
-        stream = BytesIO(d)
-        im = Image.open(stream).convert("RGBA")
-        stream.close()
-        data = im.tobytes("raw", "BGRA")
-        qim = QtGui.QImage(data, im.size[0], im.size[1], QtGui.QImage.Format_ARGB32)
-        pix = QtGui.QPixmap.fromImage(qim)
-        self.DetImg.setPixmap(pix)
-
-
+    def ar(self):
+        self.A.arch('User_s reqvest')
     ###########################################
 
 
@@ -142,25 +139,53 @@ class UImodif(Ui_MainWindow):
             self.tableWidget.setCellWidget(i, 9, QtWidgets.QCheckBox())
             self.tableWidget.setCellWidget(i, 10, QtWidgets.QCheckBox())
         elif self.otype == "detail":
-            #self.redirect(2)
-            self.detailView(3)
+            self.redirect(2)
+            #self.detailView(3)
         elif self.otype == "connections":
-            pass
+            self.redirect(3)
             #self.ConnView(1)
         elif self.otype == "realDetail":
             self.redirect(2)
         elif self.otype == "seams":
-            self.protocolView(10)
+            pass
+            #self.protocolView(10)
+
+    def doubleClick(self):
+        if self.tableWidget.currentRow() >= 0 and self.tableWidget.item(self.tableWidget.currentRow(), 0) is not None:
+            id = int(self.tableWidget.item(self.tableWidget.currentRow(), 0).text())
+            if self.otype == "user":
+                pass
+            elif self.otype == "detail":
+                print(id)
+                self.detailView(id)
+            elif self.otype == "connections":
+                print(id)
+                self.ConnView(id)
+            elif self.otype == "realDetail":
+                pass
+            elif self.otype == "seams":
+                print(id)
+                self.protocolView(id)
+
+
         # отрисовка графиков протоколов
 
     def dell(self):
-        if self.otype == "user":
-            if self.tableWidget.currentRow() >= 0 and self.tableWidget.item(self.tableWidget.currentRow(), 0) is not None:
-                dellId = int(self.tableWidget.item(self.tableWidget.currentRow(), 0).text())
+        if self.tableWidget.currentRow() >= 0 and self.tableWidget.item(self.tableWidget.currentRow(), 0) is not None:
+            dellId = int(self.tableWidget.item(self.tableWidget.currentRow(), 0).text())
+            if self.otype == "user":
                 dellUser = User.get(User.id == dellId)
                 dellUser.delete_instance()
                 print("dell")
                 self.userTable()
+            elif self.otype == "detail":
+                dellDetail = Detail.get(Detail.id == dellId)
+                dellDetail.delete_instance()
+                self.detailTable()
+            elif self.otype == "connections":
+                dellConnection = Connection.get(Connection.id == dellId)
+                dellConnection.delete_instance()
+                self.connectTable()
 
     def initChart(self, seam):
             # 7+3(2)#получение данных
@@ -341,25 +366,8 @@ class UImodif(Ui_MainWindow):
         self.imgs = detail.img
         print(bi.unzip(self.imgs))
         detImg = bi.unzip(self.imgs)
-        iter = 0
-        self.veiwDetImg(iter)
-
-    def veiwDetImg(self, iter):
-        detImg = bi.unzip(self.imgs)
-        if len(detImg) > 0:
-            if iter > len(detImg):
-                iter = len(detImg) -1
-            elif iter < 0:
-                iter = 0
-            stream = BytesIO(detImg[iter])
-            im = Image.open(stream).convert("RGBA")
-            stream.close()
-            data = im.tobytes("raw", "BGRA")
-            qim = QtGui.QImage(data, im.size[0], im.size[1], QtGui.QImage.Format_ARGB32)
-            pix = QtGui.QPixmap.fromImage(qim)
-            self.DetImg.setPixmap(pix)
-
-
+        self.curImg = 0
+        self.veiwDetImg()
 
     def ConnView(self, id):
         self.stackedWidget.setCurrentIndex(3)
@@ -378,6 +386,46 @@ class UImodif(Ui_MainWindow):
         self.programmName.setText(connection.programmName)
         self.weldingTime.setValue(connection.weldingTime)
     #####################################
+
+
+    # Функции работы с изображениями
+    def newImg(self):
+        filename = QtWidgets.QFileDialog.getOpenFileName()[0]
+        f = open(filename, 'rb')
+        d = f.read()
+        self.imgs = bi.add(self.imgs, d)
+        stream = BytesIO(d)
+        im = Image.open(stream).convert("RGBA")
+        stream.close()
+        data = im.tobytes("raw", "BGRA")
+        qim = QtGui.QImage(data, im.size[0], im.size[1], QtGui.QImage.Format_ARGB32)
+        pix = QtGui.QPixmap.fromImage(qim)
+        self.DetImg.setPixmap(pix)
+
+    def veiwNextImgD(self):
+        self.curImg += 1
+        self.veiwDetImg()
+
+    def veiwPrevImgD(self):
+        self.curImg -= 1
+        self.veiwDetImg()
+
+    def veiwDetImg(self):
+        detImg = bi.unzip(self.imgs)
+        if len(detImg) > 0:
+            if self.curImg > len(detImg) - 1:
+                self.curImg = len(detImg) - 1
+            elif self.curImg < 0:
+                self.curImg = 0
+            stream = BytesIO(detImg[self.curImg])
+            im = Image.open(stream).convert("RGBA")
+            stream.close()
+            data = im.tobytes("raw", "BGRA")
+            qim = QtGui.QImage(data, im.size[0], im.size[1], QtGui.QImage.Format_ARGB32)
+            pix = QtGui.QPixmap.fromImage(qim)
+            self.DetImg.setPixmap(pix)
+    #########################################
+
 
     #авторизация
     def login(self):
@@ -416,7 +464,7 @@ class UImodif(Ui_MainWindow):
             thicknessOfElement1 = float(self.thicknessOfElement1.text().replace(',','.')),#DoubleField()
             thicknessOfElement2 = float(self.thicknessOfElement2.text().replace(',','.')),#DoubleField()
             jointBevelling = self.jointBevelling.text(),#CharField()
-            jointBevellingImg = 1,#BlobField()
+            jointBevellingImg = self.imgs,#BlobField()
             seamDimensions = self.seamDimensions.text(),#CharField()
             fillerWireMark = self.fillerWireMark.text(),#CharField()
             fillerWireDiam = float(self.fillerWireDiam.text().replace(',','.')),#DoubleField()
@@ -452,16 +500,17 @@ class UImodif(Ui_MainWindow):
     #вывод табиц администрирования
     def detailTable(self):
         self.adPanelName.setText("Панель управления чертежами:")
-        self.tableWidget.setColumnCount(5)
-        self.tableWidget.setHorizontalHeaderLabels(["Номер чертежа", "Наименование", "Марка материала","Программа сварки","Время обработки"])
+        self.tableWidget.setColumnCount(6)
+        self.tableWidget.setHorizontalHeaderLabels(["id", "Номер чертежа", "Наименование", "Марка материала","Программа сварки","Время обработки"])
         details = Detail.select()
         self.tableWidget.setRowCount(len(details))
         for i in range(len(details)):
-            self.tableWidget.setItem(i, 0, twi(str(details[i].blueprinNumber)))
-            self.tableWidget.setItem(i, 1, twi(details[i].detailName))
-            self.tableWidget.setItem(i, 2, twi(details[i].materialGrade))
-            self.tableWidget.setItem(i, 3, twi(details[i].weldingProgram))
-            self.tableWidget.setItem(i, 4, twi(str(details[i].processingTime)))
+            self.tableWidget.setItem(i, 0, twi(str(details[i].id)))
+            self.tableWidget.setItem(i, 1, twi(str(details[i].blueprinNumber)))
+            self.tableWidget.setItem(i, 2, twi(details[i].detailName))
+            self.tableWidget.setItem(i, 3, twi(details[i].materialGrade))
+            self.tableWidget.setItem(i, 4, twi(details[i].weldingProgram))
+            self.tableWidget.setItem(i, 5, twi(str(details[i].processingTime)))
         self.tableWidget.resizeColumnsToContents()
 
     def realDetailTable(self):
@@ -514,22 +563,23 @@ class UImodif(Ui_MainWindow):
 
     def connectTable(self):
         self.adPanelName.setText("Панель управления соединениями:")
-        self.tableWidget.setColumnCount(10)
+        self.tableWidget.setColumnCount(11)
         self.tableWidget.setHorizontalHeaderLabels(
-            ["Вид сварного соединения", "Толщина элементов", "Разделка кромок", "Размеры шва", "Марка/сечение проволоки", "Расход проволоки","Газ","Расход газа","Программа сварки","Рассчётное время"])
+            ["id", "Вид сварного соединения", "Толщина элементов", "Разделка кромок", "Размеры шва", "Марка/сечение проволоки", "Расход проволоки","Газ","Расход газа","Программа сварки","Рассчётное время"])
         connections = Connection.select()
         self.tableWidget.setRowCount(len(connections))
         for i in range(len(connections)):
-            self.tableWidget.setItem(i, 0, twi(connections[i].ctype))
-            self.tableWidget.setItem(i, 1, twi(str(connections[i].thicknessOfElement1)+'/'+str(connections[i].thicknessOfElement2)))
-            self.tableWidget.setItem(i, 2, twi(connections[i].jointBevelling))
-            self.tableWidget.setItem(i, 3, twi(connections[i].seamDimensions))
-            self.tableWidget.setItem(i, 4, twi(connections[i].fillerWireMark+'/'+str(connections[i].fillerWireDiam)))
-            self.tableWidget.setItem(i, 5, twi(str(connections[i].wireConsumption)))
-            self.tableWidget.setItem(i, 6, twi(connections[i].shieldingGasType))
-            self.tableWidget.setItem(i, 7, twi(str(connections[i].shieldingGasConsumption)))
-            self.tableWidget.setItem(i, 8, twi(connections[i].programmName))
-            self.tableWidget.setItem(i, 9, twi(str(connections[i].weldingTime)))
+            self.tableWidget.setItem(i, 0, twi(str(connections[i].id)))
+            self.tableWidget.setItem(i, 1, twi(connections[i].ctype))
+            self.tableWidget.setItem(i, 2, twi(str(connections[i].thicknessOfElement1)+'/'+str(connections[i].thicknessOfElement2)))
+            self.tableWidget.setItem(i, 3, twi(connections[i].jointBevelling))
+            self.tableWidget.setItem(i, 4, twi(connections[i].seamDimensions))
+            self.tableWidget.setItem(i, 5, twi(connections[i].fillerWireMark+'/'+str(connections[i].fillerWireDiam)))
+            self.tableWidget.setItem(i, 6, twi(str(connections[i].wireConsumption)))
+            self.tableWidget.setItem(i, 7, twi(connections[i].shieldingGasType))
+            self.tableWidget.setItem(i, 8, twi(str(connections[i].shieldingGasConsumption)))
+            self.tableWidget.setItem(i, 9, twi(connections[i].programmName))
+            self.tableWidget.setItem(i, 10, twi(str(connections[i].weldingTime)))
         self.tableWidget.resizeColumnsToContents()
 
     def seamTable(self):
@@ -540,7 +590,6 @@ class UImodif(Ui_MainWindow):
              "Программа сварки", "Пользователь"])
         seams = Seam.select()
         self.tableWidget.setRowCount(len(seams))
-        self.tableWidget.doubleClicked.connect(lambda: print("1"))
         for i in range(len(seams)):
             self.tableWidget.setItem(i, 0, twi(str(seams[i].id)))
             self.tableWidget.setItem(i, 1, twi(str(seams[i].connId)))
