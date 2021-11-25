@@ -18,38 +18,12 @@ import archivate
 
 #pyuic5 -x base.ui -o gui.py
 
-
-"""
-with db:
-    db.create_tables([User, Detail, Connection, Seam])
-
-    db.commit()
-    login = input("log: ")
-    #password = input("pass: ")
-    try:
-        user = User.get(User.login == login)
-        print(user.passWord)
-    except:
-        print("ups")
-    print('done')
-"""
-
-class LineSeries(QLineSeries):
-    def __init__(self, *args, **kwargs):
-        QLineSeries.__init__(self, *args, **kwargs)
-        self.start = QPointF()
-        self.pressed.connect(self.on_pressed)
-
-    def on_pressed(self, point):
-        self.start = point
-        print("on_pressed", round(point.x(), 1))
-
-
 class UImodif(Ui_MainWindow):
 
     otype = ""
     imgs = b'\x00\x00\x00\x00'
     curImg = 0
+    curId = 0
     A = archivate.Archivator("IRSwelding.db")
 
     #инициализация функций нажатий
@@ -57,16 +31,22 @@ class UImodif(Ui_MainWindow):
         #книпки
         self.loginBtn.clicked.connect(self.login)
         self.addBtn.clicked.connect(self.add)
-        self.addDetImg.clicked.connect(self.newImg)
         self.saveChalenges.clicked.connect(self.saveDeteil)
         self.saveConn.clicked.connect(self.saveConnChlngs)
         self.makePdf.clicked.connect(lambda: print("pdf"))
         self.saveBtn.clicked.connect(self.save)
         self.delBtn.clicked.connect(self.dell)
-        self.prvDetImg.clicked.connect(self.veiwPrevImgD)
-        self.nextDetImg.clicked.connect(self.veiwNextImgD)
-        self.prvConnImg.clicked.connect(lambda: print(self.curImg))
-        self.nextConnImg.clicked.connect(lambda: print(self.curImg))
+
+        # действия с изображениями
+        self.addDetImg.clicked.connect(lambda: self.newImg(self.DetImg))
+        self.prvDetImg.clicked.connect(lambda: self.veiwPrevImg(self.DetImg))
+        self.nextDetImg.clicked.connect(lambda: self.veiwNextImg(self.DetImg))
+        self.delDetImg.clicked.connect(lambda: self.delImg(self.DetImg))
+        self.newConnImg.clicked.connect(lambda: self.newImg())
+        self.prvConnImg.clicked.connect(lambda: self.veiwPrevImg())
+        self.nextConnImg.clicked.connect(lambda: self.veiwNextImg())
+        self.delConnImg.clicked.connect(lambda: self.delImg())
+
 
         #пункты меню
         self.exit.triggered.connect(lambda: self.redirect(1))
@@ -79,7 +59,7 @@ class UImodif(Ui_MainWindow):
 
         self.tableWidget.doubleClicked.connect(self.doubleClick)
 
-        #перерисовка и инициализация графика
+        #перерисовка графика
         """self.wireCCchb.stateChanged.connect(self.initChart)
         self.gasCCchb.stateChanged.connect(self.initChart)
         self.torchSpeedchb.stateChanged.connect(self.initChart)
@@ -128,6 +108,9 @@ class UImodif(Ui_MainWindow):
                     pass
 
     def add(self):
+        self.imgs = b'\x00\x00\x00\x00'
+        self.curId = 0
+        self.clearForms()
         if self.otype == "user":
             i =  self.tableWidget.rowCount()
             self.tableWidget.insertRow(i)
@@ -153,6 +136,7 @@ class UImodif(Ui_MainWindow):
     def doubleClick(self):
         if self.tableWidget.currentRow() >= 0 and self.tableWidget.item(self.tableWidget.currentRow(), 0) is not None:
             id = int(self.tableWidget.item(self.tableWidget.currentRow(), 0).text())
+            self.curId = id
             if self.otype == "user":
                 pass
             elif self.otype == "detail":
@@ -326,11 +310,6 @@ class UImodif(Ui_MainWindow):
             series.attachAxis(axisY)"""
             self.graph.setChart(self.chart)
 
-        # !!!!!!!не работает
-    def on_pressed(self, point):
-            print("test")
-            print("on_pressed", round(point.x(), 1))
-
     # временная функция
     def redirect(self, n):
         imgs = b'\x00\x00\x00\x00'
@@ -367,7 +346,7 @@ class UImodif(Ui_MainWindow):
         print(bi.unzip(self.imgs))
         detImg = bi.unzip(self.imgs)
         self.curImg = 0
-        self.veiwDetImg()
+        self.veiwImg(self.DetImg)
 
     def ConnView(self, id):
         self.stackedWidget.setCurrentIndex(3)
@@ -385,11 +364,41 @@ class UImodif(Ui_MainWindow):
         self.shieldingGasConsumption.setValue(connection.shieldingGasConsumption)
         self.programmName.setText(connection.programmName)
         self.weldingTime.setValue(connection.weldingTime)
+
+    def clearForms(self):
+        self.connId_2.setText("")
+        self.detailId.setText("")
+        self.batchNumber.setText("")
+        self.detailNumber.setText("")
+        self.authorizedUser.setText("")
+        self.weldingProgram_2.setText("")
+        self.startTime.setText("")
+        self.endTime.setText("")
+        self.endStatus.setCheckState(QtCore.Qt.Unchecked)
+        self.blueprinNumber.setText("")
+        self.detailName.setText("")
+        self.materialGrade.setText("")
+        self.weldingProgram.setText("")
+        self.processingTime.setValue(0)
+        self.veiwImg(self.DetImg)
+        self.connId.setText("")
+        self.ctype.setText("")
+        self.thicknessOfElement1.setValue(0)
+        self.thicknessOfElement2.setValue(0)
+        self.jointBevelling.setText("")
+        self.seamDimensions.setText("")
+        self.fillerWireMark.setText("")
+        self.fillerWireDiam.setValue(0)
+        self.wireConsumption.setValue(0)
+        self.shieldingGasType.setText("")
+        self.shieldingGasConsumption.setValue(0)
+        self.programmName.setText("")
+        self.weldingTime.setValue(0)
     #####################################
 
 
     # Функции работы с изображениями
-    def newImg(self):
+    def newImg(self, label):
         filename = QtWidgets.QFileDialog.getOpenFileName()[0]
         f = open(filename, 'rb')
         d = f.read()
@@ -400,17 +409,22 @@ class UImodif(Ui_MainWindow):
         data = im.tobytes("raw", "BGRA")
         qim = QtGui.QImage(data, im.size[0], im.size[1], QtGui.QImage.Format_ARGB32)
         pix = QtGui.QPixmap.fromImage(qim)
-        self.DetImg.setPixmap(pix)
+        label.setPixmap(pix)
 
-    def veiwNextImgD(self):
+    def veiwNextImg(self, label):
         self.curImg += 1
-        self.veiwDetImg()
+        self.veiwImg(label)
 
-    def veiwPrevImgD(self):
+    def veiwPrevImg(self, label):
         self.curImg -= 1
-        self.veiwDetImg()
+        self.veiwImg(label)
 
-    def veiwDetImg(self):
+    def delImg(self, label):
+        self.imgs = bi.dell(self.imgs, self.curImg)
+        self.curImg = 0
+        self.veiwImg(label)
+
+    def veiwImg(self, label):
         detImg = bi.unzip(self.imgs)
         if len(detImg) > 0:
             if self.curImg > len(detImg) - 1:
@@ -423,7 +437,10 @@ class UImodif(Ui_MainWindow):
             data = im.tobytes("raw", "BGRA")
             qim = QtGui.QImage(data, im.size[0], im.size[1], QtGui.QImage.Format_ARGB32)
             pix = QtGui.QPixmap.fromImage(qim)
-            self.DetImg.setPixmap(pix)
+            label.setPixmap(pix)
+        else:
+            label.clear()
+            #self.DetImg.clear()
     #########################################
 
 
@@ -447,15 +464,25 @@ class UImodif(Ui_MainWindow):
 
     #save
     def saveDeteil(self):
-        try:
-            Detail(blueprinNumber = int(self.blueprinNumber.text()),
-            detailName = self.detailName.text(),
-            materialGrade = self.materialGrade.text(),
-            weldingProgram = self.weldingProgram.text(),
-            processingTime = float(self.processingTime.text().replace(',','.')),
-            img = self.imgs).save()
-        except:
-            print("не создано")
+        if self.curId < 1:
+            try:
+                Detail(blueprinNumber = int(self.blueprinNumber.text()),
+                detailName = self.detailName.text(),
+                materialGrade = self.materialGrade.text(),
+                weldingProgram = self.weldingProgram.text(),
+                processingTime = float(self.processingTime.text().replace(',','.')),
+                img = self.imgs).save()
+            except:
+                print("не создано")
+        else:
+            query = Detail.update(blueprinNumber = int(self.blueprinNumber.text()),
+                detailName = self.detailName.text(),
+                materialGrade = self.materialGrade.text(),
+                weldingProgram = self.weldingProgram.text(),
+                processingTime = float(self.processingTime.text().replace(',','.')),
+                img = self.imgs).where(Detail.id == self.curId)
+            query.execute()
+        self.adpanel("detail")
 
     def saveConnChlngs(self):
         print("save conn")
