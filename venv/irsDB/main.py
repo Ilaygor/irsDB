@@ -33,7 +33,7 @@ class UImodif(Ui_MainWindow):
         self.addBtn.clicked.connect(self.add)
         self.saveChalenges.clicked.connect(self.saveDeteil)
         self.saveConn.clicked.connect(self.saveConnChlngs)
-        self.makePdf.clicked.connect(lambda: print("pdf"))
+        #self.makePdf.clicked.connect(lambda: print("pdf"))
         self.saveBtn.clicked.connect(self.save)
         self.delBtn.clicked.connect(self.dell)
 
@@ -42,10 +42,10 @@ class UImodif(Ui_MainWindow):
         self.prvDetImg.clicked.connect(lambda: self.veiwPrevImg(self.DetImg))
         self.nextDetImg.clicked.connect(lambda: self.veiwNextImg(self.DetImg))
         self.delDetImg.clicked.connect(lambda: self.delImg(self.DetImg))
-        self.newConnImg.clicked.connect(lambda: self.newImg())
-        self.prvConnImg.clicked.connect(lambda: self.veiwPrevImg())
-        self.nextConnImg.clicked.connect(lambda: self.veiwNextImg())
-        self.delConnImg.clicked.connect(lambda: self.delImg())
+        self.newConnImg.clicked.connect(lambda: self.newImg(self.connImg))
+        self.prvConnImg.clicked.connect(lambda: self.veiwPrevImg(self.connImg))
+        self.nextConnImg.clicked.connect(lambda: self.veiwNextImg(self.connImg))
+        self.delConnImg.clicked.connect(lambda: self.delImg(self.connImg))
 
 
         #пункты меню
@@ -56,6 +56,7 @@ class UImodif(Ui_MainWindow):
         self.seams.triggered.connect(lambda: self.adpanel("seams"))
         self.users.triggered.connect(lambda: self.adpanel("user"))
         self.makeArch.triggered.connect(self.ar)
+        self.chooseArch.triggered.connect(self.chArch)
 
         self.tableWidget.doubleClicked.connect(self.doubleClick)
 
@@ -74,8 +75,10 @@ class UImodif(Ui_MainWindow):
     #######Область тестовых функций########
     def ar(self):
         self.A.arch('User_s reqvest')
-    ###########################################
 
+    def chArch(self):
+        filename = QtWidgets.QFileDialog.getOpenFileName()[0]
+    ###########################################
 
     # Удаление, добавление редактирование данных
     def save (self):
@@ -134,6 +137,7 @@ class UImodif(Ui_MainWindow):
             #self.protocolView(10)
 
     def doubleClick(self):
+        self.imgs = b'\x00\x00\x00\x00'
         if self.tableWidget.currentRow() >= 0 and self.tableWidget.item(self.tableWidget.currentRow(), 0) is not None:
             id = int(self.tableWidget.item(self.tableWidget.currentRow(), 0).text())
             self.curId = id
@@ -206,7 +210,7 @@ class UImodif(Ui_MainWindow):
             # рассчётные значения
             wireCC = QLineSeries()
             wireCC.setName("Рассчётный расход проволоки")
-            wireCC.pressed.connect(self.on_pressed)
+            #wireCC.pressed.connect(self.on_pressed)
             gasCC = QLineSeries()
             gasCC.setName("Рассчётный расход газа")
             # реальные показатели
@@ -309,14 +313,12 @@ class UImodif(Ui_MainWindow):
             series.attachAxis(axisX)
             series.attachAxis(axisY)"""
             self.graph.setChart(self.chart)
+    ####################################
 
     # временная функция
     def redirect(self, n):
         imgs = b'\x00\x00\x00\x00'
         self.stackedWidget.setCurrentIndex(n)
-    ####################################
-
-
     #Отображение данных в спец формах
     def protocolView(self, id):
         self.stackedWidget.setCurrentIndex(0)
@@ -341,7 +343,13 @@ class UImodif(Ui_MainWindow):
         self.detailName.setText(detail.detailName)
         self.materialGrade.setText(detail.materialGrade)
         self.weldingProgram.setText(detail.weldingProgram)
-        self.processingTime.setValue(detail.processingTime)
+        #self.processingTime.setValue(detail.processingTime)
+
+        time = detail.processingTime.split(":")
+        print(time)
+        self.HprocessingTime.setValue(int(time[0]))
+        self.MprocessingTime.setValue(int(time[1]))
+        self.SprocessingTime.setValue(int(time[2]))
         self.imgs = detail.img
         print(bi.unzip(self.imgs))
         detImg = bi.unzip(self.imgs)
@@ -366,7 +374,7 @@ class UImodif(Ui_MainWindow):
         self.weldingTime.setValue(connection.weldingTime)
 
     def clearForms(self):
-        self.connId_2.setText("")
+        """self.connId_2.setText("")
         self.detailId.setText("")
         self.batchNumber.setText("")
         self.detailNumber.setText("")
@@ -374,17 +382,17 @@ class UImodif(Ui_MainWindow):
         self.weldingProgram_2.setText("")
         self.startTime.setText("")
         self.endTime.setText("")
-        self.endStatus.setCheckState(QtCore.Qt.Unchecked)
+        self.endStatus.setCheckState(QtCore.Qt.Unchecked)"""
         self.blueprinNumber.setText("")
         self.detailName.setText("")
         self.materialGrade.setText("")
         self.weldingProgram.setText("")
-        self.processingTime.setValue(0)
+        #self.processingTime.setValue(0)
         self.veiwImg(self.DetImg)
+        self.veiwImg(self.connImg)
         self.connId.setText("")
         self.ctype.setText("")
-        self.thicknessOfElement1.setValue(0)
-        self.thicknessOfElement2.setValue(0)
+        #self.thicknessOfElement.setText("")
         self.jointBevelling.setText("")
         self.seamDimensions.setText("")
         self.fillerWireMark.setText("")
@@ -393,9 +401,8 @@ class UImodif(Ui_MainWindow):
         self.shieldingGasType.setText("")
         self.shieldingGasConsumption.setValue(0)
         self.programmName.setText("")
-        self.weldingTime.setValue(0)
+        #self.weldingTime.setValue(0)
     #####################################
-
 
     # Функции работы с изображениями
     def newImg(self, label):
@@ -443,11 +450,10 @@ class UImodif(Ui_MainWindow):
             #self.DetImg.clear()
     #########################################
 
-
     #авторизация
     def login(self):
         self.stackedWidget.setCurrentIndex(4)
-        self.detailTable()
+        self.adpanel("detail")
         """
         print(self.loginFld.text(), self.passFld.text())
         try:
@@ -461,16 +467,15 @@ class UImodif(Ui_MainWindow):
 """
     #####################################
 
-
     #save
     def saveDeteil(self):
         if self.curId < 1:
             try:
-                Detail(blueprinNumber = int(self.blueprinNumber.text()),
+                Detail(blueprinNumber = self.blueprinNumber.text(),
                 detailName = self.detailName.text(),
                 materialGrade = self.materialGrade.text(),
                 weldingProgram = self.weldingProgram.text(),
-                processingTime = float(self.processingTime.text().replace(',','.')),
+                processingTime = datetime.time(self.HprocessingTime.value(), self.MprocessingTime.value(), self.SprocessingTime.value()),
                 img = self.imgs).save()
             except:
                 print("не создано")
@@ -479,37 +484,56 @@ class UImodif(Ui_MainWindow):
                 detailName = self.detailName.text(),
                 materialGrade = self.materialGrade.text(),
                 weldingProgram = self.weldingProgram.text(),
-                processingTime = float(self.processingTime.text().replace(',','.')),
+                processingTime = datetime.time(self.HprocessingTime.value(), self.MprocessingTime.value(), self.SprocessingTime.value()),
                 img = self.imgs).where(Detail.id == self.curId)
             query.execute()
         self.adpanel("detail")
 
     def saveConnChlngs(self):
         print("save conn")
-        try:
-            Connection(ctype = self.ctype.text(),#CharField()
-            thicknessOfElement1 = float(self.thicknessOfElement1.text().replace(',','.')),#DoubleField()
-            thicknessOfElement2 = float(self.thicknessOfElement2.text().replace(',','.')),#DoubleField()
-            jointBevelling = self.jointBevelling.text(),#CharField()
-            jointBevellingImg = self.imgs,#BlobField()
-            seamDimensions = self.seamDimensions.text(),#CharField()
-            fillerWireMark = self.fillerWireMark.text(),#CharField()
-            fillerWireDiam = float(self.fillerWireDiam.text().replace(',','.')),#DoubleField()
-            wireConsumption = float(self.wireConsumption.text().replace(',','.')),#DoubleField()
-            shieldingGasType = self.shieldingGasType.text(),#CharField()
-            shieldingGasConsumption = float(self.shieldingGasConsumption.text().replace(',','.')),#DoubleField()
-            programmName = self.programmName.text(),#CharField()
-            weldingTime = float(self.weldingTime.text().replace(',','.'))).save()#DoubleField()
-        except:
-            print("не создано")
+        if self.curId < 1:
+            try:
+                Connection(ctype = self.ctype.text(),#CharField()
+                thicknessOfElement1 = float(self.thicknessOfElement1.text().replace(',','.')),#DoubleField()
+                thicknessOfElement2 = float(self.thicknessOfElement2.text().replace(',','.')),#DoubleField()
+                jointBevelling = self.jointBevelling.text(),#CharField()
+                jointBevellingImg = self.imgs,#BlobField()
+                seamDimensions = self.seamDimensions.text(),#CharField()
+                fillerWireMark = self.fillerWireMark.text(),#CharField()
+                fillerWireDiam = float(self.fillerWireDiam.text().replace(',','.')),#DoubleField()
+                wireConsumption = float(self.wireConsumption.text().replace(',','.')),#DoubleField()
+                shieldingGasType = self.shieldingGasType.text(),#CharField()
+                shieldingGasConsumption = float(self.shieldingGasConsumption.text().replace(',','.')),#DoubleField()
+                programmName = self.programmName.text(),#CharField()
+                weldingTime = float(self.weldingTime.text().replace(',','.'))).save()#DoubleField()
+            except:
+                print("не создано")
+        else:
+            query = Connection.update(ctype=self.ctype.text(),  # CharField()
+                                      thicknessOfElement1=float(self.thicknessOfElement1.text().replace(',', '.')),
+                                      thicknessOfElement2=float(self.thicknessOfElement2.text().replace(',', '.')),
+                                      jointBevelling=self.jointBevelling.text(),  # CharField()
+                                      jointBevellingImg=self.imgs,  # BlobField()
+                                      seamDimensions=self.seamDimensions.text(),  # CharField()
+                                      fillerWireMark=self.fillerWireMark.text(),  # CharField()
+                                      fillerWireDiam=float(self.fillerWireDiam.text().replace(',', '.')),
+                                      wireConsumption=float(self.wireConsumption.text().replace(',', '.')),
+                                      shieldingGasType=self.shieldingGasType.text(),  # CharField()
+                                      shieldingGasConsumption=float(
+                                          self.shieldingGasConsumption.text().replace(',', '.')),
+                                      programmName=self.programmName.text(),  # CharField()
+                                      weldingTime=float(self.weldingTime.text().replace(',', '.'))).where(
+                Connection.id == self.curId)  # DoubleField()
+            query.execute()
+        self.adpanel("connections")
     #####################################
-
 
     #Функции вывода таблиц данных
     #Панель администрирования данных
     def adpanel(self, otype):
         self.otype = otype
         self.chooseTable()
+        self.tableWidget.hideColumn(0)
         self.stackedWidget.setCurrentIndex(4)
     #Выбор отображения от типа данных
     def chooseTable(self):
@@ -531,9 +555,10 @@ class UImodif(Ui_MainWindow):
         self.tableWidget.setHorizontalHeaderLabels(["id", "Номер чертежа", "Наименование", "Марка материала","Программа сварки","Время обработки"])
         details = Detail.select()
         self.tableWidget.setRowCount(len(details))
+
         for i in range(len(details)):
             self.tableWidget.setItem(i, 0, twi(str(details[i].id)))
-            self.tableWidget.setItem(i, 1, twi(str(details[i].blueprinNumber)))
+            self.tableWidget.setItem(i, 1, twi(details[i].blueprinNumber))
             self.tableWidget.setItem(i, 2, twi(details[i].detailName))
             self.tableWidget.setItem(i, 3, twi(details[i].materialGrade))
             self.tableWidget.setItem(i, 4, twi(details[i].weldingProgram))
@@ -542,13 +567,15 @@ class UImodif(Ui_MainWindow):
 
     def realDetailTable(self):
         self.adPanelName.setText("Панель управления деталями:")
-        self.tableWidget.setColumnCount(4)
-        self.tableWidget.setHorizontalHeaderLabels(["Номер чертежа", "Наименование","Номер партии", "Номер детали"])
-        details = Detail.select()
+        self.tableWidget.setColumnCount(5)
+        self.tableWidget.setHorizontalHeaderLabels(["id", "Номер чертежа", "Наименование","Номер партии", "Номер детали"])
+        details = Seam.select().join(Detail).group_by(Seam.batchNumber, Seam.detailNumber)
         self.tableWidget.setRowCount(len(details))
         for i in range(len(details)):
-            self.tableWidget.setItem(i, 0, twi(str(details[i].blueprinNumber)))
-            self.tableWidget.setItem(i, 1, twi(details[i].detailName))
+            self.tableWidget.setItem(i, 1, twi(details[i].detailId.blueprinNumber))
+            self.tableWidget.setItem(i, 2, twi(str(details[i].detailId.detailName)))
+            self.tableWidget.setItem(i, 3, twi(str(details[i].batchNumber)))
+            self.tableWidget.setItem(i, 4, twi(str(details[i].detailNumber)))
         self.tableWidget.resizeColumnsToContents()
 
     def userTable(self):

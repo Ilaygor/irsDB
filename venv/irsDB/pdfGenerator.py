@@ -127,6 +127,8 @@ def create_pdf(pdf_path):
     endStatus = BooleanField(default=False)"""
 
 
+
+
 if __name__ == '__main__':
     create_pdf('отчёт.pdf')
     """d1940 = datetime.date(1940, 1, 1)

@@ -1,9 +1,9 @@
+# модуль для работы с несколькими изображениями в одном масссиве байт
 import struct
 
-print("import byteimgs")
-
+#получение отдельных изображений из массива
+#[колво файлов. 4 байта][список их длин. 4*n байт][данные]
 def unzip(c):
-    print("unzip")
     par = struct.unpack('%si' % (c[0]+1), c[:4*(c[0]+1)])
     imgs = []
     start = 4*(c[0]+1)
@@ -12,6 +12,7 @@ def unzip(c):
         start += img
     return imgs
 
+#добавление нового бинарника в массив
 def add(c, b):
     par = list(struct.unpack('%si' % (c[0] + 1), c[:4 * (c[0] + 1)]))
     data = c[4 * (c[0] + 1):] + b
@@ -21,6 +22,7 @@ def add(c, b):
     buf = struct.pack('%si' % len(par), *par)
     return buf + data
 
+#удаление бинарника по индексу
 def dell(c, i):
     par = list(struct.unpack('%si' % (c[0] + 1), c[:4 * (c[0] + 1)]))
     if par[0] > 0 and i < par[0]:

@@ -128,7 +128,7 @@ print(c2)
 print(unzip(c2))
 dell(c2, 0)"""
 with db:
-    db.create_tables([Seam])
+    db.create_tables([Detail])
     db.commit()
 
 def addSeam():
@@ -193,6 +193,14 @@ def dellRealDetail(detN, detB):
     dellSeams = Seam.select().where(Seam.detailNumber == detN & Seam.batchNumber == detB)
     dellSeams.delete_instance()
 ####################################
-addSeam()
+t = datetime.time(0, 37, 15)
+print(t)
+print(t.strftime("%H %M %S"))
+
+
+
+
+
+
 
 

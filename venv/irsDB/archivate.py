@@ -13,8 +13,8 @@ class Archivator: #дописать логику первого запуска
         f.write(str(datetime.datetime.now()) + ' start of work\n')
         self.database = database
 
-
-    def arch(self, cause): #создание архива с названим текущей даты
+    # создание архива с названим текущей даты
+    def arch(self, cause):
         f = open('log.txt', 'a')
         data = datetime.datetime.now()
         f.write(str(data) +' '+ cause + '\n')
@@ -22,8 +22,8 @@ class Archivator: #дописать логику первого запуска
         archiv.write(self.database, compress_type=zipfile.ZIP_DEFLATED)
         archiv.close()
 
-
-    def getConfig(self):#получение данных из конфига и составление из них словаря
+    # получение данных из конфига и составление из них словаря
+    def getConfig(self):
         f = open('config.txt', 'r')
         lines = f.readlines()
         params =[]
@@ -31,8 +31,8 @@ class Archivator: #дописать логику первого запуска
             params.append(tuple(line.replace('\n','').split(' ')))
         return dict(params)
 
-
-    def autoarch(self): # проверка параметров автоархивации и архивация при необходимости
+    # проверка параметров автоархивации и архивация при необходимости
+    def autoarch(self):
         config = self.getConfig()
         deltatime = datetime.timedelta(hours=int(config['periodH']), minutes=int(config['periodM']),
                                    seconds=int(config['periodS']))
@@ -44,12 +44,14 @@ class Archivator: #дописать логику первого запуска
         elif os.path.getsize(self.database) > maxArchSize:
             self.arch("oversize")
 
+    #запуск васинхронного архивирования
+    def archivete(self):
+      threading.Timer(600.0, archivete).start()
+      print("Archiv")
+      self.autoarch()
 
-
-def archivete(archivator):
-  threading.Timer(600.0, archivete).start()
-  print("Archiv")
-  archivator.autoarch()
+    def dearchivete(self):
+        return 0
 
 if __name__ == "__main__":
     #A = Archivator("IRSwelding.db")

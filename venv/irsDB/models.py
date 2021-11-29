@@ -25,31 +25,32 @@ class User(BaseModel):
         db_table = 'Users'
 
 class Detail(BaseModel):
-    blueprinNumber = IntegerField()
+    blueprinNumber = CharField()
     detailName = CharField()
     materialGrade = CharField()
     img = BlobField(default = b'\x00\x00\x00\x00', null=True)
     weldingProgram = CharField()
     #weldingConnectionID = [] # а может и не нужен
-    processingTime = DoubleField()
+    processingTime = DateTimeField()
 
     class Meta:
         db_table = 'Details'
 
 class Connection(BaseModel):
     ctype = CharField()
-    thicknessOfElement1 = DoubleField()
-    thicknessOfElement2 = DoubleField()
+    thicknessOfElement = CharField()
     jointBevelling = CharField()
-    jointBevellingImg = BlobField()
+    jointBevellingImg = BlobField(default = b'\x00\x00\x00\x00')
     seamDimensions = CharField()
     fillerWireMark = CharField()
-    fillerWireDiam = DoubleField()
+    fillerWireDiam = CharField()
     wireConsumption = DoubleField()
     shieldingGasType = CharField()
     shieldingGasConsumption = DoubleField()
     programmName = CharField()
-    weldingTime = DoubleField()
+    weldingTime = DateTimeField()
+    preferredPeriod = DoubleField(default = 0.1)
+
 
     class Meta:
         db_table = 'Connections'
@@ -71,6 +72,7 @@ class Seam(BaseModel):
     voltageCorrection = BlobField(default = b'0')
     wireSpeed = BlobField(default = b'0')
     gasConsumption = BlobField(default = b'0')
+    period = DoubleField(default=0.1)
 
     class Meta:
         db_table = 'Seams'
