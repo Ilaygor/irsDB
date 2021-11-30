@@ -22,7 +22,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="protocol">
        <property name="sizePolicy">
@@ -84,7 +84,11 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="lineEdit_3"/>
+             <widget class="QLineEdit" name="lineEdit_3">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
             <item row="2" column="1">
              <widget class="QLineEdit" name="lineEdit_4"/>
@@ -139,19 +143,22 @@
             </item>
             <item row="4" column="1">
              <widget class="QCheckBox" name="endStatus">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
               <property name="text">
                <string/>
               </property>
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="lineEdit_7"/>
+             <widget class="QLineEdit" name="weldingProgram_2"/>
             </item>
             <item row="2" column="1">
-             <widget class="QLineEdit" name="lineEdit_8"/>
+             <widget class="QLineEdit" name="startTime"/>
             </item>
             <item row="3" column="1">
-             <widget class="QLineEdit" name="lineEdit_9"/>
+             <widget class="QLineEdit" name="endTime"/>
             </item>
            </layout>
           </item>
@@ -203,19 +210,19 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="lineEdit_10"/>
+             <widget class="QLineEdit" name="batchNumber"/>
             </item>
             <item row="2" column="1">
-             <widget class="QLineEdit" name="lineEdit_11"/>
+             <widget class="QLineEdit" name="detailNumber"/>
             </item>
             <item row="3" column="1">
-             <widget class="QLineEdit" name="lineEdit_12"/>
+             <widget class="QLineEdit" name="authorizedUser"/>
             </item>
             <item row="4" column="1">
-             <widget class="QLineEdit" name="lineEdit_13"/>
+             <widget class="QLineEdit" name="detailId"/>
             </item>
             <item row="5" column="1">
-             <widget class="QLineEdit" name="lineEdit_14"/>
+             <widget class="QLineEdit" name="connId_2"/>
             </item>
            </layout>
           </item>
@@ -926,9 +933,6 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="7" column="1">
-             <widget class="QDoubleSpinBox" name="fillerWireDiam"/>
-            </item>
             <item row="8" column="0">
              <widget class="QLabel" name="label_51">
               <property name="text">
@@ -995,9 +999,6 @@ p, li { white-space: pre-wrap; }
             <item row="12" column="1">
              <layout class="QHBoxLayout" name="horizontalLayout_10">
               <item>
-               <widget class="QSpinBox" name="spinBox_6"/>
-              </item>
-              <item>
                <widget class="QLabel" name="label_16">
                 <property name="text">
                  <string>Ч</string>
@@ -1005,11 +1006,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="spinBox_5">
-                <property name="maximum">
-                 <number>59</number>
-                </property>
-               </widget>
+               <widget class="QSpinBox" name="HweldingTime"/>
               </item>
               <item>
                <widget class="QLabel" name="label_18">
@@ -1019,7 +1016,7 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="spinBox_4">
+               <widget class="QSpinBox" name="MweldingTime">
                 <property name="maximum">
                  <number>59</number>
                 </property>
@@ -1032,10 +1029,20 @@ p, li { white-space: pre-wrap; }
                 </property>
                </widget>
               </item>
+              <item>
+               <widget class="QSpinBox" name="SweldingTime">
+                <property name="maximum">
+                 <number>59</number>
+                </property>
+               </widget>
+              </item>
              </layout>
             </item>
             <item row="3" column="1">
-             <widget class="QLineEdit" name="lineEdit"/>
+             <widget class="QLineEdit" name="thicknessOfElement"/>
+            </item>
+            <item row="7" column="1">
+             <widget class="QLineEdit" name="fillerWireDiam"/>
             </item>
            </layout>
           </item>

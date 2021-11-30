@@ -128,7 +128,7 @@ print(c2)
 print(unzip(c2))
 dell(c2, 0)"""
 with db:
-    db.create_tables([Detail])
+    db.create_tables([Seam])
     db.commit()
 
 def addSeam():
@@ -156,8 +156,8 @@ def addSeam():
     bwireSpeed = struct.pack('%sf' % len(wireSpeed), *wireSpeed)
     bgasConsumption = struct.pack('%sf' % len(gasConsumption), *gasConsumption)
 
-    Seam(connId = 1,#ForeignKeyField(Connection)
-    detailId = 4,#ForeignKeyField(Detail)
+    Seam(connId = None,#ForeignKeyField(Connection)
+    detailId = None,#ForeignKeyField(Detail)
     batchNumber = 1,#IntegerField()
     detailNumber = 2,#IntegerField()
     authorizedUser = "user",#CharField()
@@ -196,6 +196,8 @@ def dellRealDetail(detN, detB):
 t = datetime.time(0, 37, 15)
 print(t)
 print(t.strftime("%H %M %S"))
+
+addSeam()
 
 
 

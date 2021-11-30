@@ -361,17 +361,19 @@ class UImodif(Ui_MainWindow):
         connection = Connection.get(Connection.id == id)
         self.connId.setText(str(connection.id))
         self.ctype.setText(connection.ctype)
-        self.thicknessOfElement1.setValue(connection.thicknessOfElement1)
-        self.thicknessOfElement2.setValue(connection.thicknessOfElement2)
+        self.thicknessOfElement.setText(connection.thicknessOfElement)
         self.jointBevelling.setText(connection.jointBevelling)
         self.seamDimensions.setText(connection.seamDimensions)
         self.fillerWireMark.setText(connection.fillerWireMark)
-        self.fillerWireDiam.setValue(connection.fillerWireDiam)
+        self.fillerWireDiam.setText(connection.fillerWireDiam)
         self.wireConsumption.setValue(connection.wireConsumption)
         self.shieldingGasType.setText(connection.shieldingGasType)
         self.shieldingGasConsumption.setValue(connection.shieldingGasConsumption)
         self.programmName.setText(connection.programmName)
-        self.weldingTime.setValue(connection.weldingTime)
+        time = connection.weldingTime.split(":")
+        self.HweldingTime.setValue(int(time[0]))
+        self.MweldingTime.setValue(int(time[1]))
+        self.SweldingTime.setValue(int(time[2]))
 
     def clearForms(self):
         """self.connId_2.setText("")
@@ -396,7 +398,7 @@ class UImodif(Ui_MainWindow):
         self.jointBevelling.setText("")
         self.seamDimensions.setText("")
         self.fillerWireMark.setText("")
-        self.fillerWireDiam.setValue(0)
+        self.fillerWireDiam.setText("")
         self.wireConsumption.setValue(0)
         self.shieldingGasType.setText("")
         self.shieldingGasConsumption.setValue(0)
@@ -494,8 +496,7 @@ class UImodif(Ui_MainWindow):
         if self.curId < 1:
             try:
                 Connection(ctype = self.ctype.text(),#CharField()
-                thicknessOfElement1 = float(self.thicknessOfElement1.text().replace(',','.')),#DoubleField()
-                thicknessOfElement2 = float(self.thicknessOfElement2.text().replace(',','.')),#DoubleField()
+                thicknessOfElement = self.thicknessOfElement.text(),
                 jointBevelling = self.jointBevelling.text(),#CharField()
                 jointBevellingImg = self.imgs,#BlobField()
                 seamDimensions = self.seamDimensions.text(),#CharField()
@@ -505,7 +506,7 @@ class UImodif(Ui_MainWindow):
                 shieldingGasType = self.shieldingGasType.text(),#CharField()
                 shieldingGasConsumption = float(self.shieldingGasConsumption.text().replace(',','.')),#DoubleField()
                 programmName = self.programmName.text(),#CharField()
-                weldingTime = float(self.weldingTime.text().replace(',','.'))).save()#DoubleField()
+                weldingTime = datetime.time(self.HweldingTime.value(), self.MweldingTime.value(), self.SweldingTime.value())).save()#DoubleField()
             except:
                 print("не создано")
         else:
@@ -522,7 +523,7 @@ class UImodif(Ui_MainWindow):
                                       shieldingGasConsumption=float(
                                           self.shieldingGasConsumption.text().replace(',', '.')),
                                       programmName=self.programmName.text(),  # CharField()
-                                      weldingTime=float(self.weldingTime.text().replace(',', '.'))).where(
+                                      weldingTime=datetime.time(self.HweldingTime.value(), self.MweldingTime.value(), self.SweldingTime.value())).where(
                 Connection.id == self.curId)  # DoubleField()
             query.execute()
         self.adpanel("connections")
@@ -625,7 +626,7 @@ class UImodif(Ui_MainWindow):
         for i in range(len(connections)):
             self.tableWidget.setItem(i, 0, twi(str(connections[i].id)))
             self.tableWidget.setItem(i, 1, twi(connections[i].ctype))
-            self.tableWidget.setItem(i, 2, twi(str(connections[i].thicknessOfElement1)+'/'+str(connections[i].thicknessOfElement2)))
+            self.tableWidget.setItem(i, 2, twi(connections[i].thicknessOfElement))
             self.tableWidget.setItem(i, 3, twi(connections[i].jointBevelling))
             self.tableWidget.setItem(i, 4, twi(connections[i].seamDimensions))
             self.tableWidget.setItem(i, 5, twi(connections[i].fillerWireMark+'/'+str(connections[i].fillerWireDiam)))
