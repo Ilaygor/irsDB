@@ -77,3 +77,9 @@ class Seam(BaseModel):
     class Meta:
         db_table = 'Seams'
 
+
+class DetConn(BaseModel):
+    connId = ForeignKeyField(Connection)
+    detailId = ForeignKeyField(Detail)
+
+

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1434</width>
+    <width>1440</width>
     <height>1196</height>
    </rect>
   </property>
@@ -22,7 +22,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="protocol">
        <property name="sizePolicy">
@@ -1208,7 +1208,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1434</width>
+     <width>1440</width>
      <height>26</height>
     </rect>
    </property>
@@ -1237,6 +1237,9 @@ p, li { white-space: pre-wrap; }
    <addaction name="menu_2"/>
   </widget>
   <action name="chooseArch">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Выбрать архив</string>
    </property>

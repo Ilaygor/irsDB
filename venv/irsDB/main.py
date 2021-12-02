@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QTableWidgetItem as twi
+from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtChart import QChart, QChartView, QLineSeries, QCategoryAxis, QValueAxis
 from PyQt5.QtCore import QPoint, QPointF
 from PyQt5.Qt import QPen, QFont, Qt, QSize
@@ -9,6 +10,7 @@ import numpy as np
 import peewee
 from models import *
 from GUI import *
+from connWin import *
 import sys
 import datetime
 from io import BytesIO
@@ -24,6 +26,7 @@ class UImodif(Ui_MainWindow):
     imgs = b'\x00\x00\x00\x00'
     curImg = 0
     curId = 0
+    AfUserId = 0
     A = archivate.Archivator("IRSwelding.db")
 
     #инициализация функций нажатий
@@ -36,6 +39,7 @@ class UImodif(Ui_MainWindow):
         #self.makePdf.clicked.connect(lambda: print("pdf"))
         self.saveBtn.clicked.connect(self.save)
         self.delBtn.clicked.connect(self.dell)
+        self.addConnection.clicked.connect(self.addConn)
 
         # действия с изображениями
         self.addDetImg.clicked.connect(lambda: self.newImg(self.DetImg))
@@ -49,7 +53,7 @@ class UImodif(Ui_MainWindow):
 
 
         #пункты меню
-        self.exit.triggered.connect(lambda: self.redirect(1))
+        self.exit.triggered.connect(self.exitf)
         self.detail.triggered.connect(lambda: self.adpanel("detail"))
         self.connections.triggered.connect(lambda: self.adpanel("connections"))
         self.realDetail.triggered.connect(lambda: self.adpanel("realDetail"))
@@ -59,6 +63,10 @@ class UImodif(Ui_MainWindow):
         self.chooseArch.triggered.connect(self.chArch)
 
         self.tableWidget.doubleClicked.connect(self.doubleClick)
+
+        self.connAdd = QtWidgets.QWidget()
+        self.ui2 = Ui_connAdd()
+        self.ui2.setupUi(self.connAdd)
 
         #перерисовка графика
         """self.wireCCchb.stateChanged.connect(self.initChart)
@@ -73,11 +81,25 @@ class UImodif(Ui_MainWindow):
 
 
     #######Область тестовых функций########
+    def exitf(self):
+        AfUserId = 0
+        self.menubar.hide()
+        self.redirect(1)
+
+
     def ar(self):
         self.A.arch('User_s reqvest')
 
     def chArch(self):
         filename = QtWidgets.QFileDialog.getOpenFileName()[0]
+
+    def addConn(self):
+        print("addConn")
+        self.connAdd.show()
+        self.ui2.listOfConn.setColumnCount(11)
+
+
+
     ###########################################
 
     # Удаление, добавление редактирование данных
@@ -454,6 +476,7 @@ class UImodif(Ui_MainWindow):
 
     #авторизация
     def login(self):
+        self.menubar.show()
         self.stackedWidget.setCurrentIndex(4)
         self.adpanel("detail")
         """
@@ -668,5 +691,6 @@ MainWindow = QtWidgets.QMainWindow()
 ui = UImodif()
 ui.setupUi(MainWindow)
 ui.btnFunction()
+
 MainWindow.show()
 sys.exit(app.exec_())
