@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1440</width>
-    <height>1196</height>
+    <width>1052</width>
+    <height>702</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,14 +15,14 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>C:/Users/Ilay/Desktop/kjuj 2 — копия (2).png</normaloff>C:/Users/Ilay/Desktop/kjuj 2 — копия (2).png</iconset>
+    <normaloff>C:/Users/Ilay/.designer/sourse/kjuj 2 — копия (2).png</normaloff>C:/Users/Ilay/.designer/sourse/kjuj 2 — копия (2).png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_12">
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="protocol">
        <property name="sizePolicy">
@@ -392,7 +392,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap>C:/Users/Ilay/Desktop/kjuj 2 — копия.png</pixmap>
+             <pixmap>C:/Users/Ilay/.designer/sourse/kjuj 2 — копия.png</pixmap>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -642,21 +642,7 @@ p, li { white-space: pre-wrap; }
             <item row="5" column="0">
              <widget class="QLabel" name="label_39">
               <property name="text">
-               <string>Время обработки:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QLabel" name="label_11">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="1">
-             <widget class="QLabel" name="label_58">
-              <property name="text">
-               <string/>
+               <string>Время обработки (расчетное ):</string>
               </property>
              </widget>
             </item>
@@ -701,6 +687,20 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
              </layout>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLabel" name="label_11">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
+             <widget class="QLabel" name="label_58">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -793,26 +793,39 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
+            <item>
+             <spacer name="horizontalSpacer_7">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
            </layout>
           </item>
           <item>
            <widget class="QLabel" name="DetImg">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
             <property name="minimumSize">
              <size>
-              <width>1080</width>
-              <height>980</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>1080</width>
-              <height>980</height>
+              <width>2000</width>
+              <height>2000</height>
              </size>
             </property>
             <property name="text">
@@ -837,6 +850,19 @@ p, li { white-space: pre-wrap; }
            </spacer>
           </item>
          </layout>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -1107,6 +1133,19 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
+            <item>
+             <spacer name="horizontalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
            </layout>
           </item>
           <item>
@@ -1130,6 +1169,19 @@ p, li { white-space: pre-wrap; }
            </spacer>
           </item>
          </layout>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -1204,11 +1256,14 @@ p, li { white-space: pre-wrap; }
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1440</width>
+     <width>1052</width>
      <height>26</height>
     </rect>
    </property>
@@ -1235,6 +1290,18 @@ p, li { white-space: pre-wrap; }
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionback"/>
   </widget>
   <action name="chooseArch">
    <property name="enabled">
@@ -1282,6 +1349,11 @@ p, li { white-space: pre-wrap; }
   <action name="makeArch">
    <property name="text">
     <string>Создать архив</string>
+   </property>
+  </action>
+  <action name="actionback">
+   <property name="text">
+    <string>back</string>
    </property>
   </action>
  </widget>

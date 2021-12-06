@@ -127,9 +127,7 @@ c2 = add(c, car)
 print(c2)
 print(unzip(c2))
 dell(c2, 0)"""
-with db:
-    db.create_tables([Seam])
-    db.commit()
+
 
 def addSeam():
     torchSpeed = []
@@ -195,9 +193,12 @@ def dellRealDetail(detN, detB):
 ####################################
 t = datetime.time(0, 37, 15)
 print(t)
+with db:
+    db.create_tables([Equipment, OscilationType])
+    db.commit()
 print(t.strftime("%H %M %S"))
 
-addSeam()
+#addSeam()
 
 
 

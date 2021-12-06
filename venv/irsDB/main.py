@@ -27,11 +27,12 @@ class UImodif(Ui_MainWindow):
     curImg = 0
     curId = 0
     AfUserId = 0
-    A = archivate.Archivator("IRSwelding.db")
+    #A = archivate.Archivator("IRSwelding.db")
 
     #инициализация функций нажатий
-    def btnFunction(self):
-        #книпки
+    def setupUi(self, MainWindow):
+        super().setupUi(MainWindow)
+        #кнопки
         self.loginBtn.clicked.connect(self.login)
         self.addBtn.clicked.connect(self.add)
         self.saveChalenges.clicked.connect(self.saveDeteil)
@@ -39,7 +40,7 @@ class UImodif(Ui_MainWindow):
         #self.makePdf.clicked.connect(lambda: print("pdf"))
         self.saveBtn.clicked.connect(self.save)
         self.delBtn.clicked.connect(self.dell)
-        self.addConnection.clicked.connect(self.addConn)
+        self.addConnection.clicked.connect(lambda: MainWindow.addConnDia(self.curId))
 
         # действия с изображениями
         self.addDetImg.clicked.connect(lambda: self.newImg(self.DetImg))
@@ -64,9 +65,6 @@ class UImodif(Ui_MainWindow):
 
         self.tableWidget.doubleClicked.connect(self.doubleClick)
 
-        self.connAdd = QtWidgets.QWidget()
-        self.ui2 = Ui_connAdd()
-        self.ui2.setupUi(self.connAdd)
 
         #перерисовка графика
         """self.wireCCchb.stateChanged.connect(self.initChart)
@@ -92,12 +90,6 @@ class UImodif(Ui_MainWindow):
 
     def chArch(self):
         filename = QtWidgets.QFileDialog.getOpenFileName()[0]
-
-    def addConn(self):
-        print("addConn")
-        self.connAdd.show()
-        self.ui2.listOfConn.setColumnCount(11)
-
 
 
     ###########################################
@@ -352,8 +344,8 @@ class UImodif(Ui_MainWindow):
         self.detailNumber.setText(str(seam.detailNumber))
         self.authorizedUser.setText(seam.authorizedUser)
         self.weldingProgram_2.setText(seam.weldingProgram)
-        self.startTime.setText(str(seam.startTime))
-        self.endTime.setText(str(seam.endTime))
+        self.startTime.setText(str(seam.startTime)[:19])
+        self.endTime.setText(str(seam.endTime)[:19])
         self.endStatus.setCheckState(
             QtCore.Qt.Checked if seam.endStatus else QtCore.Qt.Unchecked)
         self.initChart(seam)
@@ -396,6 +388,10 @@ class UImodif(Ui_MainWindow):
         self.HweldingTime.setValue(int(time[0]))
         self.MweldingTime.setValue(int(time[1]))
         self.SweldingTime.setValue(int(time[2]))
+        self.preferredPeriod.setValue(connection.preferredPeriod)
+        self.imgs = connection.jointBevellingImg
+        self.curImg = 0
+        self.veiwImg(self.connImg)
 
     def clearForms(self):
         """self.connId_2.setText("")
@@ -479,6 +475,53 @@ class UImodif(Ui_MainWindow):
         self.menubar.show()
         self.stackedWidget.setCurrentIndex(4)
         self.adpanel("detail")
+
+        self.users.setEnabled(False)
+
+        self.delDetImg.setEnabled(False)
+        self.addDetImg.setEnabled(False)
+        self.blueprinNumber.setEnabled(False)
+        self.detailName.setEnabled(False)
+        self.materialGrade.setEnabled(False)
+        self.weldingProgram.setEnabled(False)
+        self.addConnection.setEnabled(False)
+        self.saveChalenges.setEnabled(False)
+        self.HprocessingTime.setEnabled(False)
+        self.MprocessingTime.setEnabled(False)
+        self.SprocessingTime.setEnabled(False)
+
+        self.connId.setEnabled(False)
+        self.ctype.setEnabled(False)
+        self.thicknessOfElement.setEnabled(False)
+        self.jointBevelling.setEnabled(False)
+        self.seamDimensions.setEnabled(False)
+        self.fillerWireMark.setEnabled(False)
+        self.fillerWireDiam.setEnabled(False)
+        self.wireConsumption.setEnabled(False)
+        self.shieldingGasType.setEnabled(False)
+        self.shieldingGasConsumption.setEnabled(False)
+        self.programmName.setEnabled(False)
+        self.HweldingTime.setEnabled(False)
+        self.MweldingTime.setEnabled(False)
+        self.SweldingTime.setEnabled(False)
+        self.saveConn.setEnabled(False)
+        self.delConnImg.setEnabled(False)
+        self.newConnImg.setEnabled(False)
+
+        self.connId_2.setEnabled(False)
+        self.detailId.setEnabled(False)
+        self.batchNumber.setEnabled(False)
+        self.detailNumber.setEnabled(False)
+        self.authorizedUser.setEnabled(False)
+        self.weldingProgram_2.setEnabled(False)
+        self.startTime.setEnabled(False)
+        self.endTime.setEnabled(False)
+        self.endStatus.setEnabled(False)
+
+        self.addBtn.setEnabled(False)
+
+        self.delBtn.setEnabled(False)
+
         """
         print(self.loginFld.text(), self.passFld.text())
         try:
@@ -490,6 +533,7 @@ class UImodif(Ui_MainWindow):
         except:
             print("Логин не зарегистрирован")
 """
+
     #####################################
 
     #save
@@ -529,24 +573,24 @@ class UImodif(Ui_MainWindow):
                 shieldingGasType = self.shieldingGasType.text(),#CharField()
                 shieldingGasConsumption = float(self.shieldingGasConsumption.text().replace(',','.')),#DoubleField()
                 programmName = self.programmName.text(),#CharField()
-                weldingTime = datetime.time(self.HweldingTime.value(), self.MweldingTime.value(), self.SweldingTime.value())).save()#DoubleField()
+                weldingTime = datetime.time(self.HweldingTime.value(), self.MweldingTime.value(), self.SweldingTime.value()),
+                preferredPeriod = self.preferredPeriod.value()).save()#DoubleField()
             except:
                 print("не создано")
         else:
-            query = Connection.update(ctype=self.ctype.text(),  # CharField()
-                                      thicknessOfElement1=float(self.thicknessOfElement1.text().replace(',', '.')),
-                                      thicknessOfElement2=float(self.thicknessOfElement2.text().replace(',', '.')),
-                                      jointBevelling=self.jointBevelling.text(),  # CharField()
-                                      jointBevellingImg=self.imgs,  # BlobField()
-                                      seamDimensions=self.seamDimensions.text(),  # CharField()
-                                      fillerWireMark=self.fillerWireMark.text(),  # CharField()
-                                      fillerWireDiam=float(self.fillerWireDiam.text().replace(',', '.')),
-                                      wireConsumption=float(self.wireConsumption.text().replace(',', '.')),
-                                      shieldingGasType=self.shieldingGasType.text(),  # CharField()
-                                      shieldingGasConsumption=float(
-                                          self.shieldingGasConsumption.text().replace(',', '.')),
-                                      programmName=self.programmName.text(),  # CharField()
-                                      weldingTime=datetime.time(self.HweldingTime.value(), self.MweldingTime.value(), self.SweldingTime.value())).where(
+            query = Connection.update(ctype = self.ctype.text(),#CharField()
+                thicknessOfElement = self.thicknessOfElement.text(),
+                jointBevelling = self.jointBevelling.text(),#CharField()
+                jointBevellingImg = self.imgs,#BlobField()
+                seamDimensions = self.seamDimensions.text(),#CharField()
+                fillerWireMark = self.fillerWireMark.text(),#CharField()
+                fillerWireDiam = float(self.fillerWireDiam.text().replace(',','.')),#DoubleField()
+                wireConsumption = float(self.wireConsumption.text().replace(',','.')),#DoubleField()
+                shieldingGasType = self.shieldingGasType.text(),#CharField()
+                shieldingGasConsumption = float(self.shieldingGasConsumption.text().replace(',','.')),#DoubleField()
+                programmName = self.programmName.text(),#CharField()
+                weldingTime = datetime.time(self.HweldingTime.value(), self.MweldingTime.value(), self.SweldingTime.value()),
+                preferredPeriod = self.preferredPeriod.value()).where(
                 Connection.id == self.curId)  # DoubleField()
             query.execute()
         self.adpanel("connections")
@@ -643,7 +687,7 @@ class UImodif(Ui_MainWindow):
         self.adPanelName.setText("Панель управления соединениями:")
         self.tableWidget.setColumnCount(11)
         self.tableWidget.setHorizontalHeaderLabels(
-            ["id", "Вид сварного соединения", "Толщина элементов", "Разделка кромок", "Размеры шва", "Марка/сечение проволоки", "Расход проволоки","Газ","Расход газа","Программа сварки","Рассчётное время"])
+            ["id", "Вид сварного соединения", "Толщина элементов (мм)", "Разделка кромок", "Размеры шва (мм)", "Марка/сечение проволоки (мм)", "Расход проволоки (см/мин)","Газ","Расход газа (л/мин)","Программа сварки","Рассчётное время"])
         connections = Connection.select()
         self.tableWidget.setRowCount(len(connections))
         for i in range(len(connections)):
@@ -674,8 +718,8 @@ class UImodif(Ui_MainWindow):
             self.tableWidget.setItem(i, 2, twi(str(seams[i].detailId)))
             self.tableWidget.setItem(i, 3, twi(str(seams[i].batchNumber)))
             self.tableWidget.setItem(i, 4, twi(str(seams[i].detailNumber)))
-            self.tableWidget.setItem(i, 5, twi(str(seams[i].startTime)))
-            self.tableWidget.setItem(i, 6, twi(str(seams[i].endTime)))
+            self.tableWidget.setItem(i, 5, twi(str(seams[i].startTime)[:19]))
+            self.tableWidget.setItem(i, 6, twi(str(seams[i].endTime)[:19]))
             if seams[i].endStatus:
                 self.tableWidget.setItem(i, 7, twi("Успешно"))
             else:
@@ -685,12 +729,28 @@ class UImodif(Ui_MainWindow):
         self.tableWidget.resizeColumnsToContents()
     #######################################
 
+class MWin(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.ui = UImodif()
+        self.ui.setupUi(self)
+
+    def addConnDia(self, id):
+        self.dialog = AddConn()
+        self.dialog.detId = id
+        self.dialog.show()
+
+
+
+class AddConn(QtWidgets.QWidget):
+    detId = 0
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_connAdd()
+        self.ui.setupUi(self)
+
 
 app = QtWidgets.QApplication(sys.argv)
-MainWindow = QtWidgets.QMainWindow()
-ui = UImodif()
-ui.setupUi(MainWindow)
-ui.btnFunction()
-
+MainWindow = MWin()
 MainWindow.show()
 sys.exit(app.exec_())

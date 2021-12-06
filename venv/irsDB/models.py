@@ -58,6 +58,7 @@ class Connection(BaseModel):
 class Seam(BaseModel):
     connId = ForeignKeyField(Connection, null=True)
     detailId = ForeignKeyField(Detail, null=True)
+    #equipmentId = ForeignKeyField(Equipment, null=True)
     batchNumber = IntegerField()
     detailNumber = IntegerField()
     authorizedUser = CharField()
@@ -81,5 +82,21 @@ class Seam(BaseModel):
 class DetConn(BaseModel):
     connId = ForeignKeyField(Connection)
     detailId = ForeignKeyField(Detail)
+
+
+class OscilationType(BaseModel):
+    oscName = CharField()
+    oscImg = BlobField(default = b'\x00\x00\x00\x00')
+
+class Equipment(BaseModel):
+    serialNumber = CharField()
+    name = CharField()
+    model = CharField()
+    ip = CharField()
+    port = CharField(4)
+    period = DoubleField(default=0.1)
+
+
+
 
 
