@@ -55,19 +55,31 @@ class Connection(BaseModel):
     class Meta:
         db_table = 'Connections'
 
+class Equipment(BaseModel):
+    serialNumber = CharField()
+    name = CharField()
+    model = CharField()
+    ip = CharField()
+    port = CharField(4)
+    period = DoubleField(default=0.1)
+
+class OscilationType(BaseModel):
+    oscName = CharField()
+    oscImg = BlobField(default = b'\x00\x00\x00\x00')
+
 class Seam(BaseModel):
     connId = ForeignKeyField(Connection, null=True)
     detailId = ForeignKeyField(Detail, null=True)
-    #equipmentId = ForeignKeyField(Equipment, null=True)
+    equipmentId = ForeignKeyField(Equipment, null=True)
     batchNumber = IntegerField()
     detailNumber = IntegerField()
-    authorizedUser = CharField()
+    authorizedUser = ForeignKeyField(User, null=True)
     weldingProgram = CharField()
     startTime = DateTimeField()
     endTime = DateTimeField()
     endStatus = BooleanField(default = False)
     torchSpeed = BlobField(default = b'0')
-    burnerOscillation = BlobField(default = b'0')
+    burnerOscillation = ForeignKeyField(OscilationType, null=True)
     current = BlobField(default = b'0')
     voltage = BlobField(default = b'0')
     voltageCorrection = BlobField(default = b'0')
@@ -84,17 +96,7 @@ class DetConn(BaseModel):
     detailId = ForeignKeyField(Detail)
 
 
-class OscilationType(BaseModel):
-    oscName = CharField()
-    oscImg = BlobField(default = b'\x00\x00\x00\x00')
 
-class Equipment(BaseModel):
-    serialNumber = CharField()
-    name = CharField()
-    model = CharField()
-    ip = CharField()
-    port = CharField(4)
-    period = DoubleField(default=0.1)
 
 
 

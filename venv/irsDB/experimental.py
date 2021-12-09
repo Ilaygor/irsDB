@@ -154,17 +154,18 @@ def addSeam():
     bwireSpeed = struct.pack('%sf' % len(wireSpeed), *wireSpeed)
     bgasConsumption = struct.pack('%sf' % len(gasConsumption), *gasConsumption)
 
-    Seam(connId = None,#ForeignKeyField(Connection)
-    detailId = None,#ForeignKeyField(Detail)
+    Seam(connId = 3,#ForeignKeyField(Connection)
+    detailId = 2,#ForeignKeyField(Detail)
+    equipmentId = 1,
     batchNumber = 1,#IntegerField()
     detailNumber = 2,#IntegerField()
-    authorizedUser = "user",#CharField()
+    authorizedUser = 1,#CharField()
     weldingProgram = "p2",#CharField()
     startTime = datetime.datetime.now(),#DateTimeField()
     endTime = datetime.datetime.now(),#DateTimeField()
     endStatus = True,#BooleanField()
     torchSpeed = btorchSpeed,#BlobField()
-    burnerOscillation = bburnerOscillation,#BlobField()
+    burnerOscillation = None,#BlobField()
     current = bcurrent,#BlobField()
     voltage = bvoltage,#BlobField()
     voltageCorrection = bvoltageCorrection,#BlobField()
@@ -194,11 +195,12 @@ def dellRealDetail(detN, detB):
 t = datetime.time(0, 37, 15)
 print(t)
 with db:
-    db.create_tables([Equipment, OscilationType])
+    db.create_tables([Seam])
     db.commit()
 print(t.strftime("%H %M %S"))
 
-#addSeam()
+
+addSeam()
 
 
 

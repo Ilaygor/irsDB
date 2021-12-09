@@ -26,7 +26,7 @@ class UImodif(Ui_MainWindow):
     imgs = b'\x00\x00\x00\x00'
     curImg = 0
     curId = 0
-    AfUserId = 0
+    AfUser = None
     #A = archivate.Archivator("IRSwelding.db")
 
     #инициализация функций нажатий
@@ -62,25 +62,27 @@ class UImodif(Ui_MainWindow):
         self.users.triggered.connect(lambda: self.adpanel("user"))
         self.makeArch.triggered.connect(self.ar)
         self.chooseArch.triggered.connect(self.chArch)
+        self.equipments.triggered.connect(lambda: self.adpanel("equipments"))
+        self.actionback.triggered.connect(lambda: self.redirect(4))
+
 
         self.tableWidget.doubleClicked.connect(self.doubleClick)
 
 
         #перерисовка графика
-        """self.wireCCchb.stateChanged.connect(self.initChart)
-        self.gasCCchb.stateChanged.connect(self.initChart)
-        self.torchSpeedchb.stateChanged.connect(self.initChart)
-        self.burnerOscillationchb.stateChanged.connect(self.initChart)
-        self.currentchb.stateChanged.connect(self.initChart)
-        self.voltagechb.stateChanged.connect(self.initChart)
-        self.voltageCorrectionchb.stateChanged.connect(self.initChart)
-        self.wireSpeedchb.stateChanged.connect(self.initChart)
-        self.gasConsumptionchb.stateChanged.connect(self.initChart)"""
+        self.wireCCchb.stateChanged.connect(lambda: self.initChart(self.curId))
+        self.gasCCchb.stateChanged.connect(lambda: self.initChart(self.curId))
+        self.torchSpeedchb.stateChanged.connect(lambda: self.initChart(self.curId))
+        self.currentchb.stateChanged.connect(lambda: self.initChart(self.curId))
+        self.voltagechb.stateChanged.connect(lambda: self.initChart(self.curId))
+        self.voltageCorrectionchb.stateChanged.connect(lambda: self.initChart(self.curId))
+        self.wireSpeedchb.stateChanged.connect(lambda: self.initChart(self.curId))
+        self.gasConsumptionchb.stateChanged.connect(lambda: self.initChart(self.curId))
 
 
     #######Область тестовых функций########
     def exitf(self):
-        AfUserId = 0
+        self.AfUser = None
         self.menubar.hide()
         self.redirect(1)
 
@@ -189,36 +191,21 @@ class UImodif(Ui_MainWindow):
                 dellConnection.delete_instance()
                 self.connectTable()
 
-    def initChart(self, seam):
+    def initChart(self, seamId):
             # 7+3(2)#получение данных
+            seam = Seam.get(Seam.id == seamId)
             duration = 2
             fraqency = 10
             wireConsumption = 15
             shieldingGasConsumption = 17
             weldingTime = 2.0
             # print(np.linspace(0, duration, duration * fraqency + 1))
-            """y = np.ones(duration * fraqency + 1) * 13
-            y2 = np.ones(duration * fraqency + 1) * 14
-            y3 = np.ones(duration * fraqency + 1) * 15
-            y4 = np.ones(duration * fraqency + 1) * 16
-            y5 = np.ones(duration * fraqency + 1) * 17
-            y6 = np.ones(duration * fraqency + 1) * 18
-            y7 = np.ones(duration * fraqency + 1) * 19"""
-            print(seam.torchSpeed)
             storchSpeed = struct.unpack('%sf' % (len(seam.torchSpeed)//4), seam.torchSpeed)
-            sburnerOscillation = struct.unpack('%sf' % (len(seam.burnerOscillation)//4), seam.burnerOscillation)
             scurrent = struct.unpack('%sf' % (len(seam.current)//4), seam.current)
             svoltage = struct.unpack('%sf' % (len(seam.voltage)//4), seam.voltage)
             svoltageCorrection = struct.unpack('%sf' % (len(seam.voltageCorrection)//4), seam.voltageCorrection)
             swireSpeed = struct.unpack('%sf' % (len(seam.wireSpeed)//4), seam.wireSpeed)
             sgasConsumption = struct.unpack('%sf' % (len(seam.gasConsumption)//4), seam.gasConsumption)
-            print(storchSpeed)
-            print(sburnerOscillation)
-            print(scurrent)
-            print(svoltage)
-            print(svoltageCorrection)
-            print(swireSpeed)
-            print(sgasConsumption)
 
             # вывод данных на график
             # рассчётные значения
@@ -231,8 +218,6 @@ class UImodif(Ui_MainWindow):
             # обявления
             torchSpeed = QLineSeries()
             torchSpeed.setName("Скорость горелки")
-            burnerOscillation = QLineSeries()
-            burnerOscillation.setName("Колебания горелки")
             current = QLineSeries()
             current.setName("Ток")
             voltage = QLineSeries()
@@ -254,9 +239,6 @@ class UImodif(Ui_MainWindow):
             pen = QPen(QColor(10, 255, 10))
             pen.setWidth(3)
             torchSpeed.setPen(pen)
-            pen = QPen(QColor(10, 255, 255))
-            pen.setWidth(3)
-            burnerOscillation.setPen(pen)
             pen = QPen(QColor(255, 10, 10))
             pen.setWidth(3)
             current.setPen(pen)
@@ -275,11 +257,10 @@ class UImodif(Ui_MainWindow):
 
             # данные
             x = np.linspace(0, duration, duration * fraqency + 1)
-            for x, y3, y4, y5, y6, y7, y8, y9 in zip(x, storchSpeed, sburnerOscillation, scurrent, svoltage, svoltageCorrection, swireSpeed, sgasConsumption):
+            for x, y3, y5, y6, y7, y8, y9 in zip(x, storchSpeed, scurrent, svoltage, svoltageCorrection, swireSpeed, sgasConsumption):
                 #gasCC.append(x, y)
                 #wireCC.append(x, y2)
                 torchSpeed.append(x, y3)
-                burnerOscillation.append(x, y4)
                 current.append(x, y5)
                 voltage.append(x, y6)
                 voltageCorrection.append(x, y7)
@@ -299,8 +280,6 @@ class UImodif(Ui_MainWindow):
                 self.chart.addSeries(gasCC)
             if self.torchSpeedchb.checkState():
                 self.chart.addSeries(torchSpeed)
-            if self.burnerOscillationchb.checkState():
-                self.chart.addSeries(burnerOscillation)
             if self.currentchb.checkState():
                 self.chart.addSeries(current)
             if self.voltagechb.checkState():
@@ -342,13 +321,23 @@ class UImodif(Ui_MainWindow):
         self.detailId.setText(str(seam.detailId))
         self.batchNumber.setText(str(seam.batchNumber))
         self.detailNumber.setText(str(seam.detailNumber))
-        self.authorizedUser.setText(seam.authorizedUser)
+        self.authorizedUser.setText(str(seam.authorizedUser))
         self.weldingProgram_2.setText(seam.weldingProgram)
         self.startTime.setText(str(seam.startTime)[:19])
         self.endTime.setText(str(seam.endTime)[:19])
         self.endStatus.setCheckState(
             QtCore.Qt.Checked if seam.endStatus else QtCore.Qt.Unchecked)
-        self.initChart(seam)
+        self.initChart(id)
+        GasCons = round(sum([1, 2]) * seam.period / 60, 3)
+        WireCons = round(sum([1,2])*seam.period/60, 1)
+        if seam.connId is None:
+            self.gasDelta.setText(str(GasCons)+" литров (реальный расход)")
+            self.wireDelta.setText(str(WireCons)+" см (реальный расход)")
+        else:
+            conn = Connection.get(Connection.id == seam.connId)
+            #conn.wireConsumption*conn.weldingTime
+            #conn.shieldingGasConsumption*conn.weldingTime
+
 
     def detailView(self, id):
         self.stackedWidget.setCurrentIndex(2)
@@ -472,67 +461,69 @@ class UImodif(Ui_MainWindow):
 
     #авторизация
     def login(self):
-        self.menubar.show()
-        self.stackedWidget.setCurrentIndex(4)
-        self.adpanel("detail")
-
-        self.users.setEnabled(False)
-
-        self.delDetImg.setEnabled(False)
-        self.addDetImg.setEnabled(False)
-        self.blueprinNumber.setEnabled(False)
-        self.detailName.setEnabled(False)
-        self.materialGrade.setEnabled(False)
-        self.weldingProgram.setEnabled(False)
-        self.addConnection.setEnabled(False)
-        self.saveChalenges.setEnabled(False)
-        self.HprocessingTime.setEnabled(False)
-        self.MprocessingTime.setEnabled(False)
-        self.SprocessingTime.setEnabled(False)
-
-        self.connId.setEnabled(False)
-        self.ctype.setEnabled(False)
-        self.thicknessOfElement.setEnabled(False)
-        self.jointBevelling.setEnabled(False)
-        self.seamDimensions.setEnabled(False)
-        self.fillerWireMark.setEnabled(False)
-        self.fillerWireDiam.setEnabled(False)
-        self.wireConsumption.setEnabled(False)
-        self.shieldingGasType.setEnabled(False)
-        self.shieldingGasConsumption.setEnabled(False)
-        self.programmName.setEnabled(False)
-        self.HweldingTime.setEnabled(False)
-        self.MweldingTime.setEnabled(False)
-        self.SweldingTime.setEnabled(False)
-        self.saveConn.setEnabled(False)
-        self.delConnImg.setEnabled(False)
-        self.newConnImg.setEnabled(False)
-
-        self.connId_2.setEnabled(False)
-        self.detailId.setEnabled(False)
-        self.batchNumber.setEnabled(False)
-        self.detailNumber.setEnabled(False)
-        self.authorizedUser.setEnabled(False)
-        self.weldingProgram_2.setEnabled(False)
-        self.startTime.setEnabled(False)
-        self.endTime.setEnabled(False)
-        self.endStatus.setEnabled(False)
-
-        self.addBtn.setEnabled(False)
-
-        self.delBtn.setEnabled(False)
-
-        """
         print(self.loginFld.text(), self.passFld.text())
         try:
             user = User.get(User.login == self.loginFld.text())
             if user.passWord == self.passFld.text():
                 self.stackedWidget.setCurrentIndex(4)
+                self.menubar.show()
+                self.AfUser = user
+                self.adpanel("detail")
+
+                """
+                accessArch = BooleanField(default=False)
+                """
+
+                self.users.setEnabled(user.accessUser)
+
+                self.delDetImg.setEnabled(user. accessDetail)
+                self.addDetImg.setEnabled(user. accessDetail)
+                self.blueprinNumber.setEnabled(user. accessDetail)
+                self.detailName.setEnabled(user. accessDetail)
+                self.materialGrade.setEnabled(user. accessDetail)
+                self.weldingProgram.setEnabled(user. accessDetail)
+                self.addConnection.setEnabled(user. accessDetail)
+                self.saveChalenges.setEnabled(user. accessDetail)
+                self.HprocessingTime.setEnabled(user. accessDetail)
+                self.MprocessingTime.setEnabled(user. accessDetail)
+                self.SprocessingTime.setEnabled(user. accessDetail)
+
+                self.connId.setEnabled(user.accessConn)
+                self.ctype.setEnabled(user.accessConn)
+                self.thicknessOfElement.setEnabled(user.accessConn)
+                self.jointBevelling.setEnabled(user.accessConn)
+                self.seamDimensions.setEnabled(user.accessConn)
+                self.fillerWireMark.setEnabled(user.accessConn)
+                self.fillerWireDiam.setEnabled(user.accessConn)
+                self.wireConsumption.setEnabled(user.accessConn)
+                self.shieldingGasType.setEnabled(user.accessConn)
+                self.shieldingGasConsumption.setEnabled(user.accessConn)
+                self.programmName.setEnabled(user.accessConn)
+                self.HweldingTime.setEnabled(user.accessConn)
+                self.MweldingTime.setEnabled(user.accessConn)
+                self.SweldingTime.setEnabled(user.accessConn)
+                self.saveConn.setEnabled(user.accessConn)
+                self.delConnImg.setEnabled(user.accessConn)
+                self.newConnImg.setEnabled(user.accessConn)
+
+                self.connId_2.setEnabled(user.accessProt)
+                self.detailId.setEnabled(user.accessProt)
+                self.batchNumber.setEnabled(user.accessProt)
+                self.detailNumber.setEnabled(user.accessProt)
+                self.authorizedUser.setEnabled(user.accessProt)
+                self.weldingProgram_2.setEnabled(user.accessProt)
+                self.startTime.setEnabled(user.accessProt)
+                self.endTime.setEnabled(user.accessProt)
+                self.endStatus.setEnabled(user.accessProt)
+
+                self.addBtn.setEnabled(user.accessAdd)
+
+                self.delBtn.setEnabled(user.accessRemove)
             else:
                 print("Неверный пароль")
         except:
             print("Логин не зарегистрирован")
-"""
+
 
     #####################################
 
@@ -616,11 +607,31 @@ class UImodif(Ui_MainWindow):
             self.realDetailTable()
         elif self.otype == "seams":
             self.seamTable()
+        elif self.otype == "equipments":
+            self.equipmentTable()
+
     #вывод табиц администрирования
+    def equipmentTable(self):
+        self.adPanelName.setText("Панель управления комплексами:")
+        self.tableWidget.setColumnCount(7)
+        self.tableWidget.setHorizontalHeaderLabels(
+            ["id", "Серийный номер", "Наименование", "Модель", "IP", "Порт", "Период"])
+        equipments = Equipment.select()
+        self.tableWidget.setRowCount(len(equipments))
+        for i in range(len(equipments)):
+            self.tableWidget.setItem(i, 0, twi(str(equipments[i].id)))
+            self.tableWidget.setItem(i, 1, twi(equipments[i].serialNumber))
+            self.tableWidget.setItem(i, 2, twi(equipments[i].name))
+            self.tableWidget.setItem(i, 3, twi(equipments[i].model))
+            self.tableWidget.setItem(i, 4, twi(equipments[i].ip))
+            self.tableWidget.setItem(i, 5, twi(equipments[i].port))
+            self.tableWidget.setItem(i, 6, twi(str(equipments[i].period)))
+        self.tableWidget.resizeColumnsToContents()
+
     def detailTable(self):
         self.adPanelName.setText("Панель управления чертежами:")
         self.tableWidget.setColumnCount(6)
-        self.tableWidget.setHorizontalHeaderLabels(["id", "Номер чертежа", "Наименование", "Марка материала","Программа сварки","Время обработки"])
+        self.tableWidget.setHorizontalHeaderLabels(["id", "Номер чертежа", "Наименование", "Марка материала","Программа сварки","Расчётное время"])
         details = Detail.select()
         self.tableWidget.setRowCount(len(details))
 
@@ -687,7 +698,7 @@ class UImodif(Ui_MainWindow):
         self.adPanelName.setText("Панель управления соединениями:")
         self.tableWidget.setColumnCount(11)
         self.tableWidget.setHorizontalHeaderLabels(
-            ["id", "Вид сварного соединения", "Толщина элементов (мм)", "Разделка кромок", "Размеры шва (мм)", "Марка/сечение проволоки (мм)", "Расход проволоки (см/мин)","Газ","Расход газа (л/мин)","Программа сварки","Рассчётное время"])
+            ["id", "Вид сварного соединения", "Толщина элементов (мм)", "Разделка кромок", "Размеры шва (мм)", "Марка/сечение проволоки (мм)", "Расход проволоки (см/мин)","Газ","Расход газа (л/мин)","Программа сварки","Расчётное время"])
         connections = Connection.select()
         self.tableWidget.setRowCount(len(connections))
         for i in range(len(connections)):
@@ -725,7 +736,7 @@ class UImodif(Ui_MainWindow):
             else:
                 self.tableWidget.setItem(i, 7, twi("Ошибка!"))
             self.tableWidget.setItem(i, 8, twi(seams[i].weldingProgram))
-            self.tableWidget.setItem(i, 9, twi(seams[i].authorizedUser))
+            self.tableWidget.setItem(i, 9, twi(str(seams[i].authorizedUser)))
         self.tableWidget.resizeColumnsToContents()
     #######################################
 
