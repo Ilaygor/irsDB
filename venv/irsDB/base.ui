@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1052</width>
-    <height>731</height>
+    <width>1072</width>
+    <height>762</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>5</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="protocol">
        <property name="sizePolicy">
@@ -86,18 +86,30 @@
             <item row="1" column="1">
              <widget class="QLineEdit" name="lineEdit_3">
               <property name="enabled">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QLineEdit" name="lineEdit_4"/>
+             <widget class="QLineEdit" name="lineEdit_4">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
             </item>
             <item row="3" column="1">
-             <widget class="QLineEdit" name="lineEdit_5"/>
+             <widget class="QLineEdit" name="lineEdit_5">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
             </item>
             <item row="4" column="1">
-             <widget class="QLineEdit" name="lineEdit_6"/>
+             <widget class="QLineEdit" name="lineEdit_6">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
             </item>
             <item row="5" column="0">
              <widget class="QLabel" name="label_56">
@@ -107,22 +119,26 @@
              </widget>
             </item>
             <item row="5" column="1">
-             <widget class="QLineEdit" name="lineEdit_8"/>
+             <widget class="QLineEdit" name="lineEdit_8">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QToolButton" name="chooseEqvipment">
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
           <item>
-           <layout class="QFormLayout" name="formLayout_3">
+           <layout class="QGridLayout" name="gridLayout_7">
             <property name="sizeConstraint">
              <enum>QLayout::SetMinimumSize</enum>
             </property>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_12">
-              <property name="text">
-               <string>Шов</string>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_13">
               <property name="text">
@@ -130,10 +146,10 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_15">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_12">
               <property name="text">
-               <string>Время начала:</string>
+               <string>Шов</string>
               </property>
              </widget>
             </item>
@@ -144,12 +160,43 @@
               </property>
              </widget>
             </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="weldingProgram_2">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
             <item row="4" column="0">
              <widget class="QLabel" name="label_17">
               <property name="text">
                <string>Завершён успешно:</string>
               </property>
              </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_24">
+              <property name="text">
+               <string>Тип колебаний:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_15">
+              <property name="text">
+               <string>Время начала:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_57">
+              <property name="text">
+               <string>Период снятия:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="lineEdit_9"/>
             </item>
             <item row="4" column="1">
              <widget class="QCheckBox" name="endStatus">
@@ -161,42 +208,53 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="weldingProgram_2"/>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="endTime"/>
             </item>
             <item row="2" column="1">
              <widget class="QLineEdit" name="startTime"/>
             </item>
-            <item row="3" column="1">
-             <widget class="QLineEdit" name="endTime"/>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_24">
-              <property name="text">
-               <string>Тип колебаний:</string>
-              </property>
-             </widget>
-            </item>
             <item row="5" column="1">
-             <widget class="QLineEdit" name="lineEdit_7"/>
-            </item>
-            <item row="6" column="1">
-             <widget class="QLineEdit" name="lineEdit_9"/>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="label_57">
-              <property name="text">
-               <string>Период снятия:</string>
-              </property>
-             </widget>
+             <widget class="QComboBox" name="comboBox_2"/>
             </item>
            </layout>
           </item>
           <item>
-           <layout class="QFormLayout" name="formLayout_5">
+           <layout class="QGridLayout" name="gridLayout_6">
             <property name="sizeConstraint">
              <enum>QLayout::SetMinimumSize</enum>
             </property>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="detailNumber"/>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="detailId">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_30">
+              <property name="text">
+               <string>Соединение:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="connId_2">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_37">
+              <property name="text">
+               <string>Деталь:</string>
+              </property>
+             </widget>
+            </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_35">
               <property name="text">
@@ -211,17 +269,13 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_37">
-              <property name="text">
-               <string>Деталь:</string>
-              </property>
-             </widget>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="batchNumber"/>
             </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_59">
-              <property name="text">
-               <string>Пользователь:</string>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="authorizedUser">
+              <property name="enabled">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -232,29 +286,59 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_30">
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_59">
               <property name="text">
-               <string>Соединение:</string>
+               <string>Пользователь:</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="batchNumber"/>
+            <item row="3" column="2">
+             <widget class="QToolButton" name="chooseUser">
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
             </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="detailNumber"/>
+            <item row="4" column="2">
+             <widget class="QToolButton" name="chooseBlueprint">
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
             </item>
-            <item row="3" column="1">
-             <widget class="QLineEdit" name="authorizedUser"/>
-            </item>
-            <item row="4" column="1">
-             <widget class="QLineEdit" name="detailId"/>
-            </item>
-            <item row="5" column="1">
-             <widget class="QLineEdit" name="connId_2"/>
+            <item row="5" column="2">
+             <widget class="QToolButton" name="chooseConn">
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
             </item>
            </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_14">
+          <item>
+           <spacer name="horizontalSpacer_12">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_6">
+            <property name="text">
+             <string>Сохранить изменения</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -350,6 +434,20 @@
             <height>350</height>
            </size>
           </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBox">
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>2</string>
+           </property>
+          </item>
          </widget>
         </item>
         <item>
@@ -587,173 +685,188 @@ p, li { white-space: pre-wrap; }
       <widget class="QWidget" name="deteilView">
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_6">
-          <property name="sizeConstraint">
-           <enum>QLayout::SetDefaultConstraint</enum>
-          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_16">
           <item>
-           <layout class="QFormLayout" name="formLayout_6">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_5">
-              <property name="text">
-               <string>Описание детали:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_6">
-              <property name="text">
-               <string>Номер чертежа:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="blueprinNumber">
-              <property name="toolTip">
-               <string>Номер чертежа детали</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_7">
-              <property name="text">
-               <string>Название:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="detailName">
-              <property name="toolTip">
-               <string>Наименование детали</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_8">
-              <property name="text">
-               <string>Марка мателиала:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLineEdit" name="materialGrade">
-              <property name="toolTip">
-               <string>Марка материала детали</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="label_38">
-              <property name="text">
-               <string>Программа сварки:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QLineEdit" name="weldingProgram">
-              <property name="toolTip">
-               <string>Наименование программы сварки детали</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_39">
-              <property name="text">
-               <string>Время обработки (расчетное ):</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <layout class="QHBoxLayout" name="horizontalLayout_9">
-              <item>
-               <widget class="QLabel" name="label_31">
-                <property name="text">
-                 <string>Ч</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="HprocessingTime"/>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_32">
-                <property name="text">
-                 <string>М</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="MprocessingTime">
-                <property name="maximum">
-                 <number>59</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_33">
-                <property name="text">
-                 <string>С</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="SprocessingTime">
-                <property name="maximum">
-                 <number>59</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="6" column="1">
-             <widget class="QLabel" name="label_11">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="1">
-             <widget class="QLabel" name="label_58">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_5">
-            <item>
-             <layout class="QGridLayout" name="gridLayout_2">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_9">
-                <property name="text">
-                 <string>Сварные соединения</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QTableWidget" name="detailsConnections"/>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QPushButton" name="addConnection">
-              <property name="text">
-               <string>Присвоить соединение</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QPushButton" name="saveChalenges">
-            <property name="text">
-             <string>Сохранить изменения</string>
+           <widget class="QWidget" name="widget" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetFixedSize</enum>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <layout class="QFormLayout" name="formLayout_6">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_5">
+                 <property name="text">
+                  <string>Описание детали:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
+                  <string>Номер чертежа:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="blueprinNumber">
+                 <property name="toolTip">
+                  <string>Номер чертежа детали</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_7">
+                 <property name="text">
+                  <string>Название:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="detailName">
+                 <property name="toolTip">
+                  <string>Наименование детали</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>Марка мателиала:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="materialGrade">
+                 <property name="toolTip">
+                  <string>Марка материала детали</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_38">
+                 <property name="text">
+                  <string>Программа сварки:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QLineEdit" name="weldingProgram">
+                 <property name="toolTip">
+                  <string>Наименование программы сварки детали</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_39">
+                 <property name="text">
+                  <string>Время обработки (расчетное ):</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                 <item>
+                  <widget class="QLabel" name="label_31">
+                   <property name="text">
+                    <string>Ч</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="HprocessingTime"/>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_32">
+                   <property name="text">
+                    <string>М</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="MprocessingTime">
+                   <property name="maximum">
+                    <number>59</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_33">
+                   <property name="text">
+                    <string>С</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="SprocessingTime">
+                   <property name="maximum">
+                    <number>59</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="6" column="1">
+                <widget class="QLabel" name="label_11">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="1">
+                <widget class="QLabel" name="label_58">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_14">
+               <item>
+                <layout class="QGridLayout" name="gridLayout_5">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_28">
+                   <property name="text">
+                    <string>Сварные соединения</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QTableWidget" name="detailsConnections_2"/>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QPushButton" name="addConnection_2">
+                 <property name="text">
+                  <string>Присвоить соединение</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QPushButton" name="saveChalenges">
+               <property name="text">
+                <string>Сохранить изменения</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>
@@ -890,6 +1003,9 @@ p, li { white-space: pre-wrap; }
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_10">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetFixedSize</enum>
+          </property>
           <item>
            <layout class="QFormLayout" name="formLayout_7">
             <item row="0" column="0">
@@ -975,14 +1091,14 @@ p, li { white-space: pre-wrap; }
             <item row="7" column="0">
              <widget class="QLabel" name="label_50">
               <property name="text">
-               <string>Диаметр проволоки:</string>
+               <string>Сечение проволоки:</string>
               </property>
              </widget>
             </item>
             <item row="8" column="0">
              <widget class="QLabel" name="label_51">
               <property name="text">
-               <string>Расход проволоки:</string>
+               <string>Расход проволоки [см/мин]:</string>
               </property>
              </widget>
             </item>
@@ -1010,7 +1126,7 @@ p, li { white-space: pre-wrap; }
             <item row="10" column="0">
              <widget class="QLabel" name="label_53">
               <property name="text">
-               <string>Расход газа:</string>
+               <string>Расход газа [л/мин]:</string>
               </property>
              </widget>
             </item>
@@ -1038,7 +1154,7 @@ p, li { white-space: pre-wrap; }
             <item row="12" column="0">
              <widget class="QLabel" name="label_55">
               <property name="text">
-               <string>Время сварки:</string>
+               <string>Расчётное время:</string>
               </property>
              </widget>
             </item>
@@ -1093,7 +1209,7 @@ p, li { white-space: pre-wrap; }
             <item row="13" column="0">
              <widget class="QLabel" name="label_40">
               <property name="text">
-               <string>Частота сбора данных:</string>
+               <string>Частота сбора данных [с]:</string>
               </property>
              </widget>
             </item>
@@ -1201,6 +1317,19 @@ p, li { white-space: pre-wrap; }
          </layout>
         </item>
         <item>
+         <spacer name="horizontalSpacer_13">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
          <spacer name="horizontalSpacer_5">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -1285,6 +1414,9 @@ p, li { white-space: pre-wrap; }
        <layout class="QHBoxLayout" name="horizontalLayout_13">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_13">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetFixedSize</enum>
+          </property>
           <item>
            <widget class="QLabel" name="label_46">
             <property name="text">
@@ -1474,7 +1606,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1052</width>
+     <width>1072</width>
      <height>26</height>
     </rect>
    </property>

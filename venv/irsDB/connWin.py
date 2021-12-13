@@ -16,7 +16,7 @@ from PyQt5.QtWidgets import QTableWidgetItem as twi
 class Ui_connAdd(object):
     def setupUi(self, connAdd):
         connAdd.setObjectName("connAdd")
-        connAdd.resize(400, 300)
+        connAdd.resize(800, 300)
         self.verticalLayout = QtWidgets.QVBoxLayout(connAdd)
         self.verticalLayout.setObjectName("verticalLayout")
         self.listOfConn = QtWidgets.QTableWidget(connAdd)
@@ -34,35 +34,38 @@ class Ui_connAdd(object):
         self.retranslateUi(connAdd)
         QtCore.QMetaObject.connectSlotsByName(connAdd)
 
-        self.listOfConn.setColumnCount(11)
+        self.listOfConn.setColumnCount(12)
         self.listOfConn.setHorizontalHeaderLabels(
-            ["id", "Вид сварного соединения", "Толщина элементов (мм)", "Разделка кромок", "Размеры шва (мм)",
+            ["id", "Присвоено", "Вид сварного соединения", "Толщина элементов (мм)", "Разделка кромок", "Размеры шва (мм)",
              "Марка/сечение проволоки (мм)", "Расход проволоки (см/мин)", "Газ", "Расход газа (л/мин)",
              "Программа сварки", "Рассчётное время"])
+        self.listOfConn.hideColumn(0)
         connections = Connection.select()
         self.listOfConn.setRowCount(len(connections))
         for i in range(len(connections)):
             self.listOfConn.setItem(i, 0, twi(str(connections[i].id)))
-            self.listOfConn.setItem(i, 1, twi(connections[i].ctype))
-            self.listOfConn.setItem(i, 2, twi(connections[i].thicknessOfElement))
-            self.listOfConn.setItem(i, 3, twi(connections[i].jointBevelling))
-            self.listOfConn.setItem(i, 4, twi(connections[i].seamDimensions))
-            self.listOfConn.setItem(i, 5,
+            self.listOfConn.setItem(i, 2, twi(connections[i].ctype))
+            self.listOfConn.setItem(i, 3, twi(connections[i].thicknessOfElement))
+            self.listOfConn.setItem(i, 4, twi(connections[i].jointBevelling))
+            self.listOfConn.setItem(i, 5, twi(connections[i].seamDimensions))
+            self.listOfConn.setItem(i, 6,
                                      twi(connections[i].fillerWireMark + '/' + str(connections[i].fillerWireDiam)))
-            self.listOfConn.setItem(i, 6, twi(str(connections[i].wireConsumption)))
-            self.listOfConn.setItem(i, 7, twi(connections[i].shieldingGasType))
-            self.listOfConn.setItem(i, 8, twi(str(connections[i].shieldingGasConsumption)))
-            self.listOfConn.setItem(i, 9, twi(connections[i].programmName))
-            self.listOfConn.setItem(i, 10, twi(str(connections[i].weldingTime)))
+            self.listOfConn.setItem(i, 7, twi(str(connections[i].wireConsumption)))
+            self.listOfConn.setItem(i, 8, twi(connections[i].shieldingGasType))
+            self.listOfConn.setItem(i, 9, twi(str(connections[i].shieldingGasConsumption)))
+            self.listOfConn.setItem(i, 10, twi(connections[i].programmName))
+            self.listOfConn.setItem(i, 11, twi(str(connections[i].weldingTime)))
         self.listOfConn.resizeColumnsToContents()
         self.addButton.clicked.connect(lambda: self.add(connAdd.detId))
 
     def add(self,id):
         print("add", id)
         conId = int(self.listOfConn.item(self.listOfConn.currentRow(), 0).text())
-        DetConn(
-        connId = conId,
-        detailId = id).save()
+        countInDb = len(DetConn.select().where((DetConn.detailId == id) & (DetConn.connId == conId)))
+        if countInDb == 0:
+            DetConn(
+            connId = conId,
+            detailId = id).save()
 
     def retranslateUi(self, connAdd):
         _translate = QtCore.QCoreApplication.translate

@@ -11,6 +11,7 @@ import peewee
 from models import *
 from GUI import *
 from connWin import *
+from selectUI import *
 import sys
 import datetime
 from io import BytesIO
@@ -40,7 +41,15 @@ class UImodif(Ui_MainWindow):
         #self.makePdf.clicked.connect(lambda: print("pdf"))
         self.saveBtn.clicked.connect(self.save)
         self.delBtn.clicked.connect(self.dell)
-        self.addConnection.clicked.connect(lambda: MainWindow.addConnDia(self.curId))
+        self.addConnection_2.clicked.connect(lambda: MainWindow.addConnDia(self.curId))
+
+        #выбор данных шва
+        self.chooseEqvipment.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId))
+        self.chooseOscilation.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId))
+        self.chooseUser.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId))
+        self.chooseBlueprint.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId))
+        self.chooseConn.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId))
+
 
         # действия с изображениями
         self.addDetImg.clicked.connect(lambda: self.newImg(self.DetImg))
@@ -358,6 +367,15 @@ class UImodif(Ui_MainWindow):
         detImg = bi.unzip(self.imgs)
         self.curImg = 0
         self.veiwImg(self.DetImg)
+        detCons = DetConn.select().where(DetConn.detailId == id)
+        self.detailsConnections_2.setColumnCount(2)
+        self.detailsConnections_2.setHorizontalHeaderLabels(
+            ["id", "Наименование"])
+        self.detailsConnections_2.setRowCount(len(detCons))
+        for i in range(len(detCons)):
+            self.detailsConnections_2.setItem(i, 0, twi(str(detCons[i].id)))
+            self.detailsConnections_2.setItem(i, 1, twi(str(detCons[i].connId)))
+
 
     def ConnView(self, id):
         self.stackedWidget.setCurrentIndex(3)
@@ -696,9 +714,9 @@ class UImodif(Ui_MainWindow):
 
     def connectTable(self):
         self.adPanelName.setText("Панель управления соединениями:")
-        self.tableWidget.setColumnCount(11)
+        self.tableWidget.setColumnCount(12)
         self.tableWidget.setHorizontalHeaderLabels(
-            ["id", "Вид сварного соединения", "Толщина элементов (мм)", "Разделка кромок", "Размеры шва (мм)", "Марка/сечение проволоки (мм)", "Расход проволоки (см/мин)","Газ","Расход газа (л/мин)","Программа сварки","Расчётное время"])
+            ["id", "Вид соединения", "Толщина элементов", "Разделка кромок", "Размеры шва с допусками", "Марка/сечение проволоки", "Расход проволоки [см/мин]","Защитный газ","Расход газа [л/мин]","Программа сварки","Расчётное время","Предпочтительное частота сбора данных [с]"])
         connections = Connection.select()
         self.tableWidget.setRowCount(len(connections))
         for i in range(len(connections)):
@@ -713,6 +731,7 @@ class UImodif(Ui_MainWindow):
             self.tableWidget.setItem(i, 8, twi(str(connections[i].shieldingGasConsumption)))
             self.tableWidget.setItem(i, 9, twi(connections[i].programmName))
             self.tableWidget.setItem(i, 10, twi(str(connections[i].weldingTime)))
+            self.tableWidget.setItem(i, 11, twi(str(connections[i].preferredPeriod)))
         self.tableWidget.resizeColumnsToContents()
 
     def seamTable(self):
@@ -751,6 +770,9 @@ class MWin(QtWidgets.QMainWindow):
         self.dialog.detId = id
         self.dialog.show()
 
+    def chooseDataDia(self, id):
+        self.dialog = chooseData(id)
+        self.dialog.show()
 
 
 class AddConn(QtWidgets.QWidget):
@@ -759,6 +781,77 @@ class AddConn(QtWidgets.QWidget):
         super().__init__()
         self.ui = Ui_connAdd()
         self.ui.setupUi(self)
+
+
+class chooseData(QtWidgets.QWidget):
+    seamId = 0
+    dataType = 'connection'
+    def __init__(self, id):
+        super().__init__()
+        self.seamId = id
+        self.ui = Ui_Form()
+        self.ui.setupUi(self)
+        if self.dataType == 'user':
+            self.ui.chooseTable.setColumnCount(3)
+            self.ui.chooseTable.setHorizontalHeaderLabels(
+                ["id", "Логин", "Имя"])
+            users = User.select()
+            self.ui.chooseTable.setRowCount(len(users))
+            for i in range(len(users)):
+                print(users[i].name)
+                self.ui.chooseTable.setItem(i, 0, twi(str(users[i].id)))
+                self.ui.chooseTable.setItem(i, 1, twi(users[i].login))
+                self.ui.chooseTable.setItem(i, 2, twi(users[i].name))
+        elif self.dataType == 'eqvipment':
+            self.ui.chooseTable.setColumnCount(5)
+            self.ui.chooseTable.setHorizontalHeaderLabels(
+                ["id", "Серийный номер", "Наименование", "Модель", "IP"])
+            equipments = Equipment.select()
+            self.ui.chooseTable.setRowCount(len(equipments))
+            for i in range(len(equipments)):
+                self.ui.chooseTable.setItem(i, 0, twi(str(equipments[i].id)))
+                self.ui.chooseTable.setItem(i, 1, twi(equipments[i].serialNumber))
+                self.ui.chooseTable.setItem(i, 2, twi(equipments[i].name))
+                self.ui.chooseTable.setItem(i, 3, twi(equipments[i].model))
+                self.ui.chooseTable.setItem(i, 4, twi(equipments[i].ip))
+        elif self.dataType == 'blueprint':
+            self.ui.chooseTable.setColumnCount(6)
+            self.ui.chooseTable.setHorizontalHeaderLabels(
+                ["id", "Номер чертежа", "Наименование", "Марка материала", "Программа сварки", "Расчётное время"])
+            details = Detail.select()
+            self.ui.chooseTable.setRowCount(len(details))
+
+            for i in range(len(details)):
+                self.ui.chooseTable.setItem(i, 0, twi(str(details[i].id)))
+                self.ui.chooseTable.setItem(i, 1, twi(details[i].blueprinNumber))
+                self.ui.chooseTable.setItem(i, 2, twi(details[i].detailName))
+                self.ui.chooseTable.setItem(i, 3, twi(details[i].materialGrade))
+                self.ui.chooseTable.setItem(i, 4, twi(details[i].weldingProgram))
+                self.ui.chooseTable.setItem(i, 5, twi(str(details[i].processingTime)))
+        elif self.dataType == 'connection':
+            self.ui.chooseTable.setColumnCount(7)
+            self.ui.chooseTable.setHorizontalHeaderLabels(
+                ["id", "Вид соединения", "Толщина элементов", "Разделка кромок", "Размеры шва с допусками",
+                 "Марка/сечение проволоки", "Защитный газ"])
+            seam = Seam.get(Seam.id == self.seamId)
+            print(seam)
+            if seam.detailId is not None:
+                connections = Connection.select().join(DetConn).where(DetConn.detailId == seam.detailId)
+                print(connections)
+                self.ui.chooseTable.setRowCount(len(connections))
+                for i in range(len(connections)):
+                    self.ui.chooseTable.setItem(i, 0, twi(str(connections[i].id)))
+                    self.ui.chooseTable.setItem(i, 1, twi(connections[i].ctype))
+                    self.ui.chooseTable.setItem(i, 2, twi(connections[i].thicknessOfElement))
+                    self.ui.chooseTable.setItem(i, 3, twi(connections[i].jointBevelling))
+                    self.ui.chooseTable.setItem(i, 4, twi(connections[i].seamDimensions))
+                    self.ui.chooseTable.setItem(i, 5,
+                                             twi(connections[i].fillerWireMark + '/' + str(connections[i].fillerWireDiam)))
+                    self.ui.chooseTable.setItem(i, 6, twi(connections[i].shieldingGasType))
+        self.ui.chooseTable.resizeColumnsToContents()
+
+
+
 
 
 app = QtWidgets.QApplication(sys.argv)

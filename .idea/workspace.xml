@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="36008499-1f64-4380-b3f6-8d904b9280fa" name="Default Changelist" comment="" />
+    <list default="true" id="36008499-1f64-4380-b3f6-8d904b9280fa" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/irsDB/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/GUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/irsDB/IRSwelding.db" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/IRSwelding.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/irsDB/base.ui" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/base.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/irsDB/connWin.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/connWin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/irsDB/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,7 +24,14 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/irsarch" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="D:\irsDB\.idea" />
+      </set>
+    </option>
   </component>
   <component name="ProjectId" id="20gmbqCNdm8lwHqrMEVJofgegIl" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -26,11 +42,12 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/venv/irsDB/models.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.pdfGenerator">
-    <configuration name="archivate" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="experimental" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="irsDB" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -42,7 +59,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/venv/irsDB/archivate.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/venv/irsDB/experimental.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -137,11 +154,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.pdfGenerator" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.pdfGenerator" />
+        <item itemvalue="Python.experimental" />
         <item itemvalue="Python.gui" />
         <item itemvalue="Python.httpServer" />
-        <item itemvalue="Python.archivate" />
       </list>
     </recent_temporary>
   </component>
@@ -159,43 +176,134 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state x="514" y="215" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1638207046748">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="514" y="215" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1638207046748" />
+    <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1636998545818">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1636998545818" />
     <state x="2212" y="318" key="FileChooserDialogImpl" timestamp="1636552118978">
       <screen x="1920" y="199" width="1024" height="728" />
     </state>
     <state x="2212" y="318" key="FileChooserDialogImpl/0.0.1536.824/1920.199.1024.728@1920.199.1024.728" timestamp="1636552118978" />
-    <state width="900" height="108" key="GridCell.Tab.0.bottom" timestamp="1636973111769">
+    <state x="-1121" y="386" key="Github.ShareDialog" timestamp="1637009365051">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1121" y="386" key="Github.ShareDialog/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1637009365051" />
+    <state x="639" y="306" key="Github.ShareDialog/0.0.1536.824@0.0.1536.824" timestamp="1636976689982" />
+    <state width="1107" height="241" key="GridCell.Tab.0.bottom" timestamp="1639384367011">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state width="747" height="259" key="GridCell.Tab.0.bottom/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1637009247899" />
+    <state width="1109" height="241" key="GridCell.Tab.0.bottom/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1639360640224" />
     <state width="901" height="129" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.199.1024.728@0.0.1536.824" timestamp="1636745508812" />
     <state width="595" height="108" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.199.1024.728@1920.199.1024.728" timestamp="1636820919519" />
-    <state width="900" height="108" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1636973111769" />
-    <state width="900" height="108" key="GridCell.Tab.0.center" timestamp="1636973111769">
+    <state width="1107" height="241" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1639384367011" />
+    <state width="1107" height="241" key="GridCell.Tab.0.center" timestamp="1639384367011">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state width="747" height="259" key="GridCell.Tab.0.center/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1637009247899" />
+    <state width="1109" height="241" key="GridCell.Tab.0.center/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1639360640224" />
     <state width="901" height="129" key="GridCell.Tab.0.center/0.0.1536.824/1920.199.1024.728@0.0.1536.824" timestamp="1636745508812" />
     <state width="595" height="108" key="GridCell.Tab.0.center/0.0.1536.824/1920.199.1024.728@1920.199.1024.728" timestamp="1636820919519" />
-    <state width="900" height="108" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1636973111769" />
-    <state width="900" height="108" key="GridCell.Tab.0.left" timestamp="1636973111769">
+    <state width="1107" height="241" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1639384367011" />
+    <state width="1107" height="241" key="GridCell.Tab.0.left" timestamp="1639384367011">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state width="747" height="259" key="GridCell.Tab.0.left/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1637009247899" />
+    <state width="1109" height="241" key="GridCell.Tab.0.left/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1639360640224" />
     <state width="901" height="129" key="GridCell.Tab.0.left/0.0.1536.824/1920.199.1024.728@0.0.1536.824" timestamp="1636745508812" />
     <state width="595" height="108" key="GridCell.Tab.0.left/0.0.1536.824/1920.199.1024.728@1920.199.1024.728" timestamp="1636820919519" />
-    <state width="900" height="108" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1636973111769" />
-    <state width="900" height="108" key="GridCell.Tab.0.right" timestamp="1636973111769">
+    <state width="1107" height="241" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1639384367011" />
+    <state width="1107" height="241" key="GridCell.Tab.0.right" timestamp="1639384367011">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state width="747" height="259" key="GridCell.Tab.0.right/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1637009247899" />
+    <state width="1109" height="241" key="GridCell.Tab.0.right/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1639360640224" />
     <state width="901" height="129" key="GridCell.Tab.0.right/0.0.1536.824/1920.199.1024.728@0.0.1536.824" timestamp="1636745508812" />
     <state width="595" height="108" key="GridCell.Tab.0.right/0.0.1536.824/1920.199.1024.728@1920.199.1024.728" timestamp="1636820919519" />
-    <state width="900" height="108" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1636973111769" />
-    <state x="1946" y="212" key="SettingsEditor" timestamp="1636815495794">
-      <screen x="1920" y="199" width="1024" height="728" />
+    <state width="1107" height="241" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1639384367011" />
+    <state width="1107" height="241" key="GridCell.Tab.1.bottom" timestamp="1639384376432">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1109" height="241" key="GridCell.Tab.1.bottom/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1639360782779" />
+    <state width="1107" height="241" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1639384376432" />
+    <state width="1107" height="241" key="GridCell.Tab.1.center" timestamp="1639384376431">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1109" height="241" key="GridCell.Tab.1.center/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1639360782779" />
+    <state width="1107" height="241" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1639384376431" />
+    <state width="1107" height="241" key="GridCell.Tab.1.left" timestamp="1639384376431">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1109" height="241" key="GridCell.Tab.1.left/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1639360782779" />
+    <state width="1107" height="241" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1639384376431" />
+    <state width="1107" height="241" key="GridCell.Tab.1.right" timestamp="1639384376432">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1109" height="241" key="GridCell.Tab.1.right/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1639360782779" />
+    <state width="1107" height="241" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1639384376432" />
+    <state x="39" y="15" key="SettingsEditor" timestamp="1638834207442">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="55" key="SettingsEditor/0.0.1536.824/1920.199.1024.728@0.0.1536.824" timestamp="1636549269126" />
     <state x="1946" y="212" key="SettingsEditor/0.0.1536.824/1920.199.1024.728@1920.199.1024.728" timestamp="1636815495794" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1636552197808">
+    <state x="39" y="15" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1638834207442" />
+    <state x="58" y="203" key="Vcs.Push.Dialog.v2" timestamp="1639077143520">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="-1848" y="256" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1637009649114" />
+    <state x="58" y="203" key="Vcs.Push.Dialog.v2/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1638792702337" />
+    <state x="58" y="203" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1639077143520" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1639353456017">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1639353456017" />
     <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824/1920.199.1024.728@0.0.1536.824" timestamp="1636552197808" />
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1636474710272" />
+    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1637571146919" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1638717800387">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1638717800387" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/main.py</url>
+          <line>570</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/main.py</url>
+          <line>549</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/main.py</url>
+          <line>380</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/connWin.py</url>
+          <line>61</line>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/main.py</url>
+          <line>830</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
