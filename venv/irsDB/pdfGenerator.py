@@ -25,12 +25,12 @@ class CustomPDF(FPDF):
 
 
 def addSeam(pdf, seam):
-    pdf.cell(200, 5, txt="Тип соединения: " + str(seam.connId), ln=1, align="L")
+    pdf.cell(200, 5, txt="Тип соединения: " + (str(seam.connId) if seam.connId is not None else "не присвоено"), ln=1, align="L")
     pdf.cell(200, 5, txt="Программа сварки: " + seam.weldingProgram, ln=1, align="L")
     pdf.cell(200, 5, txt="Время начала сварки: " + str(seam.startTime)[:19], ln=1, align="L")
     pdf.cell(200, 5, txt="Время окнчания сварки: " + str(seam.endTime)[:19], ln=1, align="L")
     pdf.cell(200, 5, txt="Период снятия данных: " + str(seam.period) + " c", ln=1, align="L")
-    pdf.cell(200, 5, txt="Колебания: " + str(seam.burnerOscillation), ln=1, align="L")
+    pdf.cell(200, 5, txt="Колебания: " + (str(seam.burnerOscillation) if seam.burnerOscillation is not None else "не присвоено"), ln=1, align="L")
 
     plt.title("Линейная скорость движения горелки по стыку")
     plt.xlabel("Время (с)")
@@ -125,23 +125,23 @@ def create_periodPdf(pdf_path, start, end):
     pdf.set_font('DejaVu', '', 12)
     seams = Seam.select().where(Seam.startTime.between(start, end))
     for seam in seams:
+        pdf.start_section(str(seam.batchNumber)+str(seam.detailNumber)+str(seam.connId), level = 0)
         pdf.cell(200, 5, txt="Партия №: " + str(seam.batchNumber), ln=1, align="L")
         pdf.cell(200, 5, txt="№ детали в партии: " + str(seam.detailNumber), ln=1, align="L")
-        pdf.cell(200, 5, txt="Тип детали: " + str(seam.detailId), ln=1, align="L")
-        pdf.cell(200, 5, txt="Произведено на: " + str(seam.equipmentId), ln=1, align="L")
-        pdf.cell(200, 5, txt="Авторизованный пользователь: " + str(seam.authorizedUser), ln=1, align="L")
+        pdf.cell(200, 5, txt="Тип детали: " + (str(seam.detailId) if seam.detailId is not None else "не присвоено"), ln=1, align="L")
+        pdf.cell(200, 5, txt="Произведено на: " + (str(seam.equipmentId) if seam.equipmentId is not None else "не присвоено"), ln=1, align="L")
+        pdf.cell(200, 5, txt="Авторизованный пользователь: " + (str(seam.authorizedUser) if seam.authorizedUser is not None else "не присвоено"), ln=1, align="L")
         addSeam(pdf, seam)
         pdf.add_page()
-
-    pdf.output(pdf_path)
+    pdf.output(pdf_path + '/Отчёт за период ' + str(start).replace(':','_') +' '+ str(end).replace(':','_') + '.pdf')
 
 
 
 if __name__ == '__main__':
     start = datetime.date(1940, 1, 1)
     end = datetime.date(2023, 1, 1)
-    #create_periodPdf('отчёт за перод.pdf', start, end)
-    create_pdf('отчёт по детали.pdf', 1, 2)
+    create_periodPdf('', start, end)
+    #create_pdf('отчёт по детали.pdf', 1, 2)
     """d1940 = datetime.date(1940, 1, 1)
     d1960 = datetime.date(2023, 1, 1)
     print("try")

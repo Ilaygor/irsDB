@@ -71,8 +71,8 @@ class Seam(BaseModel):
     connId = ForeignKeyField(Connection, null=True)
     detailId = ForeignKeyField(Detail, null=True)
     equipmentId = ForeignKeyField(Equipment, null=True)
-    batchNumber = IntegerField()
-    detailNumber = IntegerField()
+    batchNumber = IntegerField()#заменить
+    detailNumber = IntegerField()#заменить
     authorizedUser = ForeignKeyField(User, null=True)
     weldingProgram = CharField()
     startTime = DateTimeField()

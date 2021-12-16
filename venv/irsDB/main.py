@@ -6,12 +6,14 @@ from PyQt5.QtCore import QPoint, QPointF
 from PyQt5.Qt import QPen, QFont, Qt, QSize
 from PyQt5.QtGui import QColor, QBrush, QPainter, QMouseEvent
 from PIL import Image, ImageQt
+import pdfGenerator as pg
 import numpy as np
 import peewee
 from models import *
 from GUI import *
 from connWin import *
 from selectUI import *
+from timePdf import *
 import sys
 import datetime
 from io import BytesIO
@@ -42,13 +44,13 @@ class UImodif(Ui_MainWindow):
         self.saveBtn.clicked.connect(self.save)
         self.delBtn.clicked.connect(self.dell)
         self.addConnection_2.clicked.connect(lambda: MainWindow.addConnDia(self.curId))
+        self.actionback.triggered.connect(lambda: self.redirect(4))
 
         #выбор данных шва
-        self.chooseEqvipment.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId))
-        self.chooseOscilation.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId))
-        self.chooseUser.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId))
-        self.chooseBlueprint.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId))
-        self.chooseConn.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId))
+        self.chooseEqvipment.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId, 'eqvipment'))
+        self.chooseUser.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId, 'user'))
+        self.chooseBlueprint.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId, 'blueprint'))
+        self.chooseConn.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId, 'connection'))
 
 
         # действия с изображениями
@@ -72,7 +74,9 @@ class UImodif(Ui_MainWindow):
         self.makeArch.triggered.connect(self.ar)
         self.chooseArch.triggered.connect(self.chArch)
         self.equipments.triggered.connect(lambda: self.adpanel("equipments"))
-        self.actionback.triggered.connect(lambda: self.redirect(4))
+        self.timePdf.triggered.connect(MainWindow.timePdfDia)
+        self.oscTypeTable.triggered.connect(lambda: self.adpanel("oscilation"))
+
 
 
         self.tableWidget.doubleClicked.connect(self.doubleClick)
@@ -219,10 +223,9 @@ class UImodif(Ui_MainWindow):
             # вывод данных на график
             # рассчётные значения
             wireCC = QLineSeries()
-            wireCC.setName("Рассчётный расход проволоки")
-            #wireCC.pressed.connect(self.on_pressed)
+            wireCC.setName("Расчётный расход проволоки")
             gasCC = QLineSeries()
-            gasCC.setName("Рассчётный расход газа")
+            gasCC.setName("Расчётный расход газа")
             # реальные показатели
             # обявления
             torchSpeed = QLineSeries()
@@ -232,7 +235,7 @@ class UImodif(Ui_MainWindow):
             voltage = QLineSeries()
             voltage.setName("Напряжение")
             voltageCorrection = QLineSeries()
-            voltageCorrection.setName("Коррекция напряжения")
+            voltageCorrection.setName("Коррекция U")
             wireSpeed = QLineSeries()
             wireSpeed.setName("Скорость подачи проволоки")
             gasConsumption = QLineSeries()
@@ -326,16 +329,37 @@ class UImodif(Ui_MainWindow):
         self.stackedWidget.setCurrentIndex(0)
         seam = Seam.get(Seam.id == id)
         print("its work", seam)
-        self.connId_2.setText(str(seam.connId))
-        self.detailId.setText(str(seam.detailId))
+        try:
+            eqv = Equipment.get(Equipment.id == seam.equipmentId)
+            self.serialNumber.setText(eqv.serialNumber)
+            self.eqvName.setText(eqv.name)
+            self.eqvModel.setText(eqv.model)
+            self.eqvIPadress.setText(eqv.ip)
+            self.eqvPort.setText(eqv.port)
+        except: pass
+        try:
+            conn = Connection.get(Connection.id == seam.connId)
+            self.connId_2.setText(conn.ctype)
+            self.weldingProgram_2.setText(conn.programmName)
+        except: pass
+        try:
+            det = Detail.get(Detail.id == seam.detailId)
+            self.detailId.setText(det.detailName)
+        except: pass
         self.batchNumber.setText(str(seam.batchNumber))
         self.detailNumber.setText(str(seam.detailNumber))
-        self.authorizedUser.setText(str(seam.authorizedUser))
-        self.weldingProgram_2.setText(seam.weldingProgram)
-        self.startTime.setText(str(seam.startTime)[:19])
-        self.endTime.setText(str(seam.endTime)[:19])
+        try:
+            user = User.get(User.id == seam.authorizedUser)
+            self.authorizedUser.setText(user.name)
+        except: pass
+        self.startTime.setDateTime(seam.startTime)
+        self.endTime.setDateTime(seam.endTime)
         self.endStatus.setCheckState(
             QtCore.Qt.Checked if seam.endStatus else QtCore.Qt.Unchecked)
+        oscs = OscilationType.select()
+        self.oscType.clear()
+        for osc in oscs:
+            self.oscType.addItem(osc.oscName)
         self.initChart(id)
         GasCons = round(sum([1, 2]) * seam.period / 60, 3)
         WireCons = round(sum([1,2])*seam.period/60, 1)
@@ -609,11 +633,6 @@ class UImodif(Ui_MainWindow):
     #Панель администрирования данных
     def adpanel(self, otype):
         self.otype = otype
-        self.chooseTable()
-        self.tableWidget.hideColumn(0)
-        self.stackedWidget.setCurrentIndex(4)
-    #Выбор отображения от типа данных
-    def chooseTable(self):
         self.tableWidget.clear()
         if self.otype == "user":
             self.userTable()
@@ -627,6 +646,11 @@ class UImodif(Ui_MainWindow):
             self.seamTable()
         elif self.otype == "equipments":
             self.equipmentTable()
+        elif self.otype == "oscilation":
+            self.oscilationTable()
+        self.tableWidget.hideColumn(0)
+        self.stackedWidget.setCurrentIndex(4)
+
 
     #вывод табиц администрирования
     def equipmentTable(self):
@@ -757,6 +781,19 @@ class UImodif(Ui_MainWindow):
             self.tableWidget.setItem(i, 8, twi(seams[i].weldingProgram))
             self.tableWidget.setItem(i, 9, twi(str(seams[i].authorizedUser)))
         self.tableWidget.resizeColumnsToContents()
+
+    def oscilationTable(self):
+        self.adPanelName.setText("Панель управления параметрами колебаний:")
+        self.tableWidget.setColumnCount(3)
+        self.tableWidget.setHorizontalHeaderLabels(["id", "Название", "Изображение"])
+        osc = OscilationType.select()
+        self.tableWidget.setRowCount(len(osc))
+        for i in range(len(osc)):
+            self.tableWidget.setItem(i, 0, twi(str(osc[i].id)))
+            self.tableWidget.setItem(i, 1, twi(osc[i].oscName))
+            self.tableWidget.setCellWidget(i, 2, QtWidgets.QLabel())
+            self.tableWidget.setItem(i, 2, twi(''))
+        self.tableWidget.resizeColumnsToContents()
     #######################################
 
 class MWin(QtWidgets.QMainWindow):
@@ -770,9 +807,34 @@ class MWin(QtWidgets.QMainWindow):
         self.dialog.detId = id
         self.dialog.show()
 
-    def chooseDataDia(self, id):
-        self.dialog = chooseData(id)
+    def chooseDataDia(self, id, dataType):
+        self.dialog = chooseData(id, dataType)
         self.dialog.show()
+
+    def timePdfDia(self):
+        self.dialog = timePdfWin()
+        self.dialog.show()
+
+
+class timePdfWin(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_timePdf()
+        self.ui.setupUi(self)
+        self.ui.chooseAdress.clicked.connect(self.chooseAdress)
+        self.ui.makePdf.clicked.connect(self.createPdf)
+
+    def chooseAdress(self):
+        filename = QtWidgets.QFileDialog.getExistingDirectory()
+        print(filename)
+        self.ui.adress.setText(filename)
+
+    def createPdf(self):
+        start = self.ui.startTime.dateTime().toPyDateTime()
+        end = self.ui.endTime.dateTime().toPyDateTime()
+        adr = self.ui.adress.text()
+        if adr != "" and end-start > 0:
+            pg.create_periodPdf(adr, start, end)
 
 
 class AddConn(QtWidgets.QWidget):
@@ -786,11 +848,13 @@ class AddConn(QtWidgets.QWidget):
 class chooseData(QtWidgets.QWidget):
     seamId = 0
     dataType = 'connection'
-    def __init__(self, id):
+    def __init__(self, id, dataType):
         super().__init__()
         self.seamId = id
+        self.dataType = dataType
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+        self.ui.chooseTable.doubleClicked.connect(self.doubleClick)
         if self.dataType == 'user':
             self.ui.chooseTable.setColumnCount(3)
             self.ui.chooseTable.setHorizontalHeaderLabels(
@@ -849,6 +913,27 @@ class chooseData(QtWidgets.QWidget):
                                              twi(connections[i].fillerWireMark + '/' + str(connections[i].fillerWireDiam)))
                     self.ui.chooseTable.setItem(i, 6, twi(connections[i].shieldingGasType))
         self.ui.chooseTable.resizeColumnsToContents()
+
+    def doubleClick(self):
+        if self.ui.chooseTable.currentRow() >= 0 and self.ui.chooseTable.item(self.ui.chooseTable.currentRow(), 0) is not None:
+            id = int(self.ui.chooseTable.item(self.ui.chooseTable.currentRow(), 0).text())
+            if self.dataType == 'user':
+                query = Seam.update(authorizedUser = id).where(
+                    Seam.id == self.seamId)
+                query.execute()
+            elif self.dataType == 'eqvipment':
+                query = Seam.update(equipmentId=id).where(
+                    Seam.id == self.seamId)
+                query.execute()
+            elif self.dataType == 'blueprint':
+                query = Seam.update(detailId=id).where(
+                    Seam.id == self.seamId)
+                query.execute()
+            elif self.dataType == 'connection':
+                query = Seam.update(connId=id).where(
+                    Seam.id == self.seamId)
+                query.execute()
+            self.close()
 
 
 
