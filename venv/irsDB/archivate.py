@@ -31,6 +31,13 @@ class Archivator: #дописать логику первого запуска
             params.append(tuple(line.replace('\n','').split(' ')))
         return dict(params)
 
+    def setConfig(self, adress, hours, minuts, seconds, size):
+        f = open('config.txt', 'w')
+        f.write('saveAdress ' + adress + '\n')
+        f.write('periodH ' + hours + '\n')
+        f.write('periodM ' + minuts + '\n')
+        f.write('periodS ' + seconds + '\n')
+        f.write('sizeparam ' + size + '\n')
     # проверка параметров автоархивации и архивация при необходимости
     def autoarch(self):
         config = self.getConfig()

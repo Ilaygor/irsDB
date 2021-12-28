@@ -20,6 +20,8 @@ class User(BaseModel):
     accessArch = BooleanField(default = False)
     accessAdd = BooleanField(default = False)
     accessRemove = BooleanField(default = False)
+    accessEquipment = BooleanField(default=False)
+    accessOscilationType = BooleanField(default=False)
 
     class Meta:
         db_table = 'Users'
@@ -60,19 +62,24 @@ class Equipment(BaseModel):
     name = CharField()
     model = CharField()
     ip = CharField()
-    port = CharField(4)
+    port = IntegerField()
     period = DoubleField(default=0.1)
 
 class OscilationType(BaseModel):
     oscName = CharField()
     oscImg = BlobField(default = b'\x00\x00\x00\x00')
 
+class RealDetail(BaseModel):
+    detailId = ForeignKeyField(Detail, null=True)
+    batchNumber = CharField()  # заменить
+    detailNumber = CharField()  # заменить
+
 class Seam(BaseModel):
     connId = ForeignKeyField(Connection, null=True)
     detailId = ForeignKeyField(Detail, null=True)
     equipmentId = ForeignKeyField(Equipment, null=True)
-    batchNumber = IntegerField()#заменить
-    detailNumber = IntegerField()#заменить
+    batchNumber = CharField()
+    detailNumber = CharField()
     authorizedUser = ForeignKeyField(User, null=True)
     weldingProgram = CharField()
     startTime = DateTimeField()
