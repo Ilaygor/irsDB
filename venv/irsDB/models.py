@@ -67,36 +67,39 @@ class Equipment(BaseModel):
 
 class OscilationType(BaseModel):
     oscName = CharField()
+    oscNumber = IntegerField()
     oscImg = BlobField(default = b'\x00\x00\x00\x00')
 
-class RealDetail(BaseModel):
-    detailId = ForeignKeyField(Detail, null=True)
+class Batch(BaseModel):
     batchNumber = CharField()  # заменить
+    detailId = ForeignKeyField(Detail, null=True) #blueprintId
+
+class RealDetail(BaseModel):
+    BatchId = ForeignKeyField(Batch, null=True)
     detailNumber = CharField()  # заменить
 
 class Seam(BaseModel):
     connId = ForeignKeyField(Connection, null=True)
     detailId = ForeignKeyField(Detail, null=True)
-    equipmentId = ForeignKeyField(Equipment, null=True)
-    batchNumber = CharField()
-    detailNumber = CharField()
-    authorizedUser = ForeignKeyField(User, null=True)
-    weldingProgram = CharField()
-    startTime = DateTimeField()
-    endTime = DateTimeField()
-    endStatus = BooleanField(default = False)
-    torchSpeed = BlobField(default = b'0')
+    equipmentId = ForeignKeyField(Equipment, null=True)#
+    batchNumber = CharField(null=True)
+    detailNumber = CharField(null=True)
+    authorizedUser = ForeignKeyField(User, null=True)#
+    weldingProgram = CharField()#
+    startTime = DateTimeField()#
+    endTime = DateTimeField()#
+    endStatus = IntegerField(default = 0)#
+    torchSpeed = BlobField(default = b'0')#
     burnerOscillation = ForeignKeyField(OscilationType, null=True)
-    current = BlobField(default = b'0')
-    voltage = BlobField(default = b'0')
+    current = BlobField(default = b'0')#
+    voltage = BlobField(default = b'0')#
     voltageCorrection = BlobField(default = b'0')
-    wireSpeed = BlobField(default = b'0')
+    wireSpeed = BlobField(default = b'0')#
     gasConsumption = BlobField(default = b'0')
-    period = DoubleField(default=0.1)
+    period = DoubleField(default=0.1)#
 
     class Meta:
         db_table = 'Seams'
-
 
 class DetConn(BaseModel):
     connId = ForeignKeyField(Connection)

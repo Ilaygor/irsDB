@@ -6,6 +6,10 @@ from io import BytesIO
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import mm
+
 
 class CustomPDF(FPDF):
     def header(self):
@@ -20,9 +24,9 @@ class CustomPDF(FPDF):
         # Добавляем номер страницы
 
         page = 'Страница ' + str(self.page_no()) + ' из {nb}'
+        self.cell(0, 10, "www.irobss.ru  +7 (800) 777-02-01", 0, 1, 'C')
         self.cell(0, 10, "www.irobs.ru  +7 (800) 777-02-01", 0, 0, 'L')
         self.cell(0, 10, page, 0, 0, 'R')
-
 
 def addSeam(pdf, seam):
     pdf.cell(200, 5, txt="Тип соединения: " + (str(seam.connId) if seam.connId is not None else "не присвоено"), ln=1, align="L")
@@ -35,48 +39,55 @@ def addSeam(pdf, seam):
     plt.title("Линейная скорость движения горелки по стыку")
     plt.xlabel("Время (с)")
     plt.ylabel("Скорость (см/с)")
-    plt.plot([1, 2, 3, 4], [1, 4, 9, 16])
-    plt.savefig('plot.png')
-    pdf.image('plot.png', x=None, y=None, w=200, h=100, type='', link='')
+    plt.plot(np.array([1, 2, 3, 4]), np.array([1, 4, 9, 16]))
+    image = BytesIO()
+    st = datetime.datetime.now()
+    #print("seam b", st)
+    plt.savefig("img.png")
+    print("seam save1", datetime.datetime.now(), datetime.datetime.now() - st)
+    pdf.image("img.png", x=None, y=None, w=200, h=100, type='', link='')
 
     plt.title("Ток")
     plt.xlabel("Время (с)")
     plt.ylabel("Ток (А)")
-    plt.plot([1, 2, 3, 4], [1, 4, 9, 16])
-    plt.savefig('plot1.png')
-    pdf.image('plot1.png', x=None, y=None, w=200, h=100, type='', link='')
+    plt.plot(np.array([1, 2, 3, 4]), np.array([1, 4, 9, 16]))
+    image = BytesIO()
+    plt.savefig("img1.png")
+    pdf.image("img1.png", x=None, y=None, w=200, h=100, type='', link='')
 
     plt.title("Напряжение")
     plt.xlabel("Время (с)")
     plt.ylabel("Напряжение (В)")
-    plt.plot([1, 2, 3, 4], [1, 4, 9, 16])
-    plt.savefig('plot2.png')
-    pdf.image('plot2.png', x=None, y=None, w=200, h=100, type='', link='')
+    plt.plot(np.array([1, 2, 3, 4]), np.array([1, 4, 9, 16]))
+    image = BytesIO()
+    plt.savefig("img2.png")
+    pdf.image("img2.png", x=None, y=None, w=200, h=100, type='', link='')
 
     plt.title("Значение коррекции напряжения")
     plt.xlabel("Время (с)")
     plt.ylabel("Напряжение (В)")
-    plt.plot([1, 2, 3, 4], [1, 4, 9, 16])
-    plt.savefig('plot3.png')
-    pdf.image('plot3.png', x=None, y=None, w=200, h=100, type='', link='')
+    plt.plot(np.array([1, 2, 3, 4]), np.array([1, 4, 9, 16]))
+    image = BytesIO()
+    plt.savefig("img3.png")
+    pdf.image("img3.png", x=None, y=None, w=200, h=100, type='', link='')
 
     plt.title("Скорость подачи проволоки")
     plt.xlabel("Время (с)")
     plt.ylabel("Расход (см/мин)")
-    plt.plot([1, 2, 3, 4], [1, 4, 9, 16])
-    plt.savefig('plot4.png')
-    pdf.image('plot4.png', x=None, y=None, w=200, h=100, type='', link='')
+    plt.plot(np.array([1, 2, 3, 4]), np.array([1, 4, 9, 16]))
+    image = BytesIO()
+    plt.savefig("img4.png")
+    pdf.image("img4.png", x=None, y=None, w=200, h=100, type='', link='')
 
     plt.title("Расход защитного газа")
     plt.xlabel("Время (с)")
     plt.ylabel("Расход (л/мин)")
-    plt.plot([1, 2, 3, 4], [1, 4, 9, 16])
-    plt.savefig('plot5.png')
-    pdf.image('plot5.png', x=None, y=None, w=200, h=100, type='', link='')
+    plt.plot(np.array([1, 2, 3, 4]), np.array([1, 4, 9, 16]))
+    image = BytesIO()
+    plt.savefig("img4.png")
+    pdf.image("img4.png", x=None, y=None, w=200, h=100, type='', link='')
 
     pdf.cell(200, 10, txt="Завершён: " + ("успешно" if seam.endStatus else "с ошибкой"), ln=1, align="L")
-
-
 
 def create_pdf(pdf_path, batchNumber, detailNumber):
     pdf = CustomPDF()
@@ -119,32 +130,11 @@ def create_pdf(pdf_path, batchNumber, detailNumber):
                 pdf.cell(200, 5, txt="Наименование программы сварки соединения: " + connInfo.programmName, ln=1, align="L")
                 pdf.cell(200, 5, txt="Рассчётное время сварки соединения: " + str(connInfo.weldingTime), ln=1, align="L")
                 pdf.cell(200, 5, txt="Предпочтительное частота сбора данных [с]: " + str(connInfo.preferredPeriod), ln=1, align="L")
-            """ctype = CharField()
-            thicknessOfElement = CharField()
-            jointBevelling = CharField()
-            jointBevellingImg = BlobField(default=b'\x00\x00\x00\x00')
-            seamDimensions = CharField()
-            fillerWireMark = CharField()
-            fillerWireDiam = CharField()
-            wireConsumption  = DoubleField()
-            shieldingGasType = CharField()
-            shieldingGasConsumption = DoubleField()
-            programmName = CharField()
-            weldingTime = DateTimeField()
-            preferredPeriod = DoubleField(default=0.1)"""
+
             curConnType = seam.connId
         pdf.start_section(str(seam.connId), level=1)
         addSeam(pdf, seam)
     pdf.output(pdf_path)
-    """connId = ForeignKeyField(Connection)
-    detailId = ForeignKeyField(Detail)
-    batchNumber = IntegerField()
-    detailNumber = IntegerField()
-    authorizedUser = CharField()
-    weldingProgram = CharField()
-    startTime = DateTimeField()
-    endTime = DateTimeField()
-    endStatus = BooleanField(default=False)"""
 
 def create_periodPdf(pdf_path, start, end):
     pdf = CustomPDF()
@@ -158,7 +148,7 @@ def create_periodPdf(pdf_path, start, end):
     pdf.set_font('DejaVu', '', 12)
     seams = Seam.select().where(Seam.startTime.between(start, end))
     for seam in seams:
-        pdf.start_section(str(seam.batchNumber)+str(seam.detailNumber)+str(seam.connId), level = 0)
+        pdf.start_section(str(seam.weldingProgram)+" "+str(seam.startTime), level = 0)
         pdf.cell(200, 5, txt="Партия №: " + str(seam.batchNumber), ln=1, align="L")
         pdf.cell(200, 5, txt="№ детали в партии: " + str(seam.detailNumber), ln=1, align="L")
         pdf.cell(200, 5, txt="Тип детали: " + (str(seam.detailId) if seam.detailId is not None else "не присвоено"), ln=1, align="L")
@@ -166,21 +156,25 @@ def create_periodPdf(pdf_path, start, end):
         pdf.cell(200, 5, txt="Авторизованный пользователь: " + (str(seam.authorizedUser) if seam.authorizedUser is not None else "не присвоено"), ln=1, align="L")
         addSeam(pdf, seam)
         pdf.add_page()
-    pdf.output(pdf_path + '/Отчёт за период ' + str(start).replace(':','_') +' '+ str(end).replace(':','_') + '.pdf')
+    pdf.output(pdf_path + 'Отчёт за период ' + str(start).replace(':','_') +' '+ str(end).replace(':','_') + '.pdf')
 
-
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import cm
+from reportlab.lib.utils import ImageReader
 
 if __name__ == '__main__':
     start = datetime.date(1940, 1, 1)
     end = datetime.date(2023, 1, 1)
     #create_periodPdf('', start, end)
-    create_pdf('отчёт по детали.pdf', 1, 2)
-    """d1940 = datetime.date(1940, 1, 1)
-    d1960 = datetime.date(2023, 1, 1)
-    print("try")
-    seams = Seam.select().where(Seam.batchNumber == 1 and Seam.detailNumber == 1)
-    for seam in seams:
-        print(seam)
-    seams = Seam.select().where(Seam.startTime.between(d1940,d1960))
-    for seam in seams:
-        print(seam)"""
+    #create_pdf('отчёт по детали.pdf', 1, 2)
+    pdf = canvas.Canvas("report.pdf", pagesize= A4)
+    pdf.setTitle()
+
+
+    pdf.showPage()
+    pdf.save()
+
+
+
+

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1135</width>
+    <width>1128</width>
     <height>853</height>
    </rect>
   </property>
@@ -371,7 +371,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_6">
+           <widget class="QPushButton" name="saveProtocolBtn">
             <property name="text">
              <string>Сохранить изменения</string>
             </property>
@@ -380,19 +380,35 @@
          </layout>
         </item>
         <item>
+         <widget class="QProgressBar" name="testBar">
+          <property name="maximum">
+           <number>20</number>
+          </property>
+          <property name="value">
+           <number>20</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSlider" name="testSlider">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QChartView" name="graph">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
             <width>0</width>
             <height>350</height>
            </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QScrollBar" name="horizontalScrollBar">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
@@ -474,56 +490,70 @@
              <string>Расход газа</string>
             </property>
             <property name="checked">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>
          </layout>
         </item>
         <item>
-         <layout class="QFormLayout" name="formLayout">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_22">
-            <property name="text">
-             <string>Перерасход газа:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="2">
            <widget class="QLabel" name="gasDelta">
             <property name="text">
              <string>Нет данных</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item row="0" column="1">
+           <widget class="QLabel" name="label_22">
+            <property name="text">
+             <string>Расход газа:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
            <widget class="QLabel" name="label_26">
             <property name="text">
              <string>Перерасход проволоки:</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
+          <item row="1" column="2">
            <widget class="QLabel" name="wireDelta">
             <property name="text">
              <string>Нет данных</string>
             </property>
            </widget>
           </item>
+          <item row="0" column="4">
+           <spacer name="horizontalSpacer_15">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="gasDeltaChb">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="wireDeltaChb">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
          </layout>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_8">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </widget>
@@ -1251,7 +1281,11 @@ p, li { white-space: pre-wrap; }
              </widget>
             </item>
             <item row="13" column="1">
-             <widget class="QDoubleSpinBox" name="preferredPeriod"/>
+             <widget class="QDoubleSpinBox" name="preferredPeriod">
+              <property name="minimum">
+               <double>0.100000000000000</double>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -1414,6 +1448,19 @@ p, li { white-space: pre-wrap; }
            </widget>
           </item>
           <item>
+           <spacer name="horizontalSpacer_14">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
            <widget class="QLineEdit" name="lineEdit_2">
             <property name="enabled">
              <bool>false</bool>
@@ -1475,7 +1522,7 @@ p, li { white-space: pre-wrap; }
                <item row="0" column="0">
                 <widget class="QLabel" name="label_60">
                  <property name="text">
-                  <string>Партии №:</string>
+                  <string>Партии:</string>
                  </property>
                 </widget>
                </item>
@@ -1676,7 +1723,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1135</width>
+     <width>1128</width>
      <height>26</height>
     </rect>
    </property>
@@ -1687,7 +1734,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="chooseArch"/>
     <addaction name="makeArch"/>
     <addaction name="archSettings"/>
-    <addaction name="action_2"/>
+    <addaction name="returnToActualDB"/>
     <addaction name="separator"/>
     <addaction name="exit"/>
    </widget>
@@ -1795,7 +1842,7 @@ p, li { white-space: pre-wrap; }
     <string>Типы колебания горелки</string>
    </property>
   </action>
-  <action name="action_2">
+  <action name="returnToActualDB">
    <property name="text">
     <string>Перейти к актуальной БД</string>
    </property>

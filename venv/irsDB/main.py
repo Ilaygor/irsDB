@@ -8,7 +8,6 @@ from PyQt5.QtGui import QColor, QBrush, QPainter, QMouseEvent
 from PIL import Image, ImageQt
 import pdfGenerator as pg
 import numpy as np
-import peewee
 from models import *
 from GUI import *
 from connWin import *
@@ -21,6 +20,9 @@ from io import BytesIO
 import byteimgs as bi
 import struct
 import archivate
+import chooseDB as cdb
+import os
+import OPCclient as oc
 
 #pyuic5 -x base.ui -o gui.py
 
@@ -30,8 +32,9 @@ class UImodif(Ui_MainWindow):
     imgs = b'\x00\x00\x00\x00'
     curImg = 0
     curId = 0
-    AfUser = None
+    AfUser = User.select()[0]
     A = archivate.Archivator("IRSwelding.db")
+    isActualDB = True
 
     #инициализация функций нажатий
     def setupUi(self, MainWindow):
@@ -47,6 +50,10 @@ class UImodif(Ui_MainWindow):
         self.addConnection.clicked.connect(lambda: MainWindow.addConnDia(self.curId))
         self.viewBlueprintBtn.clicked.connect(lambda: self.detailView(self.curId))
         self.choosePdfAdress.clicked.connect(self.adrForPdf)
+        self.home.clicked.connect(lambda: self.initChart(self.curId))
+        self.addSeamBtn.clicked.connect(lambda: MainWindow.addConnDia(self.curId))
+        self.saveProtocolBtn.clicked.connect(self.saveProtocol)
+        self.delSeamBtn.clicked.connect(self.delSeamFromDetail)
 
         self.actionback.triggered.connect(lambda: self.redirect(4))
 
@@ -70,7 +77,7 @@ class UImodif(Ui_MainWindow):
 
         #пункты меню
         self.exit.triggered.connect(self.exitf)
-        self.detail.triggered.connect(lambda: self.adpanel("detail"))
+        self.detail.triggered.connect(lambda: self.adpanel("blueprint"))
         self.connections.triggered.connect(lambda: self.adpanel("connections"))
         self.realDetail.triggered.connect(lambda: self.adpanel("realDetail"))
         self.seams.triggered.connect(lambda: self.adpanel("seams"))
@@ -81,6 +88,7 @@ class UImodif(Ui_MainWindow):
         self.timePdf.triggered.connect(MainWindow.timePdfDia)
         self.oscTypeTable.triggered.connect(lambda: self.adpanel("oscilation"))
         self.archSettings.triggered.connect(lambda: MainWindow.archSettings(self.A))
+        self.returnToActualDB.triggered.connect(self.returnToActual)
 
 
 
@@ -97,21 +105,74 @@ class UImodif(Ui_MainWindow):
         self.voltageCorrectionchb.stateChanged.connect(lambda: self.initChart(self.curId))
         self.wireSpeedchb.stateChanged.connect(lambda: self.initChart(self.curId))
         self.gasConsumptionchb.stateChanged.connect(lambda: self.initChart(self.curId))
+        self.gasDeltaChb.stateChanged.connect(lambda: self.initChart(self.curId))
+        self.wireDeltaChb.stateChanged.connect(lambda: self.initChart(self.curId))
+
+
+
+        self.lineEdit_2.hide()
+        self.pushButton_12.hide()
+        self.gasDeltaChb.hide()
+        self.gasConsumptionchb.hide()
 
 
     #######Область тестовых функций########
+    def saveProtocol(self):
+        if self.curId < 1:
+            try:
+                pass  # DoubleField()
+            except:
+                print("не создано")
+        else:
+            query = Seam.update(
+                batchNumber = self.batchNumber.text(),
+                detailNumber = self.detailNumber.text(),
+                startTime = datetime.datetime.strptime(self.startTime.text(), "%d.%m.%Y %H:%M:%S"),
+                endTime = datetime.datetime.strptime(self.endTime.text(), "%d.%m.%Y %H:%M:%S"),
+                endStatus = self.endStatus.isChecked(),
+                burnerOscillation = OscilationType.get(OscilationType.oscName == self.oscType.currentText()).id,
+                period = self.seamPeriod.value()).where(
+                Seam.id == self.curId)  # DoubleField()
+            query.execute()
+            self.protocolView(self.curId)
+
+    def delSeamFromDetail(self):
+        addInd = []
+        for ind in self.seamTable.selectedIndexes():
+            if ind.row() not in addInd:
+                addInd.append(ind.row())
+        for ind in addInd:
+            print(self.seamTable.item(ind, 0).text())
+            query = Seam.update(
+                batchNumber="",
+                detailNumber="").where(
+                Seam.id == int(self.seamTable.item(ind, 0).text()))
+            query.execute()
+
     def exitf(self):
         self.AfUser = None
         self.menubar.hide()
         self.toolBar.hide()
         self.redirect(1)
 
-
     def ar(self):
         self.A.arch('User_s reqvest')
 
     def chArch(self):
-        filename = QtWidgets.QFileDialog.getOpenFileName()[0]
+        filename = QtWidgets.QFileDialog.getOpenFileName(filter = '*.zip')[0]
+        print(filename)
+        cdb.cooseArch(filename)
+        self.statusBar.showMessage("Переклёчен на архив: "+filename, 3000)
+        self.isActualDB = False
+
+    def returnToActual(self):
+        cdb.connToDb("IRSwelding.db")
+        try:
+            os.remove("tmp/IRSwelding.db")
+        except:
+            pass
+        self.statusBar.showMessage("Переклёчен на актуальную бд", 3000)
+        self.isActualDB = True
 
     def adrForPdf(self):
         filename = QtWidgets.QFileDialog.getExistingDirectory()
@@ -212,25 +273,29 @@ class UImodif(Ui_MainWindow):
 
     def saveOscilation(self):
         for i in range(self.tableWidget.rowCount()):
-            pixmap = self.tableWidget.cellWidget(i, 2).pixmap()
+            pixmap = self.tableWidget.cellWidget(i, 3).pixmap()
             ba = QtCore.QByteArray()
             buff = QtCore.QBuffer(ba)
             buff.open(QtCore.QIODevice.WriteOnly)
-            ok = pixmap.save(buff, "PNG")
+            try:
+                ok = pixmap.save(buff, "PNG")
+            except: pass
             #assert ok
             pixmap_bytes = ba.data()
             print(type(pixmap_bytes))
             if self.tableWidget.item(i, 0) is None or self.tableWidget.item(i, 0).text() == "":
                 try:
                     OscilationType(
-                    oscName = self.tableWidget.item(i, 1).text(),
+                    oscNumber = int(self.tableWidget.item(i, 1).text()),
+                    oscName = self.tableWidget.item(i, 2).text(),
                     oscImg = pixmap_bytes).save()
                 except: pass
             else:
                 try:
                     id = int(self.tableWidget.item(i, 0).text())
                     query = OscilationType.update(
-                        oscName=self.tableWidget.item(i, 1).text(),
+                        oscNumber=int(self.tableWidget.item(i, 1).text()),
+                        oscName=self.tableWidget.item(i, 2).text(),
                         oscImg=pixmap_bytes).where(OscilationType.id == id)
                     query.execute()
                 except: pass
@@ -250,14 +315,14 @@ class UImodif(Ui_MainWindow):
             self.tableWidget.setCellWidget(i, 8, QtWidgets.QCheckBox())
             self.tableWidget.setCellWidget(i, 9, QtWidgets.QCheckBox())
             self.tableWidget.setCellWidget(i, 10, QtWidgets.QCheckBox())
-        elif self.otype == "detail":
+        elif self.otype == "blueprint":
             self.redirect(2)
             #self.detailView(3)
         elif self.otype == "connections":
             self.redirect(3)
             #self.ConnView(1)
         elif self.otype == "realDetail":
-            self.redirect(2)
+            self.redirect(5)
         elif self.otype == "seams":
             pass
         elif self.otype == "equipments":
@@ -265,11 +330,12 @@ class UImodif(Ui_MainWindow):
             self.tableWidget.insertRow(i)
             self.tableWidget.setCellWidget(i, 5, QtWidgets.QSpinBox())
             self.tableWidget.cellWidget(i, 5).setMaximum(65535)
+            self.tableWidget.cellWidget(i, 5).setValue(4840)
             self.tableWidget.setCellWidget(i, 6, QtWidgets.QDoubleSpinBox())
         elif self.otype == "oscilation":
             i = self.tableWidget.rowCount()
             self.tableWidget.insertRow(i)
-            self.tableWidget.setCellWidget(i, 2, QtWidgets.QLabel())
+            self.tableWidget.setCellWidget(i, 3, QtWidgets.QLabel())
 
     def doubleClick(self):
         self.imgs = b'\x00\x00\x00\x00'
@@ -280,7 +346,7 @@ class UImodif(Ui_MainWindow):
             else:
                 self.curId = None
 
-            if self.otype == "detail":
+            if self.otype == "blueprint":
                 self.detailView(id)
             elif self.otype == "connections":
                 self.ConnView(id)
@@ -288,12 +354,12 @@ class UImodif(Ui_MainWindow):
                 self.realDetailView()
             elif self.otype == "seams":
                 self.protocolView(id)
-            elif self.otype == "oscilation" and self.tableWidget.currentColumn() == 2:
+            elif self.otype == "oscilation" and self.tableWidget.currentColumn() == 3:
                 try:
-                    filename = QtWidgets.QFileDialog.getOpenFileName()[0]
-                    self.tableWidget.cellWidget(self.tableWidget.currentRow(), 2).setText(filename)
+                    filename = QtWidgets.QFileDialog.getOpenFileName(filter = '(*.png *.jpg *.bmp)')[0]
+                    self.tableWidget.cellWidget(self.tableWidget.currentRow(), 3).setText(filename)
                     f = QtGui.QPixmap(filename)
-                    self.tableWidget.cellWidget(self.tableWidget.currentRow(), 2).setPixmap(f.scaled(75,75))
+                    self.tableWidget.cellWidget(self.tableWidget.currentRow(), 3).setPixmap(f.scaled(75,75))
                 except: pass
 
 
@@ -301,7 +367,9 @@ class UImodif(Ui_MainWindow):
 
     def dell(self):
         if self.tableWidget.currentRow() >= 0 and self.tableWidget.item(self.tableWidget.currentRow(), 0) is not None:
-            dellId = int(self.tableWidget.item(self.tableWidget.currentRow(), 0).text())
+            try:
+                dellId = int(self.tableWidget.item(self.tableWidget.currentRow(), 0).text())
+            except: pass
             if self.otype == "user":
                 query = Seam.update(authorizedUser=None).where(Seam.authorizedUser == dellId)
                 query.execute()
@@ -309,7 +377,7 @@ class UImodif(Ui_MainWindow):
                 dellUser.delete_instance()
                 print("dell")
                 self.userTable()
-            elif self.otype == "detail":
+            elif self.otype == "blueprint":
                 query = Seam.update(detailId=None).where(Seam.detailId == dellId)
                 query.execute()
                 dellDetConn = DetConn.select().where(DetConn.connId  == dellId)
@@ -341,6 +409,8 @@ class UImodif(Ui_MainWindow):
                 dellOscilationType = Seam.get(Seam.id == dellId)
                 dellOscilationType.delete_instance()
                 self.oscilationTable()
+            elif self.otype == "realDetail":
+                print("dell")
 
 
     def initChart(self, seamId):
@@ -348,8 +418,6 @@ class UImodif(Ui_MainWindow):
             seam = Seam.get(Seam.id == seamId)
             duration = 2
             fraqency = 10
-            wireConsumption = 15
-            shieldingGasConsumption = 17
             weldingTime = 2.0
             storchSpeed = struct.unpack('%sf' % (len(seam.torchSpeed)//4), seam.torchSpeed)
             scurrent = struct.unpack('%sf' % (len(seam.current)//4), seam.current)
@@ -357,6 +425,7 @@ class UImodif(Ui_MainWindow):
             svoltageCorrection = struct.unpack('%sf' % (len(seam.voltageCorrection)//4), seam.voltageCorrection)
             swireSpeed = struct.unpack('%sf' % (len(seam.wireSpeed)//4), seam.wireSpeed)
             sgasConsumption = struct.unpack('%sf' % (len(seam.gasConsumption)//4), seam.gasConsumption)
+            print("svoltage",svoltage)
 
             # вывод данных на график
             # рассчётные значения
@@ -378,6 +447,11 @@ class UImodif(Ui_MainWindow):
             wireSpeed.setName("Скорость подачи проволоки")
             gasConsumption = QLineSeries()
             gasConsumption.setName("Расход газа")
+
+            wireDelta = QLineSeries()
+            wireDelta.setName("Перерасход проволоки")
+            gasDelta = QLineSeries()
+            gasDelta.setName("Перерасход газа")
 
             # цвета
             pen = QPen(QColor(150, 10, 10))
@@ -405,17 +479,29 @@ class UImodif(Ui_MainWindow):
             pen.setWidth(3)
             gasConsumption.setPen(pen)
 
+            pen = QPen(QColor(10, 120, 120))
+            pen.setWidth(3)
+            wireDelta.setPen(pen)
+            pen = QPen(QColor(120, 10, 10))
+            pen.setWidth(3)
+            gasDelta.setPen(pen)
+
+            duration = 5
+            fraqency = 10
             # данные
-            x = np.linspace(0, duration, duration * fraqency + 1)
-            for x, y3, y5, y6, y7, y8, y9 in zip(x, storchSpeed, scurrent, svoltage, svoltageCorrection, swireSpeed, sgasConsumption):
-                #gasCC.append(x, y)
-                #wireCC.append(x, y2)
+            processTime = np.linspace(0, duration, duration * fraqency + 1)
+            z = zip(processTime, storchSpeed, scurrent, svoltage, svoltageCorrection, swireSpeed, sgasConsumption)
+            """for x, y3, y5, y6, y7, y8, y9 in zip(storchSpeed, scurrent, svoltage, svoltageCorrection, swireSpeed, sgasConsumption,processTime):
                 torchSpeed.append(x, y3)
                 current.append(x, y5)
                 voltage.append(x, y6)
+                print(x, y6)
                 voltageCorrection.append(x, y7)
                 wireSpeed.append(x, y8)
-                gasConsumption.append(x, y9)
+                gasConsumption.append(x, y9)"""
+            for time, volt in zip(processTime, svoltage):
+                voltage.append(time, volt)
+
 
             # легенды
             self.chart = QChart()
@@ -423,39 +509,96 @@ class UImodif(Ui_MainWindow):
             self.chart.legend().setVisible(True)
             self.chart.legend().setAlignment(Qt.AlignBottom)
 
+            axisX = QValueAxis()
+            axisX.setLabelFormat("%f")
+            axisX.setTitleText("Время")
+            self.chart.addAxis(axisX, Qt.AlignBottom)
+
+            axisYgas = QValueAxis()
+            axisYgas.setLabelFormat("%.2f")
+            axisYgas.setTitleText("Газ [л/мин]")
+            self.chart.addAxis(axisYgas, Qt.AlignLeft)
+
+            axisYwire = QValueAxis()
+            axisYwire.setLabelFormat("%.2f")
+            axisYwire.setTitleText("Проволока [см/мин]")
+            self.chart.addAxis(axisYwire, Qt.AlignLeft)
+
+            axisYcur = QValueAxis()
+            axisYcur.setLabelFormat("%.2f")
+            axisYcur.setTitleText("Ток [А]")
+
+            axisYu = QValueAxis()
+            axisYu.setLabelFormat("%.2f")
+            axisYu.setTitleText("Напряжение [В]")
+
+            axisYtorchSp = QValueAxis()
+            axisYtorchSp.setLabelFormat("%.2f")
+            axisYtorchSp.setTitleText("Скорость горелки [см/с]")
+
+            axisYcorU = QValueAxis()
+            axisYcorU.setLabelFormat("%.2f")
+            axisYcorU.setTitleText("Коррекция U [В]")
+
             # вывод на график
-            if self.wireCCchb.checkState():
-                self.chart.addSeries(wireCC)
-            if self.gasCCchb.checkState():
-                self.chart.addSeries(gasCC)
-            if self.torchSpeedchb.checkState():
-                self.chart.addSeries(torchSpeed)
-            if self.currentchb.checkState():
-                self.chart.addSeries(current)
-            if self.voltagechb.checkState():
-                self.chart.addSeries(voltage)
-            if self.voltageCorrectionchb.checkState():
-                self.chart.addSeries(voltageCorrection)
             if self.wireSpeedchb.checkState():
                 self.chart.addSeries(wireSpeed)
+                wireSpeed.attachAxis(axisX)
+                wireSpeed.attachAxis(axisYwire)
             if self.gasConsumptionchb.checkState():
                 self.chart.addSeries(gasConsumption)
+                gasConsumption.attachAxis(axisX)
+                gasConsumption.attachAxis(axisYgas)
+            if self.wireCCchb.checkState():
+                self.chart.addSeries(wireCC)
+                wireCC.attachAxis(axisYwire)
+                wireCC.attachAxis(axisX)
+            if self.gasCCchb.checkState():
+                self.chart.addSeries(gasCC)
+                gasCC.attachAxis(axisX)
+                gasCC.attachAxis(axisYgas)
+            if self.torchSpeedchb.checkState():
+                self.chart.addSeries(torchSpeed)
+                self.chart.addAxis(axisYtorchSp, Qt.AlignLeft)
+                torchSpeed.attachAxis(axisX)
+                torchSpeed.attachAxis(axisYtorchSp)
+            if self.currentchb.checkState():
+                self.chart.addSeries(current)
+                self.chart.addAxis(axisYcur, Qt.AlignLeft)
+                current.attachAxis(axisX)
+                current.attachAxis(axisYcur)
+            if self.voltagechb.checkState():
+                self.chart.addSeries(voltage)
+                self.chart.addAxis(axisYu, Qt.AlignLeft)
+                voltage.attachAxis(axisX)
+                voltage.attachAxis(axisYu)
+            if self.voltageCorrectionchb.checkState():
+                self.chart.addSeries(voltageCorrection)
+                self.chart.addAxis(axisYcorU, Qt.AlignLeft)
+                voltageCorrection.attachAxis(axisX)
+                voltageCorrection.attachAxis(axisYcorU)
+
+            if seam.connId is not None:
+                for x, wire,gas in zip(processTime, swireSpeed, sgasConsumption):
+                    wireDelta.append(x, wire - seam.connId.wireConsumption)
+                    gasDelta.append(x, gas - seam.connId.shieldingGasConsumption)
+                if self.wireDeltaChb.checkState():
+                    self.chart.addSeries(wireDelta)
+                    wireDelta.attachAxis(axisX)
+                    wireDelta.attachAxis(axisYwire)
+                if self.gasDeltaChb.checkState():
+                    self.chart.addSeries(gasDelta)
+                    gasDelta.attachAxis(axisX)
+                    gasDelta.attachAxis(axisYgas)
 
             font = QFont('Open Sans')
             font.setPixelSize(14)
             self.chart.setTitleFont(font)
             self.chart.setTitle('Параметры сварки')
-            self.chart.createDefaultAxes()
+
             self.graph.setRenderHint(QPainter.Antialiasing)
-            """axisX = QValueAxis()
-            axisX.setLabelFormat("%f")
-            axisY = QValueAxis()
-            axisY.setLabelFormat("%f")
-            chart.addAxis(axisX, Qt.AlignBottom)
-            chart.addAxis(axisY, Qt.AlignLeft)
-            series.attachAxis(axisX)
-            series.attachAxis(axisY)"""
             self.graph.setChart(self.chart)
+            return swireSpeed, sgasConsumption
     ####################################
 
     # временная функция
@@ -474,12 +617,15 @@ class UImodif(Ui_MainWindow):
         self.curId = 1
         self.seamTable.setRowCount(len(details))
 
-        self.seamTable.setColumnCount(2)
+        self.seamTable.setColumnCount(4)
         self.seamTable.setHorizontalHeaderLabels(
-            ["id","Тип соединения"])
+            ["id","Тип", "Начало", "Окончание"])
         for i in range(len(details)):
             self.seamTable.setItem(i, 0, twi(str(details[i].id)))
             self.seamTable.setItem(i, 1, twi(str(details[i].connId)))
+            self.seamTable.setItem(i, 2, twi(str(details[i].startTime)))
+            self.seamTable.setItem(i, 3, twi(str(details[i].endTime)))
+        self.seamTable.hideColumn(0)
         self.seamTable.resizeColumnsToContents()
 
         self.imgs = details[0].detailId.img
@@ -498,23 +644,32 @@ class UImodif(Ui_MainWindow):
             self.eqvName.setText(eqv.name)
             self.eqvModel.setText(eqv.model)
             self.eqvIPadress.setText(eqv.ip)
-            self.eqvPort.setText(eqv.port)
-        except: pass
+            self.eqvPort.setText(str(eqv.port))
+        except:
+            self.serialNumber.setText("")
+            self.eqvName.setText("")
+            self.eqvModel.setText("")
+            self.eqvIPadress.setText("")
+            self.eqvPort.setText("")
         try:
             conn = Connection.get(Connection.id == seam.connId)
             self.connId_2.setText(conn.ctype)
             self.weldingProgram_2.setText(conn.programmName)
-        except: pass
+        except:
+            self.connId_2.setText("")
+            self.weldingProgram_2.setText("")
         try:
             det = Detail.get(Detail.id == seam.detailId)
             self.detailId.setText(det.detailName)
-        except: pass
+        except:
+            self.detailId.setText("")
         self.batchNumber.setText(str(seam.batchNumber))
         self.detailNumber.setText(str(seam.detailNumber))
         try:
             user = User.get(User.id == seam.authorizedUser)
             self.authorizedUser.setText(user.name)
-        except: pass
+        except:
+            self.authorizedUser.setText("")
         self.startTime.setDateTime(seam.startTime)
         self.endTime.setDateTime(seam.endTime)
         self.endStatus.setCheckState(
@@ -523,16 +678,21 @@ class UImodif(Ui_MainWindow):
         self.oscType.clear()
         for osc in oscs:
             self.oscType.addItem(osc.oscName)
-        self.initChart(id)
-        GasCons = round(sum([1, 2]) * seam.period / 60, 3)
-        WireCons = round(sum([1,2])*seam.period/60, 1)
+        swireSpeed, sgasConsumption = self.initChart(id)
+        GasCons = round(sum(sgasConsumption) * seam.period / 60, 3)
+        WireCons = round(sum(swireSpeed) * seam.period/60, 1)
         if seam.connId is None:
             self.gasDelta.setText(str(GasCons)+" литров (реальный расход)")
             self.wireDelta.setText(str(WireCons)+" см (реальный расход)")
         else:
             conn = Connection.get(Connection.id == seam.connId)
-            #conn.wireConsumption*conn.weldingTime
-            #conn.shieldingGasConsumption*conn.weldingTime
+            t = datetime.datetime.strptime(conn.weldingTime, "%H:%M:%S")
+            delta = datetime.timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)
+            print(delta.total_seconds())
+            WireCons -= (conn.wireConsumption/60*delta.total_seconds())
+            GasCons -= (conn.shieldingGasConsumption/60*delta.total_seconds())
+            self.gasDelta.setText(str(GasCons) + " литров")
+            self.wireDelta.setText(str(WireCons) + " см")
 
     def detailView(self, id):
         self.stackedWidget.setCurrentIndex(2)
@@ -556,11 +716,13 @@ class UImodif(Ui_MainWindow):
         detCons = DetConn.select().where(DetConn.detailId == id)
         self.detailsConnections_2.setColumnCount(2)
         self.detailsConnections_2.setHorizontalHeaderLabels(
-            ["id", "Наименование"])
+            ["id", "Вид соединения"])
         self.detailsConnections_2.setRowCount(len(detCons))
         for i in range(len(detCons)):
             self.detailsConnections_2.setItem(i, 0, twi(str(detCons[i].id)))
             self.detailsConnections_2.setItem(i, 1, twi(str(detCons[i].connId)))
+        self.detailsConnections_2.hideColumn(0)
+        self.detailsConnections_2.resizeColumnsToContents()
 
     def ConnView(self, id):
         self.stackedWidget.setCurrentIndex(3)
@@ -599,12 +761,17 @@ class UImodif(Ui_MainWindow):
         self.detailName.setText("")
         self.materialGrade.setText("")
         self.weldingProgram.setText("")
+        self.HprocessingTime.setValue(0)
+        self.MprocessingTime.setValue(0)
+        self.SprocessingTime.setValue(0)
+        self.detailsConnections_2.clear()
+
         #self.processingTime.setValue(0)
         self.veiwImg(self.DetImg)
         self.veiwImg(self.connImg)
         self.connId.setText("")
         self.ctype.setText("")
-        #self.thicknessOfElement.setText("")
+        self.thicknessOfElement.setText("")
         self.jointBevelling.setText("")
         self.seamDimensions.setText("")
         self.fillerWireMark.setText("")
@@ -613,12 +780,22 @@ class UImodif(Ui_MainWindow):
         self.shieldingGasType.setText("")
         self.shieldingGasConsumption.setValue(0)
         self.programmName.setText("")
-        #self.weldingTime.setValue(0)
+        self.HweldingTime.setValue(0)
+        self.MweldingTime.setValue(0)
+        self.SweldingTime.setValue(0)
+        self.preferredPeriod.setValue(0.1)
+
+        self.batchNumber_2.setText("")
+        self.numberInBatch.setText("")
+        self.blueprintName.setText("")
+        self.seamTable.clear()
+
+
     #####################################
 
     # Функции работы с изображениями
     def newImg(self, label):
-        filename = QtWidgets.QFileDialog.getOpenFileName()[0]
+        filename = QtWidgets.QFileDialog.getOpenFileName(filter = '(*.png *.jpg *.bmp)')[0]
         f = open(filename, 'rb')
         d = f.read()
         self.imgs = bi.add(self.imgs, d)
@@ -656,7 +833,7 @@ class UImodif(Ui_MainWindow):
             data = im.tobytes("raw", "BGRA")
             qim = QtGui.QImage(data, im.size[0], im.size[1], QtGui.QImage.Format_ARGB32)
             pix = QtGui.QPixmap.fromImage(qim)
-            label.setPixmap(pix)
+            label.setPixmap(pix.scaled(900, int(900*im.size[1]/im.size[0])))
         else:
             label.clear()
             #self.DetImg.clear()
@@ -671,12 +848,7 @@ class UImodif(Ui_MainWindow):
                 self.stackedWidget.setCurrentIndex(4)
                 self.menubar.show()
                 self.AfUser = user
-                self.adpanel("detail")
-
-
-                """
-                accessArch = BooleanField(default=False)
-                """
+                self.adpanel("blueprint")
 
                 self.users.setEnabled(user.accessUser)
 
@@ -711,12 +883,9 @@ class UImodif(Ui_MainWindow):
                 self.newConnImg.setEnabled(user.accessConn)
                 self.preferredPeriod.setEnabled(user.accessConn)
 
-                self.connId_2.setEnabled(user.accessProt)
-                self.detailId.setEnabled(user.accessProt)
+                self.chooseEqvipment.setEnabled(user.accessProt)
                 self.batchNumber.setEnabled(user.accessProt)
                 self.detailNumber.setEnabled(user.accessProt)
-                self.authorizedUser.setEnabled(user.accessProt)
-                self.weldingProgram_2.setEnabled(user.accessProt)
                 self.startTime.setEnabled(user.accessProt)
                 self.endTime.setEnabled(user.accessProt)
                 self.endStatus.setEnabled(user.accessProt)
@@ -729,12 +898,70 @@ class UImodif(Ui_MainWindow):
                 self.addBtn.setEnabled(user.accessAdd)
 
                 self.delBtn.setEnabled(user.accessRemove)
+
+                """for eqw in Equipment.select():
+                    print(eqw.ip)
+                    try:
+                        oc.DataHarvestr(eqw.ip)
+                    except:
+                        print(eqw.ip, "blat")"""
+
             else:
                 self.statusBar.showMessage("Неверный пароль", 4000)
         except:
             self.statusBar.showMessage("Логин не зарегистрирован", 4000)
 
+    def makeEnable(self):
+        self.adpanel("blueprint")
 
+        self.users.setEnabled(self.AfUser.accessUser)
+
+        self.delDetImg.setEnabled(self.AfUser.accessDetail)
+        self.addDetImg.setEnabled(self.AfUser.accessDetail)
+        self.blueprinNumber.setEnabled(self.AfUser.accessDetail)
+        self.detailName.setEnabled(self.AfUser.accessDetail)
+        self.materialGrade.setEnabled(self.AfUser.accessDetail)
+        self.weldingProgram.setEnabled(self.AfUser.accessDetail)
+        self.addConnection.setEnabled(self.AfUser.accessDetail)
+        self.saveChalenges.setEnabled(self.AfUser.accessDetail)
+        self.HprocessingTime.setEnabled(self.AfUser.accessDetail)
+        self.MprocessingTime.setEnabled(self.AfUser.accessDetail)
+        self.SprocessingTime.setEnabled(self.AfUser.accessDetail)
+
+        self.connId.setEnabled(self.AfUser.accessConn)
+        self.ctype.setEnabled(self.AfUser.accessConn)
+        self.thicknessOfElement.setEnabled(self.AfUser.accessConn)
+        self.jointBevelling.setEnabled(self.AfUser.accessConn)
+        self.seamDimensions.setEnabled(self.AfUser.accessConn)
+        self.fillerWireMark.setEnabled(self.AfUser.accessConn)
+        self.fillerWireDiam.setEnabled(self.AfUser.accessConn)
+        self.wireConsumption.setEnabled(self.AfUser.accessConn)
+        self.shieldingGasType.setEnabled(self.AfUser.accessConn)
+        self.shieldingGasConsumption.setEnabled(self.AfUser.accessConn)
+        self.programmName.setEnabled(self.AfUser.accessConn)
+        self.HweldingTime.setEnabled(self.AfUser.accessConn)
+        self.MweldingTime.setEnabled(self.AfUser.accessConn)
+        self.SweldingTime.setEnabled(self.AfUser.accessConn)
+        self.saveConn.setEnabled(self.AfUser.accessConn)
+        self.delConnImg.setEnabled(self.AfUser.accessConn)
+        self.newConnImg.setEnabled(self.AfUser.accessConn)
+        self.preferredPeriod.setEnabled(self.AfUser.accessConn)
+
+        self.chooseEqvipment.setEnabled(self.AfUser.accessProt)
+        self.batchNumber.setEnabled(self.AfUser.accessProt)
+        self.detailNumber.setEnabled(self.AfUser.accessProt)
+        self.startTime.setEnabled(self.AfUser.accessProt)
+        self.endTime.setEnabled(self.AfUser.accessProt)
+        self.endStatus.setEnabled(self.AfUser.accessProt)
+        self.oscType.setEnabled(self.AfUser.accessProt)
+        self.seamPeriod.setEnabled(self.AfUser.accessProt)
+        self.chooseUser.setEnabled(self.AfUser.accessProt)
+        self.chooseBlueprint.setEnabled(self.AfUser.accessProt)
+        self.chooseConn.setEnabled(self.AfUser.accessProt)
+
+        self.addBtn.setEnabled(self.AfUser.accessAdd)
+
+        self.delBtn.setEnabled(self.AfUser.accessRemove)
     #####################################
 
     #save
@@ -757,7 +984,7 @@ class UImodif(Ui_MainWindow):
                 processingTime = datetime.time(self.HprocessingTime.value(), self.MprocessingTime.value(), self.SprocessingTime.value()),
                 img = self.imgs).where(Detail.id == self.curId)
             query.execute()
-        self.adpanel("detail")
+        self.adpanel("blueprint")
 
     def saveConnChlngs(self):
         print("save conn")
@@ -802,9 +1029,13 @@ class UImodif(Ui_MainWindow):
     def adpanel(self, otype):
         self.otype = otype
         self.tableWidget.clear()
+        self.saveBtn.setEnabled(True)
         if self.otype == "user":
-            self.userTable()
-        elif self.otype == "detail":
+            try:
+                self.saveBtn.setEnabled(self.AfUser.accessUser)
+                self.userTable()
+            except: pass
+        elif self.otype == "blueprint":
             self.detailTable()
         elif self.otype == "connections":
             self.connectTable()
@@ -813,9 +1044,15 @@ class UImodif(Ui_MainWindow):
         elif self.otype == "seams":
             self.veiwSeamTable()
         elif self.otype == "equipments":
-            self.equipmentTable()
+            try:
+                self.saveBtn.setEnabled(self.AfUser.accessEquipment)
+                self.equipmentTable()
+            except: pass
         elif self.otype == "oscilation":
-            self.oscilationTable()
+            try:
+                self.saveBtn.setEnabled(self.AfUser.accessOscilationType)
+                self.oscilationTable()
+            except: pass
         self.tableWidget.hideColumn(0)
         self.stackedWidget.setCurrentIndex(4)
 
@@ -838,6 +1075,7 @@ class UImodif(Ui_MainWindow):
             self.tableWidget.cellWidget(i, 5).setMaximum(65535)
             self.tableWidget.cellWidget(i, 5).setValue(equipments[i].port)
             self.tableWidget.setCellWidget(i, 6, QtWidgets.QDoubleSpinBox())
+            self.tableWidget.cellWidget(i, 6).setMinimum(0.1)
             self.tableWidget.cellWidget(i, 6).setValue(equipments[i].period)
         self.tableWidget.resizeColumnsToContents()
 
@@ -863,12 +1101,18 @@ class UImodif(Ui_MainWindow):
         self.tableWidget.setHorizontalHeaderLabels(["id", "Номер чертежа", "Наименование","Номер партии", "Номер детали"])
         details = Seam.select().join(Detail).group_by(Seam.batchNumber, Seam.detailNumber)
         self.tableWidget.setRowCount(len(details))
+        voidRow = None
         for i in range(len(details)):
-            self.tableWidget.setItem(i, 0, twi("0"))
-            self.tableWidget.setItem(i, 1, twi(details[i].detailId.blueprinNumber))
-            self.tableWidget.setItem(i, 2, twi(str(details[i].detailId.detailName)))
-            self.tableWidget.setItem(i, 3, twi(str(details[i].batchNumber)))
-            self.tableWidget.setItem(i, 4, twi(str(details[i].detailNumber)))
+            if details[i].batchNumber !="" and details[i].detailNumber !="":
+                self.tableWidget.setItem(i, 0, twi("0"))
+                self.tableWidget.setItem(i, 1, twi(details[i].detailId.blueprinNumber))
+                self.tableWidget.setItem(i, 2, twi(str(details[i].detailId.detailName)))
+                self.tableWidget.setItem(i, 3, twi(str(details[i].batchNumber)))
+                self.tableWidget.setItem(i, 4, twi(str(details[i].detailNumber)))
+            else:
+                voidRow = i
+        if voidRow is not None:
+            self.tableWidget.removeRow(voidRow)
         self.tableWidget.resizeColumnsToContents()
 
     def userTable(self):
@@ -947,8 +1191,10 @@ class UImodif(Ui_MainWindow):
         self.tableWidget.setRowCount(len(seams))
         for i in range(len(seams)):
             self.tableWidget.setItem(i, 0, twi(str(seams[i].id)))
-            self.tableWidget.setItem(i, 1, twi(str(seams[i].connId)))
-            self.tableWidget.setItem(i, 2, twi(str(seams[i].detailId)))
+            if seams[i].connId is not None:
+                self.tableWidget.setItem(i, 1, twi(str(seams[i].connId.ctype)))
+            if seams[i].detailId is not None:
+                self.tableWidget.setItem(i, 2, twi(str(seams[i].detailId.detailName)))
             self.tableWidget.setItem(i, 3, twi(str(seams[i].batchNumber)))
             self.tableWidget.setItem(i, 4, twi(str(seams[i].detailNumber)))
             self.tableWidget.setItem(i, 5, twi(str(seams[i].startTime)[:19]))
@@ -958,13 +1204,14 @@ class UImodif(Ui_MainWindow):
             else:
                 self.tableWidget.setItem(i, 7, twi("Ошибка!"))
             self.tableWidget.setItem(i, 8, twi(seams[i].weldingProgram))
-            self.tableWidget.setItem(i, 9, twi(str(seams[i].authorizedUser)))
+            if seams[i].authorizedUser is not None:
+                self.tableWidget.setItem(i, 9, twi(str(seams[i].authorizedUser.name)))
         self.tableWidget.resizeColumnsToContents()
 
     def oscilationTable(self):
         self.adPanelName.setText("Панель управления параметрами колебаний:")
-        self.tableWidget.setColumnCount(3)
-        self.tableWidget.setHorizontalHeaderLabels(["id", "Название", "Изображение"])
+        self.tableWidget.setColumnCount(4)
+        self.tableWidget.setHorizontalHeaderLabels(["id", "Номер", "Название", "Изображение"])
         osc = OscilationType.select()
         self.tableWidget.setRowCount(len(osc))
         for i in range(len(osc)):
@@ -973,9 +1220,10 @@ class UImodif(Ui_MainWindow):
             pixmap.loadFromData(ba, "PNG")
 
             self.tableWidget.setItem(i, 0, twi(str(osc[i].id)))
-            self.tableWidget.setItem(i, 1, twi(osc[i].oscName))
-            self.tableWidget.setCellWidget(i, 2, QtWidgets.QLabel())
-            self.tableWidget.cellWidget(i, 2).setPixmap(pixmap)
+            self.tableWidget.setItem(i, 1, twi(str(osc[i].oscNumber)))
+            self.tableWidget.setItem(i, 2, twi(osc[i].oscName))
+            self.tableWidget.setCellWidget(i, 3, QtWidgets.QLabel())
+            self.tableWidget.cellWidget(i, 3).setPixmap(pixmap)
         self.tableWidget.resizeColumnsToContents()
     #######################################
 
@@ -986,11 +1234,15 @@ class MWin(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
 
     def addConnDia(self, id):
-        self.dialog = AddConn(id)
+        self.dialog = AddConn(id, self.ui)
+        self.dialog.show()
+
+    def addSeamDia(self):
+        self.dialog = AddConn(self.ui)
         self.dialog.show()
 
     def chooseDataDia(self, id, dataType):
-        self.dialog = chooseData(id, dataType)
+        self.dialog = chooseData(id, dataType, self.ui)
         self.dialog.show()
 
     def timePdfDia(self):
@@ -1019,75 +1271,121 @@ class timePdfWin(QtWidgets.QWidget):
         start = self.ui.startTime.dateTime().toPyDateTime()
         end = self.ui.endTime.dateTime().toPyDateTime()
         adr = self.ui.adress.text()
-        if adr != "" and end-start > 0:
+        if adr != "" and (end-start > datetime.timedelta(0,0,0,0,0,0,0)):
             pg.create_periodPdf(adr, start, end)
 
 
 class AddConn(QtWidgets.QWidget):
     detId = 0
-    def __init__(self, id):
+    def __init__(self, id, mainUi):
         super().__init__()
+        print(mainUi.otype)
         self.detId = id
+        self.mainUi = mainUi
         self.ui = Ui_connAdd()
         self.ui.setupUi(self)
-        self.ui.listOfConn.setColumnCount(12)
-        self.ui.listOfConn.setHorizontalHeaderLabels(
-            ["id", "Присвоено", "Вид сварного соединения", "Толщина элементов (мм)", "Разделка кромок",
-             "Размеры шва (мм)",
-             "Марка/сечение проволоки (мм)", "Расход проволоки (см/мин)", "Газ", "Расход газа (л/мин)",
-             "Программа сварки", "Рассчётное время"])
-        self.ui.listOfConn.hideColumn(0)
-        connections = Connection.select()
-        self.ui.listOfConn.setRowCount(len(connections))
-        connDetsId = []
-        condets = DetConn.select().where(DetConn.detailId == self.detId)
-        for condet in condets:
-            connDetsId.append(condet.connId)
-        for i in range(len(connections)):
-            self.ui.listOfConn.setItem(i, 0, twi(str(connections[i].id)))
-            self.ui.listOfConn.setCellWidget(i, 1, QtWidgets.QCheckBox())
-            self.ui.listOfConn.cellWidget(i, 1).setCheckState(
-                QtCore.Qt.Checked if (connections[i] in connDetsId) else QtCore.Qt.Unchecked)
-            self.ui.listOfConn.setItem(i, 2, twi(connections[i].ctype))
-            self.ui.listOfConn.setItem(i, 3, twi(connections[i].thicknessOfElement))
-            self.ui.listOfConn.setItem(i, 4, twi(connections[i].jointBevelling))
-            self.ui.listOfConn.setItem(i, 5, twi(connections[i].seamDimensions))
-            self.ui.listOfConn.setItem(i, 6,
-                                    twi(connections[i].fillerWireMark + '/' + str(connections[i].fillerWireDiam)))
-            self.ui.listOfConn.setItem(i, 7, twi(str(connections[i].wireConsumption)))
-            self.ui.listOfConn.setItem(i, 8, twi(connections[i].shieldingGasType))
-            self.ui.listOfConn.setItem(i, 9, twi(str(connections[i].shieldingGasConsumption)))
-            self.ui.listOfConn.setItem(i, 10, twi(connections[i].programmName))
-            self.ui.listOfConn.setItem(i, 11, twi(str(connections[i].weldingTime)))
+        if mainUi.otype == "blueprint":
+            self.ui.listOfConn.setColumnCount(12)
+            self.ui.listOfConn.setHorizontalHeaderLabels(
+                ["id", "Присвоено", "Вид сварного соединения", "Толщина элементов", "Разделка кромок",
+                 "Размеры шва (мм)",
+                 "Марка/сечение проволоки", "Расход проволоки (см/мин)", "Газ", "Расход газа (л/мин)",
+                 "Программа сварки", "Рассчётное время"])
+            self.ui.listOfConn.hideColumn(0)
+            connections = Connection.select()
+            self.ui.listOfConn.setRowCount(len(connections))
+            connDetsId = []
+            condets = DetConn.select().where(DetConn.detailId == self.detId)
+            for condet in condets:
+                connDetsId.append(condet.connId)
+            for i in range(len(connections)):
+                self.ui.listOfConn.setItem(i, 0, twi(str(connections[i].id)))
+                self.ui.listOfConn.setCellWidget(i, 1, QtWidgets.QCheckBox())
+                self.ui.listOfConn.cellWidget(i, 1).setCheckState(
+                    QtCore.Qt.Checked if (connections[i] in connDetsId) else QtCore.Qt.Unchecked)
+                self.ui.listOfConn.setItem(i, 2, twi(connections[i].ctype))
+                self.ui.listOfConn.setItem(i, 3, twi(connections[i].thicknessOfElement))
+                self.ui.listOfConn.setItem(i, 4, twi(connections[i].jointBevelling))
+                self.ui.listOfConn.setItem(i, 5, twi(connections[i].seamDimensions))
+                self.ui.listOfConn.setItem(i, 6,
+                                        twi(connections[i].fillerWireMark + '/' + str(connections[i].fillerWireDiam)))
+                self.ui.listOfConn.setItem(i, 7, twi(str(connections[i].wireConsumption)))
+                self.ui.listOfConn.setItem(i, 8, twi(connections[i].shieldingGasType))
+                self.ui.listOfConn.setItem(i, 9, twi(str(connections[i].shieldingGasConsumption)))
+                self.ui.listOfConn.setItem(i, 10, twi(connections[i].programmName))
+                self.ui.listOfConn.setItem(i, 11, twi(str(connections[i].weldingTime)))
+        elif mainUi.otype == "realDetail":
+            self.ui.listOfConn.setColumnCount(10)
+            self.ui.listOfConn.hideColumn(0)
+            self.ui.listOfConn.setHorizontalHeaderLabels(
+                ["id", "Тип соединения", "Тип детали", "Номер партии", "Номер детали", "Начало", "Окончание", "Статус",
+                 "Программа сварки", "Пользователь"])
+            seams = Seam.select()
+            self.ui.listOfConn.setRowCount(len(seams))
+            for i in range(len(seams)):
+                self.ui.listOfConn.setItem(i, 0, twi(str(seams[i].id)))
+                if seams[i].connId is not None:
+                    self.ui.listOfConn.setItem(i, 1, twi(str(seams[i].connId.ctype)))
+                if seams[i].detailId is not None:
+                    self.ui.listOfConn.setItem(i, 2, twi(str(seams[i].detailId.detailName)))
+                self.ui.listOfConn.setItem(i, 3, twi(str(seams[i].batchNumber)))
+                self.ui.listOfConn.setItem(i, 4, twi(str(seams[i].detailNumber)))
+                self.ui.listOfConn.setItem(i, 5, twi(str(seams[i].startTime)[:19]))
+                self.ui.listOfConn.setItem(i, 6, twi(str(seams[i].endTime)[:19]))
+                if seams[i].endStatus:
+                    self.ui.listOfConn.setItem(i, 7, twi("Успешно"))
+                else:
+                    self.ui.listOfConn.setItem(i, 7, twi("Ошибка!"))
+                self.ui.listOfConn.setItem(i, 8, twi(seams[i].weldingProgram))
+                if seams[i].authorizedUser is not None:
+                    self.ui.listOfConn.setItem(i, 9, twi(str(seams[i].authorizedUser.name)))
         self.ui.listOfConn.resizeColumnsToContents()
         self.ui.addButton.clicked.connect(self.add)
 
     def add(self):
-        print("add", id)
-        for i in range(self.ui.listOfConn.rowCount()):
-            conId = int(self.ui.listOfConn.item(i, 0).text())
-            countInDb = len(DetConn.select().where((DetConn.detailId == self.detId) & (DetConn.connId == conId)))
-            isAdd = self.ui.listOfConn.cellWidget(i, 1).isChecked()
-            if countInDb == 0 and isAdd:
-                DetConn(
-                connId=conId,
-                detailId=self.detId).save()
-            elif countInDb > 0 and not isAdd:
-                print("dell")
-                dellDetConn = DetConn.get((DetConn.detailId == self.detId) & (DetConn.connId == conId))
-                dellDetConn.delete_instance()
+        if self.mainUi.otype == "realDetail":
+            addInd = []
+            for ind in self.ui.listOfConn.selectedIndexes():
+                if ind.row() not in addInd:
+                    addInd.append(ind.row())
+            for ind in addInd:
+                print(self.ui.listOfConn.item(ind, 0).text())
+                query = Seam.update(
+                    batchNumber=self.mainUi.batchNumber_2.text(),
+                    detailNumber=self.mainUi.numberInBatch.text()).where(
+                    Seam.id == int(self.ui.listOfConn.item(ind, 0).text()))
+                query.execute()
+            #self.mainUi.realDetailView(self.detId)
+        elif self.mainUi.otype == "blueprint":
+            for i in range(self.ui.listOfConn.rowCount()):
+                conId = int(self.ui.listOfConn.item(i, 0).text())
+                countInDb = len(DetConn.select().where((DetConn.detailId == self.detId) & (DetConn.connId == conId)))
+                isAdd = self.ui.listOfConn.cellWidget(i, 1).isChecked()
+                if countInDb == 0 and isAdd:
+                    DetConn(
+                    connId=conId,
+                    detailId=self.detId).save()
+                elif countInDb > 0 and not isAdd:
+                    print("dell")
+                    dellDetConn = DetConn.get((DetConn.detailId == self.detId) & (DetConn.connId == conId))
+                    dellDetConn.delete_instance()
+                    self.mainUi.detailView(self.detId)
+        self.close()
+
 
 
 class chooseData(QtWidgets.QWidget):
     seamId = 0
     dataType = 'connection'
-    def __init__(self, id, dataType):
+    def __init__(self, id, dataType, mainUi):
         super().__init__()
         self.seamId = id
         self.dataType = dataType
+        self.mainUi = mainUi
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.ui.chooseTable.doubleClicked.connect(self.doubleClick)
+        self.ui.selectButton.hide()
         if self.dataType == 'user':
             self.ui.chooseTable.setColumnCount(3)
             self.ui.chooseTable.setHorizontalHeaderLabels(
@@ -1159,7 +1457,7 @@ class chooseData(QtWidgets.QWidget):
                     Seam.id == self.seamId)
                 query.execute()
             elif self.dataType == 'blueprint':
-                query = Seam.update(detailId=id).where(
+                query = Seam.update(detailId=id, connId=None).where(
                     Seam.id == self.seamId)
                 query.execute()
             elif self.dataType == 'connection':
@@ -1167,6 +1465,7 @@ class chooseData(QtWidgets.QWidget):
                     Seam.id == self.seamId)
                 query.execute()
             self.close()
+            self.mainUi.protocolView(self.seamId)
 
 
 class settingsWin(QtWidgets.QWidget):
