@@ -380,23 +380,6 @@
          </layout>
         </item>
         <item>
-         <widget class="QProgressBar" name="testBar">
-          <property name="maximum">
-           <number>20</number>
-          </property>
-          <property name="value">
-           <number>20</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSlider" name="testSlider">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QChartView" name="graph">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -470,7 +453,7 @@
              <string>Коррекция U</string>
             </property>
             <property name="checked">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -1091,6 +1074,9 @@ p, li { white-space: pre-wrap; }
             </item>
             <item row="1" column="1">
              <widget class="QLineEdit" name="connId">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="toolTip">
                <string>Идентификатор соединения</string>
               </property>
@@ -1614,7 +1600,11 @@ p, li { white-space: pre-wrap; }
                  <item row="0" column="1">
                   <layout class="QGridLayout" name="gridLayout_8">
                    <item row="0" column="0">
-                    <widget class="QLineEdit" name="pdfAdress"/>
+                    <widget class="QLineEdit" name="pdfAdress">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                    </widget>
                    </item>
                    <item row="0" column="1">
                     <widget class="QToolButton" name="choosePdfAdress">
@@ -1824,7 +1814,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionback">
    <property name="text">
-    <string>back</string>
+    <string>Назад</string>
    </property>
   </action>
   <action name="timePdf">

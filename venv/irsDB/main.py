@@ -22,7 +22,7 @@ import struct
 import archivate
 import chooseDB as cdb
 import os
-import OPCclient as oc
+import OPCclient as opcc
 
 #pyuic5 -x base.ui -o gui.py
 
@@ -35,10 +35,12 @@ class UImodif(Ui_MainWindow):
     AfUser = User.select()[0]
     A = archivate.Archivator("IRSwelding.db")
     isActualDB = True
+    HarvestrDict = {}
 
     #инициализация функций нажатий
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow, app):
         super().setupUi(MainWindow)
+        self.app = app
         #кнопки
         self.loginBtn.clicked.connect(self.login)
         self.addBtn.clicked.connect(self.add)
@@ -54,8 +56,9 @@ class UImodif(Ui_MainWindow):
         self.addSeamBtn.clicked.connect(lambda: MainWindow.addConnDia(self.curId))
         self.saveProtocolBtn.clicked.connect(self.saveProtocol)
         self.delSeamBtn.clicked.connect(self.delSeamFromDetail)
+        self.createDetailPdf.clicked.connect(self.detReport)
 
-        self.actionback.triggered.connect(lambda: self.redirect(4))
+        self.actionback.triggered.connect(self.backToTable)#lambda: self.redirect(4))
 
         #выбор данных шва
         self.chooseEqvipment.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId, 'eqvipment'))
@@ -114,9 +117,22 @@ class UImodif(Ui_MainWindow):
         self.pushButton_12.hide()
         self.gasDeltaChb.hide()
         self.gasConsumptionchb.hide()
+        self.voltageCorrectionchb.hide()
 
 
     #######Область тестовых функций########
+    def backToTable(self):
+        self.toolBar.hide()
+        self.adpanel(self.otype)
+
+    def detReport(self):
+        batch = self.batchNumber_2.text()
+        det = self.numberInBatch.text()
+        adress = self.pdfAdress.text()
+        print(batch, det, adress)
+        pg.create_pdf(adress,batch,det)
+
+
     def saveProtocol(self):
         if self.curId < 1:
             try:
@@ -153,6 +169,7 @@ class UImodif(Ui_MainWindow):
         self.AfUser = None
         self.menubar.hide()
         self.toolBar.hide()
+        self.HarvestrDict = {}
         self.redirect(1)
 
     def ar(self):
@@ -315,6 +332,8 @@ class UImodif(Ui_MainWindow):
             self.tableWidget.setCellWidget(i, 8, QtWidgets.QCheckBox())
             self.tableWidget.setCellWidget(i, 9, QtWidgets.QCheckBox())
             self.tableWidget.setCellWidget(i, 10, QtWidgets.QCheckBox())
+            self.tableWidget.setCellWidget(i, 11, QtWidgets.QCheckBox())
+            self.tableWidget.setCellWidget(i, 12, QtWidgets.QCheckBox())
         elif self.otype == "blueprint":
             self.redirect(2)
             #self.detailView(3)
@@ -380,16 +399,24 @@ class UImodif(Ui_MainWindow):
             elif self.otype == "blueprint":
                 query = Seam.update(detailId=None).where(Seam.detailId == dellId)
                 query.execute()
-                dellDetConn = DetConn.select().where(DetConn.connId  == dellId)
-                dellDetConn.delete_instance()
-                dellDetail = Detail.get(Detail.id == dellId)
-                dellDetail.delete_instance()
+                try:
+                    dellDetConn = DetConn.select().where(DetConn.connId  == dellId)
+                    dellDetConn.delete_instance()
+                except: pass
+                try:
+                    dellDetail = Detail.get(Detail.id == dellId)
+                    dellDetail.delete_instance()
+                except:pass
                 self.detailTable()
             elif self.otype == "connections":
-                query = Seam.update(connId=None).where(connId.detailId == dellId)
-                query.execute()
-                dellDetConn = DetConn.select().where(DetConn.connId == dellId)
-                dellDetConn.delete_instance()
+                try:
+                    query = Seam.update(connId=None).where(connId.detailId == dellId)
+                    query.execute()
+                except:pass
+                try:
+                    dellDetConn = DetConn.select().where(DetConn.connId == dellId)
+                    dellDetConn.delete_instance()
+                except: pass
                 dellConnection = Connection.get(Connection.id == dellId)
                 dellConnection.delete_instance()
                 self.connectTable()
@@ -408,9 +435,20 @@ class UImodif(Ui_MainWindow):
             elif self.otype == "seams":
                 dellOscilationType = Seam.get(Seam.id == dellId)
                 dellOscilationType.delete_instance()
-                self.oscilationTable()
+                self.veiwSeamTable()
             elif self.otype == "realDetail":
-                print("dell")
+                try:
+                    delDeteil = int(self.tableWidget.item(self.tableWidget.currentRow(), 4).text())
+                    delBatch = int(self.tableWidget.item(self.tableWidget.currentRow(), 3).text())
+                except:
+                    pass
+                print("dell", delDeteil, delBatch)
+                query = Seam.update(
+                    batchNumber="",
+                    detailNumber="").where(
+                    Seam.batchNumber == delBatch and Seam.detailNumber == delDeteil)
+                query.execute()
+                self.realDetailTable()
 
 
     def initChart(self, seamId):
@@ -422,9 +460,9 @@ class UImodif(Ui_MainWindow):
             storchSpeed = struct.unpack('%sf' % (len(seam.torchSpeed)//4), seam.torchSpeed)
             scurrent = struct.unpack('%sf' % (len(seam.current)//4), seam.current)
             svoltage = struct.unpack('%sf' % (len(seam.voltage)//4), seam.voltage)
-            svoltageCorrection = struct.unpack('%sf' % (len(seam.voltageCorrection)//4), seam.voltageCorrection)
+            svoltageCorrection = [0,0,0]#struct.unpack('%sf' % (len(seam.voltageCorrection)//4), seam.voltageCorrection)
             swireSpeed = struct.unpack('%sf' % (len(seam.wireSpeed)//4), seam.wireSpeed)
-            sgasConsumption = struct.unpack('%sf' % (len(seam.gasConsumption)//4), seam.gasConsumption)
+            sgasConsumption = [0,0,0]# struct.unpack('%sf' % (len(seam.gasConsumption)//4), seam.gasConsumption)
             print("svoltage",svoltage)
 
             # вывод данных на график
@@ -486,10 +524,8 @@ class UImodif(Ui_MainWindow):
             pen.setWidth(3)
             gasDelta.setPen(pen)
 
-            duration = 5
-            fraqency = 10
             # данные
-            processTime = np.linspace(0, duration, duration * fraqency + 1)
+            processTime = np.linspace(0, seam.period *len(storchSpeed), len(storchSpeed)+1)
             z = zip(processTime, storchSpeed, scurrent, svoltage, svoltageCorrection, swireSpeed, sgasConsumption)
             """for x, y3, y5, y6, y7, y8, y9 in zip(storchSpeed, scurrent, svoltage, svoltageCorrection, swireSpeed, sgasConsumption,processTime):
                 torchSpeed.append(x, y3)
@@ -499,8 +535,11 @@ class UImodif(Ui_MainWindow):
                 voltageCorrection.append(x, y7)
                 wireSpeed.append(x, y8)
                 gasConsumption.append(x, y9)"""
-            for time, volt in zip(processTime, svoltage):
+            for time, volt, cur, trchs, wires  in zip(processTime, svoltage,scurrent,storchSpeed,swireSpeed):
                 voltage.append(time, volt)
+                current.append(time, cur)
+                wireSpeed.append(time, wires)
+                torchSpeed.append(time, trchs)
 
 
             # легенды
@@ -521,7 +560,7 @@ class UImodif(Ui_MainWindow):
 
             axisYwire = QValueAxis()
             axisYwire.setLabelFormat("%.2f")
-            axisYwire.setTitleText("Проволока [см/мин]")
+            axisYwire.setTitleText("Проволока [м/мин]")
             self.chart.addAxis(axisYwire, Qt.AlignLeft)
 
             axisYcur = QValueAxis()
@@ -534,7 +573,7 @@ class UImodif(Ui_MainWindow):
 
             axisYtorchSp = QValueAxis()
             axisYtorchSp.setLabelFormat("%.2f")
-            axisYtorchSp.setTitleText("Скорость горелки [см/с]")
+            axisYtorchSp.setTitleText("Скорость горелки [см/мин]")
 
             axisYcorU = QValueAxis()
             axisYcorU.setLabelFormat("%.2f")
@@ -598,7 +637,7 @@ class UImodif(Ui_MainWindow):
 
             self.graph.setRenderHint(QPainter.Antialiasing)
             self.graph.setChart(self.chart)
-            return swireSpeed, sgasConsumption
+            return len(storchSpeed), swireSpeed, sgasConsumption
     ####################################
 
     # временная функция
@@ -608,6 +647,7 @@ class UImodif(Ui_MainWindow):
     #Отображение данных в спец формах
     def realDetailView(self):
         self.stackedWidget.setCurrentIndex(5)
+        self.toolBar.show()
         butchN = self.tableWidget.item(self.tableWidget.currentRow(), 3).text()
         detailN = self.tableWidget.item(self.tableWidget.currentRow(), 4).text()
         print(butchN, detailN)
@@ -636,6 +676,7 @@ class UImodif(Ui_MainWindow):
 
     def protocolView(self, id):
         self.stackedWidget.setCurrentIndex(0)
+        self.toolBar.show()
         seam = Seam.get(Seam.id == id)
         print("its work", seam)
         try:
@@ -651,13 +692,12 @@ class UImodif(Ui_MainWindow):
             self.eqvModel.setText("")
             self.eqvIPadress.setText("")
             self.eqvPort.setText("")
+        self.weldingProgram_2.setText(seam.weldingProgram)
         try:
             conn = Connection.get(Connection.id == seam.connId)
             self.connId_2.setText(conn.ctype)
-            self.weldingProgram_2.setText(conn.programmName)
         except:
             self.connId_2.setText("")
-            self.weldingProgram_2.setText("")
         try:
             det = Detail.get(Detail.id == seam.detailId)
             self.detailId.setText(det.detailName)
@@ -673,29 +713,31 @@ class UImodif(Ui_MainWindow):
         self.startTime.setDateTime(seam.startTime)
         self.endTime.setDateTime(seam.endTime)
         self.endStatus.setCheckState(
-            QtCore.Qt.Checked if seam.endStatus else QtCore.Qt.Unchecked)
+            QtCore.Qt.Unchecked if seam.endStatus else QtCore.Qt.Checked)
+        self.seamPeriod.setValue(seam.period)
         oscs = OscilationType.select()
         self.oscType.clear()
         for osc in oscs:
             self.oscType.addItem(osc.oscName)
-        swireSpeed, sgasConsumption = self.initChart(id)
+        datalenght, swireSpeed, sgasConsumption = self.initChart(id)
         GasCons = round(sum(sgasConsumption) * seam.period / 60, 3)
         WireCons = round(sum(swireSpeed) * seam.period/60, 1)
         if seam.connId is None:
-            self.gasDelta.setText(str(GasCons)+" литров (реальный расход)")
-            self.wireDelta.setText(str(WireCons)+" см (реальный расход)")
+            self.gasDelta.setText("Нет данных")#str(GasCons)+" литров")
+            self.wireDelta.setText(str(WireCons)+" м (реальный расход)")
         else:
             conn = Connection.get(Connection.id == seam.connId)
             t = datetime.datetime.strptime(conn.weldingTime, "%H:%M:%S")
             delta = datetime.timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)
             print(delta.total_seconds())
             WireCons -= (conn.wireConsumption/60*delta.total_seconds())
-            GasCons -= (conn.shieldingGasConsumption/60*delta.total_seconds())
+            GasCons = round(conn.shieldingGasConsumption/60 * datalenght * seam.period,3)
             self.gasDelta.setText(str(GasCons) + " литров")
-            self.wireDelta.setText(str(WireCons) + " см")
+            self.wireDelta.setText(str(WireCons) + " м")
 
     def detailView(self, id):
         self.stackedWidget.setCurrentIndex(2)
+        self.toolBar.show()
         detail = Detail.get(Detail.id == id)
         self.blueprinNumber.setText(str(detail.blueprinNumber))
         self.detailName.setText(detail.detailName)
@@ -720,12 +762,13 @@ class UImodif(Ui_MainWindow):
         self.detailsConnections_2.setRowCount(len(detCons))
         for i in range(len(detCons)):
             self.detailsConnections_2.setItem(i, 0, twi(str(detCons[i].id)))
-            self.detailsConnections_2.setItem(i, 1, twi(str(detCons[i].connId)))
+            self.detailsConnections_2.setItem(i, 1, twi(str(detCons[i].connId.ctype)))
         self.detailsConnections_2.hideColumn(0)
         self.detailsConnections_2.resizeColumnsToContents()
 
     def ConnView(self, id):
         self.stackedWidget.setCurrentIndex(3)
+        self.toolBar.show()
         connection = Connection.get(Connection.id == id)
         self.connId.setText(str(connection.id))
         self.ctype.setText(connection.ctype)
@@ -805,7 +848,7 @@ class UImodif(Ui_MainWindow):
         data = im.tobytes("raw", "BGRA")
         qim = QtGui.QImage(data, im.size[0], im.size[1], QtGui.QImage.Format_ARGB32)
         pix = QtGui.QPixmap.fromImage(qim)
-        label.setPixmap(pix)
+        label.setPixmap(pix.scaled(900, int(900*im.size[1]/im.size[0])))
 
     def veiwNextImg(self, label):
         self.curImg += 1
@@ -847,6 +890,7 @@ class UImodif(Ui_MainWindow):
             if user.passWord == self.passFld.text():
                 self.stackedWidget.setCurrentIndex(4)
                 self.menubar.show()
+
                 self.AfUser = user
                 self.adpanel("blueprint")
 
@@ -902,7 +946,7 @@ class UImodif(Ui_MainWindow):
                 """for eqw in Equipment.select():
                     print(eqw.ip)
                     try:
-                        oc.DataHarvestr(eqw.ip)
+                        opcc.DataHarvestr(eqw.ip)
                     except:
                         print(eqw.ip, "blat")"""
 
@@ -968,12 +1012,14 @@ class UImodif(Ui_MainWindow):
     def saveDeteil(self):
         if self.curId < 1:
             try:
-                Detail(blueprinNumber = self.blueprinNumber.text(),
+                det = Detail(blueprinNumber = self.blueprinNumber.text(),
                 detailName = self.detailName.text(),
                 materialGrade = self.materialGrade.text(),
                 weldingProgram = self.weldingProgram.text(),
                 processingTime = datetime.time(self.HprocessingTime.value(), self.MprocessingTime.value(), self.SprocessingTime.value()),
-                img = self.imgs).save()
+                img = self.imgs)
+                det.save()
+                self.curId = det.id
             except:
                 print("не создано")
         else:
@@ -985,6 +1031,7 @@ class UImodif(Ui_MainWindow):
                 img = self.imgs).where(Detail.id == self.curId)
             query.execute()
         self.adpanel("blueprint")
+        return self.curId
 
     def saveConnChlngs(self):
         print("save conn")
@@ -996,7 +1043,7 @@ class UImodif(Ui_MainWindow):
                 jointBevellingImg = self.imgs,#BlobField()
                 seamDimensions = self.seamDimensions.text(),#CharField()
                 fillerWireMark = self.fillerWireMark.text(),#CharField()
-                fillerWireDiam = float(self.fillerWireDiam.text().replace(',','.')),#DoubleField()
+                fillerWireDiam = self.fillerWireDiam.text(),#DoubleField()
                 wireConsumption = float(self.wireConsumption.text().replace(',','.')),#DoubleField()
                 shieldingGasType = self.shieldingGasType.text(),#CharField()
                 shieldingGasConsumption = float(self.shieldingGasConsumption.text().replace(',','.')),#DoubleField()
@@ -1028,6 +1075,7 @@ class UImodif(Ui_MainWindow):
     #Панель администрирования данных
     def adpanel(self, otype):
         self.otype = otype
+        self.toolBar.hide()
         self.tableWidget.clear()
         self.saveBtn.setEnabled(True)
         if self.otype == "user":
@@ -1060,9 +1108,9 @@ class UImodif(Ui_MainWindow):
     #вывод табиц администрирования
     def equipmentTable(self):
         self.adPanelName.setText("Панель управления комплексами:")
-        self.tableWidget.setColumnCount(7)
+        self.tableWidget.setColumnCount(10)
         self.tableWidget.setHorizontalHeaderLabels(
-            ["id", "Серийный номер", "Наименование", "Модель", "IP", "Порт", "Период"])
+            ["id", "Серийный номер", "Наименование", "Модель", "IP", "Порт", "Период","Подключение","Отключение","Статус"])
         equipments = Equipment.select()
         self.tableWidget.setRowCount(len(equipments))
         for i in range(len(equipments)):
@@ -1077,7 +1125,51 @@ class UImodif(Ui_MainWindow):
             self.tableWidget.setCellWidget(i, 6, QtWidgets.QDoubleSpinBox())
             self.tableWidget.cellWidget(i, 6).setMinimum(0.1)
             self.tableWidget.cellWidget(i, 6).setValue(equipments[i].period)
+            self.tableWidget.setCellWidget(i, 7, QtWidgets.QPushButton("Подключиться"))
+            self.tableWidget.cellWidget(i,7).clicked.connect(self.robConnect)
+            self.tableWidget.setCellWidget(i, 8, QtWidgets.QPushButton("Отключиться"))
+            self.tableWidget.cellWidget(i, 8).clicked.connect(self.robDisconnect)
+            self.tableWidget.setItem(i, 9, twi("Нет подключения"))
+            self.tableWidget.item(i,9).setBackground(Qt.red)
         self.tableWidget.resizeColumnsToContents()
+
+    def robConnect(self):
+        btn = self.app.focusWidget()
+        ind = self.tableWidget.indexAt(btn.pos())
+        ip = self.tableWidget.item(ind.row(), 4).text()
+        print("Connect to",ip)
+        self.statusBar.showMessage("Подключение к: " + ip, 3000)
+        ###
+        try:
+            if ip in self.HarvestrDict:
+                print(self.HarvestrDict[ip])
+                self.HarvestrDict[ip].start()
+            else:
+                try:
+                    equId = Equipment.get(Equipment.ip == ip).id
+                except: pass
+                guiInfo = [self.statusBar,self.AfUser,equId]
+                print("new harvestr")
+                self.HarvestrDict[ip] = opcc.DataHarvestr(ip, self.statusBar, self.AfUser.id)
+                self.HarvestrDict[ip].start()
+
+            self.tableWidget.item(ind.row(), 9).setText("Подключено")
+            self.tableWidget.item(ind.row(), 9).setBackground(Qt.green)
+        except:
+            self.statusBar.showMessage("Нет подключения к: " + ip, 3000)
+
+    def robDisconnect(self):
+        btn = self.app.focusWidget()
+        ind = self.tableWidget.indexAt(btn.pos())
+        ip = self.tableWidget.item(ind.row(), 4).text()
+        self.statusBar.showMessage("Отключение от: " + ip, 3000)
+        ###
+        try:
+
+            self.tableWidget.item(ind.row(), 9).setText("Нет подключения")
+            self.tableWidget.item(ind.row(), 9).setBackground(Qt.red)
+        except:
+            pass
 
     def detailTable(self):
         self.adPanelName.setText("Панель управления чертежами:")
@@ -1163,7 +1255,7 @@ class UImodif(Ui_MainWindow):
         self.adPanelName.setText("Панель управления соединениями:")
         self.tableWidget.setColumnCount(12)
         self.tableWidget.setHorizontalHeaderLabels(
-            ["id", "Вид соединения", "Толщина элементов", "Разделка кромок", "Размеры шва с допусками", "Марка/сечение проволоки", "Расход проволоки [см/мин]","Защитный газ","Расход газа [л/мин]","Программа сварки","Расчётное время","Предпочтительное частота сбора данных [с]"])
+            ["id", "Вид соединения", "Толщина элементов", "Разделка кромок", "Размеры шва с допусками", "Марка/сечение проволоки", "Расход проволоки [м/мин]","Защитный газ","Расход газа [л/мин]","Программа сварки","Расчётное время","Предпочтительное частота сбора данных [с]"])
         connections = Connection.select()
         self.tableWidget.setRowCount(len(connections))
         for i in range(len(connections)):
@@ -1183,9 +1275,9 @@ class UImodif(Ui_MainWindow):
 
     def veiwSeamTable(self):
         self.adPanelName.setText("Панель управления швами:")
-        self.tableWidget.setColumnCount(10)
+        self.tableWidget.setColumnCount(11)
         self.tableWidget.setHorizontalHeaderLabels(
-            ["id", "Тип соединения", "Тип детали", "Номер партии", "Номер детали", "Начало", "Окончание", "Статус",
+            ["id", "Тип соединения", "Тип детали", "Номер партии", "Номер детали", "Начало", "Окончание", "Статус","Установка",
              "Программа сварки", "Пользователь"])
         seams = Seam.select()
         self.tableWidget.setRowCount(len(seams))
@@ -1199,13 +1291,15 @@ class UImodif(Ui_MainWindow):
             self.tableWidget.setItem(i, 4, twi(str(seams[i].detailNumber)))
             self.tableWidget.setItem(i, 5, twi(str(seams[i].startTime)[:19]))
             self.tableWidget.setItem(i, 6, twi(str(seams[i].endTime)[:19]))
-            if seams[i].endStatus:
+            if seams[i].endStatus == 0:
                 self.tableWidget.setItem(i, 7, twi("Успешно"))
             else:
                 self.tableWidget.setItem(i, 7, twi("Ошибка!"))
-            self.tableWidget.setItem(i, 8, twi(seams[i].weldingProgram))
+            if seams[i].equipmentId is not None:
+                self.tableWidget.setItem(i, 8, twi(str(seams[i].equipmentId.name)))
+            self.tableWidget.setItem(i, 9, twi(seams[i].weldingProgram))
             if seams[i].authorizedUser is not None:
-                self.tableWidget.setItem(i, 9, twi(str(seams[i].authorizedUser.name)))
+                self.tableWidget.setItem(i, 10, twi(str(seams[i].authorizedUser.name)))
         self.tableWidget.resizeColumnsToContents()
 
     def oscilationTable(self):
@@ -1228,10 +1322,10 @@ class UImodif(Ui_MainWindow):
     #######################################
 
 class MWin(QtWidgets.QMainWindow):
-    def __init__(self):
+    def __init__(self, app):
         super().__init__()
         self.ui = UImodif()
-        self.ui.setupUi(self)
+        self.ui.setupUi(self, app)
 
     def addConnDia(self, id):
         self.dialog = AddConn(id, self.ui)
@@ -1357,6 +1451,8 @@ class AddConn(QtWidgets.QWidget):
                 query.execute()
             #self.mainUi.realDetailView(self.detId)
         elif self.mainUi.otype == "blueprint":
+            if self.detId < 1:
+                self.detId = self.mainUi.saveDeteil()
             for i in range(self.ui.listOfConn.rowCount()):
                 conId = int(self.ui.listOfConn.item(i, 0).text())
                 countInDb = len(DetConn.select().where((DetConn.detailId == self.detId) & (DetConn.connId == conId)))
@@ -1371,7 +1467,6 @@ class AddConn(QtWidgets.QWidget):
                     dellDetConn.delete_instance()
                     self.mainUi.detailView(self.detId)
         self.close()
-
 
 
 class chooseData(QtWidgets.QWidget):
@@ -1501,8 +1596,7 @@ class settingsWin(QtWidgets.QWidget):
                             self.ui.size.text())
 
 
-
 app = QtWidgets.QApplication(sys.argv)
-MainWindow = MWin()
+MainWindow = MWin(app)
 MainWindow.show()
 sys.exit(app.exec_())
