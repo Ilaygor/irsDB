@@ -1,7 +1,7 @@
 from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, PageBreak, Image
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, PageBreak
 from reportlab.platypus.flowables import Flowable
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import mm
@@ -20,6 +20,8 @@ from io import BytesIO
 import numpy as np
 import byteimgs as bi
 import struct
+
+from PIL import Image as plimg
 
 import datetime
 ########################################################################
@@ -245,7 +247,7 @@ def create_periodPdf(pdf_path, start, end):
         Story.append(addSeamTable(seam, styles))
         """bkmrk = Bookmark("seam", str(seam))
         Story.append(bkmrk)"""
-        Story.append(addChart(storchSpeed, "Скорость горелки", "Скорость горелки [см/мин]",seam.period))
+        Story.append(addChart(storchSpeed, "Скорость сварки", "Скорость сварки [см/мин]",seam.period))
         Story.append(addChart(scurrent, "Ток источника", "Ток источника [А]",seam.period))
         Story.append(addChart(svoltage, "Напряжение источника", "Напряжение источника [В]",seam.period))
         Story.append(addChart(swireSpeed, "Расход проволоки", "Расход проволоки [м/мин]",seam.period))
@@ -254,7 +256,7 @@ def create_periodPdf(pdf_path, start, end):
 
 def create_pdf(pdf_path, batchNumber, detailNumber):
     pdfmetrics.registerFont(TTFont('DejaVuSans', "DejaVuSansCondensed.ttf"))
-    doc = SimpleDocTemplate(pdf_path+"/Отчёт по детали № " + str(detailNumber) + " партии № " + str(batchNumber) + ".pdf", pagesize=A4,
+    doc = SimpleDocTemplate(pdf_path+"/Отчёт по детали " + str(detailNumber) + " партии " + str(batchNumber) + ".pdf", pagesize=A4,
                             rightMargin=72, leftMargin=72,
                             topMargin=54, bottomMargin=18)
     styles = getSampleStyleSheet()
@@ -263,16 +265,18 @@ def create_pdf(pdf_path, batchNumber, detailNumber):
 
     Story = []
 
-    Story.append(Paragraph("Отчёт по детали № " + str(detailNumber) + " партии № " + str(batchNumber), styles["russMain"]))
+    Story.append(Paragraph("Отчёт по детали " + str(detailNumber) + " партии " + str(batchNumber), styles["russMain"]))
 
-    seams = Seam.select().where(Seam.batchNumber == batchNumber and Seam.detailNumber == detailNumber).order_by(Seam.connId)
+    seams = Seam.select().where(Seam.batchNumber == batchNumber , Seam.detailNumber == detailNumber).order_by(Seam.connId)
+    print(batchNumber, detailNumber, len(seams))
     detail = Detail.get(Detail.id == seams[0].detailId)
 
     Story.append(addDetTable(detail, styles))
     Story.append(Spacer(0, 5))
     detImg = bi.unzip(detail.img)
     stream = BytesIO(detImg[-1])
-    im = Image(stream, 300)
+    img = plimg.open(stream)
+    im = Image(stream, 300, int(300*img.size[1]/img.size[0]))
     Story.append(im)
 
     Story.append(PageBreak())
@@ -283,7 +287,7 @@ def create_pdf(pdf_path, batchNumber, detailNumber):
         svoltage = struct.unpack('%sf' % (len(seam.voltage) // 4), seam.voltage)
         swireSpeed = struct.unpack('%sf' % (len(seam.wireSpeed) // 4), seam.wireSpeed)
         Story.append(addSeamTable(seam, styles))
-        Story.append(addChart(storchSpeed, "Скорость горелки", "Скорость горелки [см/мин]",seam.period))
+        Story.append(addChart(storchSpeed, "Скорость сварки", "Скорость сварки [см/мин]",seam.period))
         Story.append(addChart(scurrent, "Ток источника", "Ток источника [А]",seam.period))
         Story.append(addChart(svoltage, "Напряжение источника", "Напряжение источника [В]",seam.period))
         Story.append(addChart(swireSpeed, "Расход проволоки", "Расход проволоки [м/мин]",seam.period))

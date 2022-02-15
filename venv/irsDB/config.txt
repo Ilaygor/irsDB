@@ -1,5 +1,5 @@
-saveAdress D:/irsDB/venv/irsDB/backup
-periodH 2
-periodM 0
-periodS 0
-sizeparam 1000000
+saveAdress|C:/backup
+periodH|2
+periodM|0
+periodS|0
+sizeparam|3

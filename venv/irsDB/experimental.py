@@ -530,32 +530,22 @@ def createMultiPage():
 
     doc.build(Story, canvasmaker=PageNumCanvas)
 
-
+pyinstaller --onefile --icon=IRS256.ico main.py --name IRS
 # ----------------------------------------------------------------------
 if __name__ == "__main__":
     createMultiPage()"""
 from models import *
+import archivate as arc
+import os
+import time
 if __name__ == "__main__":
-    print(Equipment.get(Equipment.ip == '172.31.1.32').id)
-    print(Equipment.get(Equipment.ip == "172.31.1.32").id)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    size = os.path.getsize("D:/irsDB/venv/irsDB/IRSwelding.db")
+    print(size//1000000)
+    a = arc.Archivator("IRSwelding.db")
+    a.arch("test","D:/irsDB/venv/irsDB/backup")
+    a.autoarch()
+    time.sleep(5)
+    """dellId = 2
+    dellDetConns = DetConn.select().where(DetConn.connId == dellId)
+    for dellDetConn in dellDetConns:
+        dellDetConn.delete_instance()"""
