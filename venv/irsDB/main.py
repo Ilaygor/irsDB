@@ -1,5 +1,5 @@
 import time
-print("Подготовка необходимых пакетов")
+print("Подготовка необходимых пакетов ПО")
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QTableWidgetItem as twi
 from PyQt5.QtWidgets import QMessageBox, QLineEdit
@@ -10,7 +10,8 @@ from PyQt5.QtGui import QColor, QBrush, QPainter, QMouseEvent
 from PIL import Image, ImageQt
 import pdfGenerator as pg
 import numpy as np
-from models import *
+from migration300522 import *
+
 from GUI import *
 from connWin import *
 from selectUI import *
@@ -30,6 +31,12 @@ import threading
 
 #pyuic5 -x base.ui -o gui.py
 
+from mainWinFunc.models import *
+from mainWinFunc import loginFunc
+from mainWinFunc.popUpWins import *
+from mainWinFunc.tabelVeiwers import *
+from mainWinFunc.chartPainter import *
+
 class UImodif(Ui_MainWindow):
 
     otype = ""
@@ -44,18 +51,17 @@ class UImodif(Ui_MainWindow):
     isActualDB = True
     HarvestrDict = {}
 
-
     #инициализация функций нажатий
     def setupUi(self, MainWindow, app):
         super().setupUi(MainWindow)
         self.app = app
         #стартовая конфигурация!!!!!!!!!!!!!!!!!!!!!! перед сборкой раскомитить !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        self.exitf()
+        loginFunc.exitf(self)
         #self.centralwidget.setStyleSheet("background-color:white;")
         #self.centralwidget.setStyleSheet("")
         #кнопки
         self.passFld.setEchoMode(QLineEdit.Password)
-        self.loginBtn.clicked.connect(self.login)
+        self.loginBtn.clicked.connect(lambda: loginFunc.login(self))
         self.addBtn.clicked.connect(self.add)
         self.saveChalenges.clicked.connect(self.saveDeteil)
         self.saveConn.clicked.connect(self.saveConnChlngs)
@@ -63,9 +69,9 @@ class UImodif(Ui_MainWindow):
         self.saveBtn.clicked.connect(self.save)
         self.delBtn.clicked.connect(self.dell)
         self.addConnection.clicked.connect(lambda: MainWindow.addConnDia(self.curId))
-        self.viewBlueprintBtn.clicked.connect(lambda: self.detailView(self.curId))
+        self.viewBlueprintBtn.clicked.connect(self.footprintView)
         self.choosePdfAdress.clicked.connect(self.adrForPdf)
-        self.home.clicked.connect(lambda: self.initChart(self.curId))
+        self.home.clicked.connect(lambda: initChart(self, self.curId))
         self.addSeamBtn.clicked.connect(lambda: MainWindow.addConnDia(self.curId))
         self.saveProtocolBtn.clicked.connect(self.saveProtocol)
         self.delSeamBtn.clicked.connect(self.delSeamFromDetail)
@@ -74,14 +80,13 @@ class UImodif(Ui_MainWindow):
 
         self.chooseBlueprintBtn.clicked.connect(lambda: MainWindow.chooseDataDia(None, 'blueprint'))
 
-        self.actionback.triggered.connect(self.backToTable)#lambda: self.redirect(4))
+        self.actionback.triggered.connect(lambda: backToTable(self))#lambda: self.redirect(4))
 
         #выбор данных шва
         self.chooseEqvipment.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId, 'eqvipment'))
         self.chooseUser.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId, 'user'))
-        self.chooseBlueprint.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId, 'blueprint'))
+        self.chooseBlueprint.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId, 'realDetail'))
         self.chooseConn.clicked.connect(lambda: MainWindow.chooseDataDia(self.curId, 'connection'))
-
 
         # действия с изображениями
         self.addDetImg.clicked.connect(lambda: self.newImg(self.DetImg))
@@ -93,41 +98,36 @@ class UImodif(Ui_MainWindow):
         self.nextConnImg.clicked.connect(lambda: self.veiwNextImg(self.connImg))
         self.delConnImg.clicked.connect(lambda: self.delImg(self.connImg))
 
-
         #пункты меню
-        self.exit.triggered.connect(self.exitf)
-        self.detail.triggered.connect(lambda: self.adpanel("blueprint"))
-        self.connections.triggered.connect(lambda: self.adpanel("connections"))
-        self.realDetail.triggered.connect(lambda: self.adpanel("realDetail"))
-        self.seams.triggered.connect(lambda: self.adpanel("seams"))
-        self.users.triggered.connect(lambda: self.adpanel("user"))
+        self.exit.triggered.connect(lambda: loginFunc.exitf(self))
+        self.detail.triggered.connect(lambda: adpanel(self, "blueprint"))
+        self.connections.triggered.connect(lambda: adpanel(self, "connections"))
+        self.realDetail.triggered.connect(lambda: adpanel(self, "realDetail"))
+        self.seams.triggered.connect(lambda: adpanel(self, "seams"))
+        self.users.triggered.connect(lambda: adpanel(self, "user"))
         self.makeArch.triggered.connect(self.manualArch)
         self.chooseArch.triggered.connect(self.chArch)
-        self.equipments.triggered.connect(lambda: self.adpanel("equipments"))
+        self.equipments.triggered.connect(lambda: adpanel(self, "equipments"))
         self.timePdf.triggered.connect(MainWindow.timePdfDia)
-        self.oscTypeTable.triggered.connect(lambda: self.adpanel("oscilation"))
+        self.oscTypeTable.triggered.connect(lambda: adpanel(self, "oscilation"))
         self.archSettings.triggered.connect(lambda: MainWindow.archSettings(self.A))
         self.returnToActualDB.triggered.connect(self.returnToActual)
         self.saveArchAs.triggered.connect(self.sArchAs)
-
-
-
         self.tableWidget.doubleClicked.connect(self.doubleClick)
 
 
         #перерисовка графика
         self.graph.setRubberBand(QChartView.HorizontalRubberBand)
-        self.wireCCchb.stateChanged.connect(lambda: self.initChart(self.curId))
-        self.gasCCchb.stateChanged.connect(lambda: self.initChart(self.curId))
-        self.torchSpeedchb.stateChanged.connect(lambda: self.initChart(self.curId))
-        self.currentchb.stateChanged.connect(lambda: self.initChart(self.curId))
-        self.voltagechb.stateChanged.connect(lambda: self.initChart(self.curId))
-        self.voltageCorrectionchb.stateChanged.connect(lambda: self.initChart(self.curId))
-        self.wireSpeedchb.stateChanged.connect(lambda: self.initChart(self.curId))
-        self.gasConsumptionchb.stateChanged.connect(lambda: self.initChart(self.curId))
-        self.gasDeltaChb.stateChanged.connect(lambda: self.initChart(self.curId))
-        self.wireDeltaChb.stateChanged.connect(lambda: self.initChart(self.curId))
-
+        self.wireCCchb.stateChanged.connect(lambda: initChart(self, self.curId))
+        self.gasCCchb.stateChanged.connect(lambda: initChart(self, self.curId))
+        self.torchSpeedchb.stateChanged.connect(lambda: initChart(self, self.curId))
+        self.currentchb.stateChanged.connect(lambda: initChart(self, self.curId))
+        self.voltagechb.stateChanged.connect(lambda: initChart(self, self.curId))
+        self.voltageCorrectionchb.stateChanged.connect(lambda: initChart(self, self.curId))
+        self.wireSpeedchb.stateChanged.connect(lambda: initChart(self, self.curId))
+        self.gasConsumptionchb.stateChanged.connect(lambda: initChart(self, self.curId))
+        self.gasDeltaChb.stateChanged.connect(lambda: initChart(self, self.curId))
+        self.wireDeltaChb.stateChanged.connect(lambda: initChart(self, self.curId))
 
 
         self.lineEdit_2.hide()
@@ -136,14 +136,12 @@ class UImodif(Ui_MainWindow):
         self.gasConsumptionchb.hide()
         self.voltageCorrectionchb.hide()
 
-
     #######Область тестовых функций########
     def stopAll(self):
         print(self.HarvestrDict)
         for harvestr in self.HarvestrDict:
             HarvestrDict[harvestr].stop
         self.A.deactivate()
-
 
     def sArchAs(self):
         filename = QtWidgets.QFileDialog.getSaveFileName()[0]
@@ -154,18 +152,12 @@ class UImodif(Ui_MainWindow):
             else:
                 self.A.saveAs("tmp/IRSwelding.db",filename+".zip")
 
-
-    def backToTable(self):
-        self.toolBar.hide()
-        self.adpanel(self.otype)
-
     def detReport(self):
         batch = self.batchNumber_2.text()
         det = self.numberInBatch.text()
         adress = self.pdfAdress.text()
-        print(batch, det, adress)
-        pg.create_pdf(adress,batch,det)
-
+        pg.create_pdf(adress, batch, det)
+        self.statusBar.showMessage("Отчёт готов", 3000)
 
     def saveProtocol(self):
         if self.curId < 1:
@@ -179,7 +171,7 @@ class UImodif(Ui_MainWindow):
                 detailNumber = self.detailNumber.text(),
                 startTime = datetime.datetime.strptime(self.startTime.text(), "%d.%m.%Y %H:%M:%S"),
                 endTime = datetime.datetime.strptime(self.endTime.text(), "%d.%m.%Y %H:%M:%S"),
-                endStatus = self.endStatus.isChecked(),
+                #endStatus = self.endStatus.isChecked(),
                 burnerOscillation = OscilationType.get(OscilationType.oscName == self.oscType.currentText()).id,
                 period = self.seamPeriod.value()).where(
                 Seam.id == self.curId)  # DoubleField()
@@ -188,31 +180,23 @@ class UImodif(Ui_MainWindow):
 
     def delSeamFromDetail(self):
         if (self.batchNumber_2.text() != "" and
-                self.numberInBatch.text() != "" and
-                self.blprName.text() != ""):
+            self.numberInBatch.text() != "" and
+            self.blprName.text() != ""):
             self.realDetailUpdate()
             addInd = []
             for ind in self.seamTable.selectedIndexes():
                 if ind.row() not in addInd:
                     addInd.append(ind.row())
             for ind in addInd:
-                print(self.seamTable.item(ind, 0).text())
+                #print(self.seamTable.item(ind, 0).text())
                 query = Seam.update(
-                    batchNumber="",
-                    detailNumber="").where(
+                    batchNumber = "",
+                    detailNumber = "",
+                    realDetId = None).where(
                     Seam.id == int(self.seamTable.item(ind, 0).text()))
                 query.execute()
-            self.realDetailView(butchN = self.batchNumber_2.text(), detailN = self.numberInBatch.text())
-
-    def exitf(self):
-        self.centralwidget.setStyleSheet("background-color:white;")
-        self.AfUser = None
-        self.menubar.hide()
-        self.toolBar.hide()
-        for harvestr in self.HarvestrDict:
-            HarvestrDict[harvestr].stop
-        self.HarvestrDict = {}
-        self.redirect(1)
+            if self.curId:
+                self.realDetailView(self.curId)
 
     def manualArch(self):
         self.A.arch('User_s reqvest',self.A.getConfig()["saveAdress"])
@@ -220,36 +204,35 @@ class UImodif(Ui_MainWindow):
     def chArch(self):
         filename = QtWidgets.QFileDialog.getOpenFileName(filter = '*.zip')[0]
         if filename != "":
-            print(filename)
+            #print(filename)
             cdb.cooseArch(filename)
-            self.statusBar.showMessage("Переклёчен на архив: "+filename, 3000)
+            migration300522()
+            self.statusBar.showMessage("Переклёчен на архив: " + filename, 3000)
             self.isActualDB = False
-            self.makeEnable(self.AfUser.accessUser, self.AfUser.accessArch, self.AfUser.accessArch,
+            loginFunc.makeEnable(self, self.AfUser.accessUser, self.AfUser.accessArch, self.AfUser.accessArch,
                             self.AfUser.accessArch, self.AfUser.accessArch, self.AfUser.accessArch)
-
 
     def returnToActual(self):
         cdb.connToDb("IRSwelding.db")
+        migration300522()
         try:
             os.remove("tmp/IRSwelding.db")
         except:
             pass
         self.statusBar.showMessage("Переклёчен на актуальную бд", 3000)
         self.isActualDB = True
-        self.makeEnable(self.AfUser.accessUser, self.AfUser.accessDetail, self.AfUser.accessConn,
+        loginFunc.makeEnable(self, self.AfUser.accessUser, self.AfUser.accessDetail, self.AfUser.accessConn,
                         self.AfUser.accessProt, self.AfUser.accessAdd, self.AfUser.accessRemove)
-
 
     def adrForPdf(self):
         filename = QtWidgets.QFileDialog.getExistingDirectory()
-        print(filename)
+        #print(filename)
         self.pdfAdress.setText(filename)
 
     def create_pdf(self):
         adr = self.ui.adress.text()
         if adr != "":
             pg.createPdf(adr)
-
 
     ###########################################
 
@@ -271,7 +254,7 @@ class UImodif(Ui_MainWindow):
                 if (self.tableWidget.item(i, 1) is not None and
                     self.tableWidget.item(i,2) is not None and
                     self.tableWidget.item(i, 3) is not None):
-                    print(self.tableWidget.cellWidget(i, 4).isChecked())
+                    #print(self.tableWidget.cellWidget(i, 4).isChecked())
                     try:
                         User(login=self.tableWidget.item(i, 1).text(),
                              name=self.tableWidget.item(i, 2).text(),
@@ -348,7 +331,7 @@ class UImodif(Ui_MainWindow):
             except: pass
             #assert ok
             pixmap_bytes = ba.data()
-            print(type(pixmap_bytes))
+            #print(type(pixmap_bytes))
             if self.tableWidget.item(i, 0) is None or self.tableWidget.item(i, 0).text() == "":
                 try:
                     OscilationType(
@@ -419,7 +402,7 @@ class UImodif(Ui_MainWindow):
             elif self.otype == "connections":
                 self.ConnView(id)
             elif self.otype == "realDetail":
-                self.realDetailView()
+                self.realDetailView(id)
             elif self.otype == "seams":
                 self.protocolView(id)
             elif self.otype == "oscilation" and self.tableWidget.currentColumn() == 3:
@@ -461,6 +444,10 @@ class UImodif(Ui_MainWindow):
                         query.execute()
                     except: pass
                     try:
+                        query = RealDetail.update(detailId=None).where(RealDetail.detailId == dellId)
+                        query.execute()
+                    except: pass
+                    try:
                         dellDetConns = DetConn.select().where(DetConn.detailId == dellId)
                         for dellDetConn in dellDetConns:
                             dellDetConn.delete_instance()
@@ -469,7 +456,7 @@ class UImodif(Ui_MainWindow):
                         dellDetail = Detail.get(Detail.id == dellId)
                         dellDetail.delete_instance()
                     except:pass
-                self.detailTable()
+                detailTable(self)
             elif self.otype == "connections":
                 for ind in addInd:
                     dellId = int(self.tableWidget.item(ind, 0).text())
@@ -514,251 +501,78 @@ class UImodif(Ui_MainWindow):
             elif self.otype == "realDetail":
                 for ind in addInd:
                     try:
-                        delDeteil = int(self.tableWidget.item(ind, 4).text())
+                        dellId = int(self.tableWidget.item(ind, 0).text())
+                        query = Seam.update(
+                            batchNumber = "",
+                            detailNumber = "",
+                            realDetId = None).where(
+                            Seam.realDetId == dellId)
+                        query.execute()
+                        dellRealDetail = RealDetail.get(RealDetail.id == dellId)
+                        dellRealDetail.delete_instance()
+                        print("dell ok")
+                        """delDeteil = int(self.tableWidget.item(ind, 4).text())
                         delBatch = int(self.tableWidget.item(ind, 3).text())
                         print("dell", delDeteil, delBatch)
                         query = Seam.update(
                             batchNumber="",
                             detailNumber="").where(
                             Seam.batchNumber == delBatch and Seam.detailNumber == delDeteil)
-                        query.execute()
+                        query.execute()"""
                     except:
                         pass
-                self.realDetailTable()
-
-
-    def initChart(self, seamId):
-            # 7+3(2)#получение данных
-            seam = Seam.get(Seam.id == seamId)
-            duration = 2
-            fraqency = 10
-            weldingTime = 2.0
-            storchSpeed = struct.unpack('%sf' % (len(seam.torchSpeed)//4), seam.torchSpeed)
-            scurrent = struct.unpack('%sf' % (len(seam.current)//4), seam.current)
-            svoltage = struct.unpack('%sf' % (len(seam.voltage)//4), seam.voltage)
-            svoltageCorrection = [0,0,0]#struct.unpack('%sf' % (len(seam.voltageCorrection)//4), seam.voltageCorrection)
-            swireSpeed = struct.unpack('%sf' % (len(seam.wireSpeed)//4), seam.wireSpeed)
-            sgasConsumption = [0,0,0]# struct.unpack('%sf' % (len(seam.gasConsumption)//4), seam.gasConsumption)
-            print("svoltage",svoltage)
-
-            # вывод данных на график
-            # рассчётные значения
-            wireCC = QLineSeries()
-            wireCC.setName("Расчётный расход проволоки")
-            gasCC = QLineSeries()
-            gasCC.setName("Расчётный расход газа")
-            # реальные показатели
-            # обявления
-            torchSpeed = QLineSeries()
-            torchSpeed.setName("Скорость сварки")
-            current = QLineSeries()
-            current.setName("Ток")
-            voltage = QLineSeries()
-            voltage.setName("Напряжение")
-            voltageCorrection = QLineSeries()
-            voltageCorrection.setName("Коррекция U")
-            wireSpeed = QLineSeries()
-            wireSpeed.setName("Скорость подачи проволоки")
-            gasConsumption = QLineSeries()
-            gasConsumption.setName("Расход газа")
-
-            wireDelta = QLineSeries()
-            wireDelta.setName("Перерасход проволоки")
-            gasDelta = QLineSeries()
-            gasDelta.setName("Перерасход газа")
-
-            # цвета
-            pen = QPen(QColor(150, 10, 10))
-            pen.setWidth(3)
-            gasCC.setPen(pen)
-            pen = QPen(QColor(10, 10, 255))
-            pen.setWidth(3)
-            wireCC.setPen(pen)
-            pen = QPen(QColor(10, 255, 10))
-            pen.setWidth(3)
-            torchSpeed.setPen(pen)
-            pen = QPen(QColor(255, 10, 10))
-            pen.setWidth(3)
-            current.setPen(pen)
-            pen = QPen(QColor(255, 10, 255))
-            pen.setWidth(3)
-            voltage.setPen(pen)
-            pen = QPen(QColor(255, 255, 10))
-            pen.setWidth(3)
-            voltageCorrection.setPen(pen)
-            pen = QPen(QColor(10, 10, 10))
-            pen.setWidth(3)
-            wireSpeed.setPen(pen)
-            pen = QPen(QColor(10, 120, 10))
-            pen.setWidth(3)
-            gasConsumption.setPen(pen)
-
-            pen = QPen(QColor(10, 120, 120))
-            pen.setWidth(3)
-            wireDelta.setPen(pen)
-            pen = QPen(QColor(120, 10, 10))
-            pen.setWidth(3)
-            gasDelta.setPen(pen)
-
-            # данные
-            processTime = np.linspace(0, seam.period *len(storchSpeed), len(storchSpeed)+1)
-            z = zip(processTime, storchSpeed, scurrent, svoltage, svoltageCorrection, swireSpeed, sgasConsumption)
-            """for x, y3, y5, y6, y7, y8, y9 in zip(storchSpeed, scurrent, svoltage, svoltageCorrection, swireSpeed, sgasConsumption,processTime):
-                torchSpeed.append(x, y3)
-                current.append(x, y5)
-                voltage.append(x, y6)
-                print(x, y6)
-                voltageCorrection.append(x, y7)
-                wireSpeed.append(x, y8)
-                gasConsumption.append(x, y9)"""
-            for time, volt, cur, trchs, wires  in zip(processTime, svoltage,scurrent,storchSpeed,swireSpeed):
-                voltage.append(time, volt)
-                current.append(time, cur)
-                wireSpeed.append(time, wires)
-                torchSpeed.append(time, trchs)
-
-
-            # легенды
-            self.chart = QChart()
-            self.chart.setAcceptHoverEvents(True)
-            self.chart.legend().setVisible(True)
-            self.chart.legend().setAlignment(Qt.AlignBottom)
-
-            axisX = QValueAxis()
-            axisX.setLabelFormat("%f")
-            axisX.setTitleText("Время")
-            self.chart.addAxis(axisX, Qt.AlignBottom)
-
-            axisYgas = QValueAxis()
-            axisYgas.setLabelFormat("%.2f")
-            axisYgas.setTitleText("Газ [л/мин]")
-            self.chart.addAxis(axisYgas, Qt.AlignLeft)
-
-            axisYwire = QValueAxis()
-            axisYwire.setLabelFormat("%.2f")
-            axisYwire.setTitleText("Проволока [м/мин]")
-            self.chart.addAxis(axisYwire, Qt.AlignLeft)
-
-            axisYcur = QValueAxis()
-            axisYcur.setLabelFormat("%.2f")
-            axisYcur.setTitleText("Ток [А]")
-
-            axisYu = QValueAxis()
-            axisYu.setLabelFormat("%.2f")
-            axisYu.setTitleText("Напряжение [В]")
-
-            axisYtorchSp = QValueAxis()
-            axisYtorchSp.setLabelFormat("%.2f")
-            axisYtorchSp.setTitleText("Скорость сварки [см/мин]")
-
-            axisYcorU = QValueAxis()
-            axisYcorU.setLabelFormat("%.2f")
-            axisYcorU.setTitleText("Коррекция U [В]")
-
-            # вывод на график
-            if self.wireSpeedchb.checkState():
-                self.chart.addSeries(wireSpeed)
-                wireSpeed.attachAxis(axisX)
-                wireSpeed.attachAxis(axisYwire)
-            if self.gasConsumptionchb.checkState():
-                self.chart.addSeries(gasConsumption)
-                gasConsumption.attachAxis(axisX)
-                gasConsumption.attachAxis(axisYgas)
-            if self.wireCCchb.checkState():
-                self.chart.addSeries(wireCC)
-                wireCC.attachAxis(axisYwire)
-                wireCC.attachAxis(axisX)
-            if self.gasCCchb.checkState():
-                self.chart.addSeries(gasCC)
-                gasCC.attachAxis(axisX)
-                gasCC.attachAxis(axisYgas)
-            if self.torchSpeedchb.checkState():
-                self.chart.addSeries(torchSpeed)
-                self.chart.addAxis(axisYtorchSp, Qt.AlignLeft)
-                torchSpeed.attachAxis(axisX)
-                torchSpeed.attachAxis(axisYtorchSp)
-            if self.currentchb.checkState():
-                self.chart.addSeries(current)
-                self.chart.addAxis(axisYcur, Qt.AlignLeft)
-                current.attachAxis(axisX)
-                current.attachAxis(axisYcur)
-            if self.voltagechb.checkState():
-                self.chart.addSeries(voltage)
-                self.chart.addAxis(axisYu, Qt.AlignLeft)
-                voltage.attachAxis(axisX)
-                voltage.attachAxis(axisYu)
-            if self.voltageCorrectionchb.checkState():
-                self.chart.addSeries(voltageCorrection)
-                self.chart.addAxis(axisYcorU, Qt.AlignLeft)
-                voltageCorrection.attachAxis(axisX)
-                voltageCorrection.attachAxis(axisYcorU)
-
-            if seam.connId is not None:
-                for x, wire,gas in zip(processTime, swireSpeed, sgasConsumption):
-                    wireDelta.append(x, wire - seam.connId.wireConsumption)
-                    gasDelta.append(x, gas - seam.connId.shieldingGasConsumption)
-                if self.wireDeltaChb.checkState():
-                    self.chart.addSeries(wireDelta)
-                    wireDelta.attachAxis(axisX)
-                    wireDelta.attachAxis(axisYwire)
-                if self.gasDeltaChb.checkState():
-                    self.chart.addSeries(gasDelta)
-                    gasDelta.attachAxis(axisX)
-                    gasDelta.attachAxis(axisYgas)
-
-            font = QFont('Open Sans')
-            font.setPixelSize(14)
-            self.chart.setTitleFont(font)
-            self.chart.setTitle('Параметры сварки')
-
-            self.graph.setRenderHint(QPainter.Antialiasing)
-            self.graph.setChart(self.chart)
-            return len(storchSpeed), swireSpeed, sgasConsumption
-    ####################################
+                realDetailTable(self)
 
     # временная функция
     def redirect(self, n):
         imgs = b'\x00\x00\x00\x00'
         self.stackedWidget.setCurrentIndex(n)
     #Отображение данных в спец формах
-    def realDetailView(self, butchN = None, detailN = None):
+    def realDetailView(self, id):
         self.stackedWidget.setCurrentIndex(5)
         self.toolBar.show()
-        print("realdet",butchN,detailN)
-        if butchN is None or detailN is None:
-            print("currRow",self.tableWidget.currentRow())
-            butchN = self.tableWidget.item(self.tableWidget.currentRow(), 3).text()
-            detailN = self.tableWidget.item(self.tableWidget.currentRow(), 4).text()
-        print(butchN, detailN)
-        details = Seam.select().join(Detail).where(Seam.batchNumber == butchN, Seam.detailNumber == detailN)
-        self.batchNumber_2.setText(butchN)
-        self.numberInBatch.setText(detailN)
-        print("details",details,len(details))
-        if len(details)>0:
-            self.curId = details[-1].detailId if details[-1] else None
-            self.seamTable.setRowCount(len(details))
+        detail = RealDetail.get(RealDetail.id == id)
+        seams = Seam.select().where(Seam.realDetId == id)
+        self.batchNumber_2.setText(detail.batchNumber)
+        self.numberInBatch.setText(detail.detailNumber)
 
-            self.seamTable.setColumnCount(4)
-            self.seamTable.setHorizontalHeaderLabels(
-                ["id","Тип", "Начало", "Окончание"])
-            for i in range(len(details)):
-                self.seamTable.setItem(i, 0, twi(str(details[i].id)))
-                self.seamTable.setItem(i, 1, twi(str(details[i].connId)))
-                self.seamTable.setItem(i, 2, twi(str(details[i].startTime)))
-                self.seamTable.setItem(i, 3, twi(str(details[i].endTime)))
-            self.seamTable.hideColumn(0)
-            self.seamTable.resizeColumnsToContents()
-            if details[-1].detailId is not None:
-                self.blprName.setText(details[-1].detailId.detailName)
-                self.imgs = details[-1].detailId.img
-                self.curImg = 0
-                self.veiwImg(self.dateilImg)
-        else:
-            self.adpanel("realDetail")
+        self.seamTable.setRowCount(len(seams))
+
+        self.seamTable.setColumnCount(4)
+        self.seamTable.setHorizontalHeaderLabels(
+            ["id","Тип", "Начало", "Окончание"])
+        for i in range(len(seams)):
+            self.seamTable.setItem(i, 0, twi(str(seams[i].id)))
+            self.seamTable.setItem(i, 1, twi(str(seams[i].connId.ctype) if seams[i].connId else "Не присвоено"))
+            self.seamTable.setItem(i, 2, twi(str(seams[i].startTime)[:-7]))
+            self.seamTable.setItem(i, 3, twi(str(seams[i].endTime)[:-7]))
+        self.seamTable.hideColumn(0)
+        self.seamTable.resizeColumnsToContents()
+        if detail.detailId is not None:
+            self.blprName.setText(detail.detailId.detailName)
+            self.imgs = detail.detailId.img
+            self.curImg = 0
+            self.veiwImg(self.dateilImg)
 
     def realDetailUpdate(self):
-        print(self.tableWidget.currentRow())
-        if self.tableWidget.currentRow() >= 0:
+        #print(self.tableWidget.currentRow())
+        newButchN = self.batchNumber_2.text()
+        newDetailN = self.numberInBatch.text()
+        newBlprName = self.blprName.text()
+        detailId = None
+        if newBlprName != "":
+            detailId = Detail.get(Detail.detailName == newBlprName).id
+        if self.curId < 1:
+            print("create")
+            rd = RealDetail(batchNumber = newButchN, detailNumber = newDetailN, detailId = detailId)
+            rd.save()
+            self.curId = rd.id
+        else:
+            print("update")
+            query = RealDetail.update(batchNumber = newButchN, detailNumber = newDetailN, detailId = detailId).where(
+                RealDetail.id == self.curId)
+            query.execute()
+        """if self.tableWidget.currentRow() >= 0:
             butchN = self.tableWidget.item(self.tableWidget.currentRow(), 3).text()
             detailN = self.tableWidget.item(self.tableWidget.currentRow(), 4).text()
             newButchN = self.batchNumber_2.text()
@@ -777,15 +591,13 @@ class UImodif(Ui_MainWindow):
             self.realDetailView(butchN = newButchN, detailN = newDetailN)
         else:
             print("Выберите шов из таблицы")
-            self.statusBar.showMessage("Выберите шов из таблицы", 3000)
-
-
+            self.statusBar.showMessage("Выберите шов из таблицы", 3000)"""
 
     def protocolView(self, id):
         self.stackedWidget.setCurrentIndex(0)
         self.toolBar.show()
         seam = Seam.get(Seam.id == id)
-        print("its work", seam)
+        #print("its work", seam)
         try:
             eqv = Equipment.get(Equipment.id == seam.equipmentId)
             self.serialNumber.setText(eqv.serialNumber)
@@ -827,7 +639,7 @@ class UImodif(Ui_MainWindow):
         for osc in oscs:
             self.oscType.addItem(osc.oscName)
         self.oscType.setCurrentText(seam.burnerOscillation.oscName)
-        datalenght, swireSpeed, sgasConsumption = self.initChart(id)
+        datalenght, swireSpeed, sgasConsumption = initChart(self, id)
         GasCons = round(sum(sgasConsumption) * seam.period / 60, 3)
         WireCons = round(sum(swireSpeed) * seam.period/60, 1)
         if seam.connId is None:
@@ -837,11 +649,15 @@ class UImodif(Ui_MainWindow):
             conn = Connection.get(Connection.id == seam.connId)
             t = datetime.datetime.strptime(conn.weldingTime, "%H:%M:%S")
             delta = datetime.timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)
-            print(delta.total_seconds())
+            #print(delta.total_seconds())
             WireCons -= (conn.wireConsumption/60*delta.total_seconds())
             GasCons = round(conn.shieldingGasConsumption/60 * datalenght * seam.period,3)
             self.gasDelta.setText(str(GasCons) + " литров")
             self.wireDelta.setText(str(WireCons) + " м")
+
+    def footprintView(self):
+        det = Detail.get(Detail.detailName == self.blprName.text())
+        self.detailView(det.id)
 
     def detailView(self, id):
         if id:
@@ -994,140 +810,6 @@ class UImodif(Ui_MainWindow):
             #self.DetImg.clear()
     #########################################
 
-    #авторизация
-    def login(self):
-        print(self.loginFld.text(), self.passFld.text())
-        try:
-            user = User.get(User.login == self.loginFld.text())
-            if user.passWord == self.passFld.text():
-                self.stackedWidget.setCurrentIndex(4)
-                self.menubar.show()
-
-                self.AfUser = user
-
-                self.centralwidget.setStyleSheet("")
-
-                self.makeEnable(self.AfUser.accessUser,self.AfUser.accessDetail,self.AfUser.accessConn,
-                                self.AfUser.accessProt,self.AfUser.accessAdd,self.AfUser.accessRemove)
-                """self.adpanel("blueprint")
-
-                self.users.setEnabled(user.accessUser)
-
-                self.delDetImg.setEnabled(user.accessDetail)
-                self.addDetImg.setEnabled(user.accessDetail)
-                self.blueprinNumber.setEnabled(user.accessDetail)
-                self.detailName.setEnabled(user.accessDetail)
-                self.materialGrade.setEnabled(user.accessDetail)
-                self.weldingProgram.setEnabled(user.accessDetail)
-                self.addConnection.setEnabled(user.accessDetail)
-                self.saveChalenges.setEnabled(user.accessDetail)
-                self.HprocessingTime.setEnabled(user.accessDetail)
-                self.MprocessingTime.setEnabled(user.accessDetail)
-                self.SprocessingTime.setEnabled(user.accessDetail)
-
-                self.connId.setEnabled(user.accessConn)
-                self.ctype.setEnabled(user.accessConn)
-                self.thicknessOfElement.setEnabled(user.accessConn)
-                self.jointBevelling.setEnabled(user.accessConn)
-                self.seamDimensions.setEnabled(user.accessConn)
-                self.fillerWireMark.setEnabled(user.accessConn)
-                self.fillerWireDiam.setEnabled(user.accessConn)
-                self.wireConsumption.setEnabled(user.accessConn)
-                self.shieldingGasType.setEnabled(user.accessConn)
-                self.shieldingGasConsumption.setEnabled(user.accessConn)
-                self.programmName.setEnabled(user.accessConn)
-                self.HweldingTime.setEnabled(user.accessConn)
-                self.MweldingTime.setEnabled(user.accessConn)
-                self.SweldingTime.setEnabled(user.accessConn)
-                self.saveConn.setEnabled(user.accessConn)
-                self.delConnImg.setEnabled(user.accessConn)
-                self.newConnImg.setEnabled(user.accessConn)
-                self.preferredPeriod.setEnabled(user.accessConn)
-
-                self.chooseEqvipment.setEnabled(user.accessProt)
-                self.batchNumber.setEnabled(user.accessProt)
-                self.detailNumber.setEnabled(user.accessProt)
-                self.startTime.setEnabled(user.accessProt)
-                self.endTime.setEnabled(user.accessProt)
-                self.endStatus.setEnabled(user.accessProt)
-                self.oscType.setEnabled(user.accessProt)
-                self.seamPeriod.setEnabled(user.accessProt)
-                self.chooseUser.setEnabled(user.accessProt)
-                self.chooseBlueprint.setEnabled(user.accessProt)
-                self.chooseConn.setEnabled(user.accessProt)
-
-                self.addBtn.setEnabled(user.accessAdd)
-
-                self.delBtn.setEnabled(user.accessRemove)"""
-            else:
-                self.statusBar.showMessage("Неверный пароль", 4000)
-        except:
-            self.statusBar.showMessage("Логин не зарегистрирован", 4000)
-
-    def makeEnable(self, accessUser,accessDetail,accessConn,
-                   accessProt,accessAdd,accessRemove):
-        self.adpanel("blueprint")
-
-        self.users.setEnabled(accessUser)
-
-        self.delDetImg.setEnabled(accessDetail)
-        self.addDetImg.setEnabled(accessDetail)
-        self.blueprinNumber.setEnabled(accessDetail)
-        self.detailName.setEnabled(accessDetail)
-        self.materialGrade.setEnabled(accessDetail)
-        self.weldingProgram.setEnabled(accessDetail)
-        self.addConnection.setEnabled(accessDetail)
-        self.saveChalenges.setEnabled(accessDetail)
-        self.HprocessingTime.setEnabled(accessDetail)
-        self.MprocessingTime.setEnabled(accessDetail)
-        self.SprocessingTime.setEnabled(accessDetail)
-
-        self.batchNumber_2.setEnabled(accessDetail)
-        self.numberInBatch.setEnabled(accessDetail)
-        self.chooseBlueprintBtn.setEnabled(accessDetail)
-        self.DetailSeamsSave.setEnabled(accessDetail)
-        self.addSeamBtn.setEnabled(accessDetail)
-        self.delSeamBtn.setEnabled(accessDetail)
-
-
-        self.connId.setEnabled(accessConn)
-        self.ctype.setEnabled(accessConn)
-        self.thicknessOfElement.setEnabled(accessConn)
-        self.jointBevelling.setEnabled(accessConn)
-        self.seamDimensions.setEnabled(accessConn)
-        self.fillerWireMark.setEnabled(accessConn)
-        self.fillerWireDiam.setEnabled(accessConn)
-        self.wireConsumption.setEnabled(accessConn)
-        self.shieldingGasType.setEnabled(accessConn)
-        self.shieldingGasConsumption.setEnabled(accessConn)
-        self.programmName.setEnabled(accessConn)
-        self.HweldingTime.setEnabled(accessConn)
-        self.MweldingTime.setEnabled(accessConn)
-        self.SweldingTime.setEnabled(accessConn)
-        self.saveConn.setEnabled(accessConn)
-        self.delConnImg.setEnabled(accessConn)
-        self.newConnImg.setEnabled(accessConn)
-        self.preferredPeriod.setEnabled(accessConn)
-
-        self.chooseEqvipment.setEnabled(accessProt)
-        self.batchNumber.setEnabled(accessProt)
-        self.detailNumber.setEnabled(accessProt)
-        self.startTime.setEnabled(accessProt)
-        self.endTime.setEnabled(accessProt)
-        self.endStatus.setEnabled(accessProt)
-        self.oscType.setEnabled(accessProt)
-        self.seamPeriod.setEnabled(accessProt)
-        self.chooseUser.setEnabled(accessProt)
-        self.chooseBlueprint.setEnabled(accessProt)
-        self.chooseConn.setEnabled(accessProt)
-        self.weldingProgram_2.setEnabled(accessProt)
-        self.saveProtocolBtn.setEnabled(accessProt)
-
-        self.addBtn.setEnabled(accessAdd)
-
-        self.delBtn.setEnabled(accessRemove)
-    #####################################
-
     #save
     def saveDeteil(self):
         if self.curId < 1:
@@ -1150,7 +832,7 @@ class UImodif(Ui_MainWindow):
                 processingTime = datetime.time(self.HprocessingTime.value(), self.MprocessingTime.value(), self.SprocessingTime.value()),
                 img = self.imgs).where(Detail.id == self.curId)
             query.execute()
-        self.adpanel("blueprint")
+        adpanel(self, "blueprint")
         return self.curId
 
     def saveConnChlngs(self):
@@ -1165,6 +847,7 @@ class UImodif(Ui_MainWindow):
                 fillerWireMark = self.fillerWireMark.text(),#CharField()
                 fillerWireDiam = self.fillerWireDiam.text(),#DoubleField()
                 wireConsumption = float(self.wireConsumption.text().replace(',','.')),#DoubleField()
+                wireMassConsumption = float(self.wireMassConsumption.text().replace(',','.')),
                 shieldingGasType = self.shieldingGasType.text(),#CharField()
                 shieldingGasConsumption = float(self.shieldingGasConsumption.text().replace(',','.')),#DoubleField()
                 programmName = self.programmName.text(),#CharField()
@@ -1181,6 +864,7 @@ class UImodif(Ui_MainWindow):
                 fillerWireMark = self.fillerWireMark.text(),#CharField()
                 fillerWireDiam = float(self.fillerWireDiam.text().replace(',','.')),#DoubleField()
                 wireConsumption = float(self.wireConsumption.text().replace(',','.')),#DoubleField()
+                wireMassConsumption=float(self.wireMassConsumption.text().replace(',', '.')),
                 shieldingGasType = self.shieldingGasType.text(),#CharField()
                 shieldingGasConsumption = float(self.shieldingGasConsumption.text().replace(',','.')),#DoubleField()
                 programmName = self.programmName.text(),#CharField()
@@ -1188,283 +872,8 @@ class UImodif(Ui_MainWindow):
                 preferredPeriod = self.preferredPeriod.value()).where(
                 Connection.id == self.curId)  # DoubleField()
             query.execute()
-        self.adpanel("connections")
-    #####################################
+        adpanel(self, "connections")
 
-    #Функции вывода таблиц данных
-    #Панель администрирования данных
-    def adpanel(self, otype):
-        self.otype = otype
-        self.toolBar.hide()
-        self.tableWidget.clear()
-        self.saveBtn.setEnabled(True)
-        if self.otype == "user":
-            try:
-                self.saveBtn.setEnabled(self.AfUser.accessUser)
-                self.userTable()
-            except: pass
-        elif self.otype == "blueprint":
-            self.detailTable()
-        elif self.otype == "connections":
-            self.connectTable()
-        elif self.otype == "realDetail":
-            self.realDetailTable()
-        elif self.otype == "seams":
-            self.veiwSeamTable()
-        elif self.otype == "equipments":
-            try:
-                self.saveBtn.setEnabled(self.AfUser.accessEquipment)
-                self.equipmentTable()
-            except: pass
-        elif self.otype == "oscilation":
-            try:
-                self.saveBtn.setEnabled(self.AfUser.accessOscilationType)
-                self.oscilationTable()
-            except: pass
-        self.tableWidget.hideColumn(0)
-        self.stackedWidget.setCurrentIndex(4)
-
-
-    #вывод табиц администрирования
-    def equipmentTable(self):
-        self.adPanelName.setText("Панель управления комплексами:")
-        self.tableWidget.setColumnCount(10)
-        self.tableWidget.setHorizontalHeaderLabels(
-            ["id", "Серийный номер", "Наименование", "Модель", "IP", "Порт", "Период","Подключение","Отключение","Статус"])
-        equipments = Equipment.select()
-        self.tableWidget.setRowCount(len(equipments))
-        for i in range(len(equipments)):
-            self.tableWidget.setItem(i, 0, twi(str(equipments[i].id)))
-            self.tableWidget.setItem(i, 1, twi(equipments[i].serialNumber))
-            self.tableWidget.setItem(i, 2, twi(equipments[i].name))
-            self.tableWidget.setItem(i, 3, twi(equipments[i].model))
-            self.tableWidget.setItem(i, 4, twi(equipments[i].ip))
-            self.tableWidget.setCellWidget(i, 5, QtWidgets.QSpinBox())
-            self.tableWidget.cellWidget(i, 5).setMaximum(65535)
-            self.tableWidget.cellWidget(i, 5).setValue(equipments[i].port)
-            self.tableWidget.setCellWidget(i, 6, QtWidgets.QDoubleSpinBox())
-            self.tableWidget.cellWidget(i, 6).setMinimum(0.1)
-            self.tableWidget.cellWidget(i, 6).setValue(equipments[i].period)
-            self.tableWidget.setCellWidget(i, 7, QtWidgets.QPushButton("Подключиться"))
-            self.tableWidget.cellWidget(i,7).clicked.connect(self.robConnect)
-            self.tableWidget.setCellWidget(i, 8, QtWidgets.QPushButton("Отключиться"))
-            self.tableWidget.cellWidget(i, 8).clicked.connect(self.robDisconnect)
-            harv = equipments[i].ip in self.HarvestrDict
-            if harv:
-                print(self.HarvestrDict[equipments[i].ip].active)
-                if self.HarvestrDict[equipments[i].ip].active:
-                    self.tableWidget.setItem(i, 9, twi("Подключено"))
-                    self.tableWidget.item(i, 9).setBackground(Qt.green)
-                else:
-                    self.tableWidget.setItem(i, 9, twi("Нет подключения"))
-                    self.tableWidget.item(i, 9).setBackground(Qt.red)
-            else:
-                self.tableWidget.setItem(i, 9, twi("Нет подключения"))
-                self.tableWidget.item(i,9).setBackground(Qt.red)
-        self.tableWidget.resizeColumnsToContents()
-
-    def demoConn(self):
-        print("a")
-        btn = self.app.focusWidget()
-        ind = self.tableWidget.indexAt(btn.pos())
-        ip = self.tableWidget.item(ind.row(), 4).text()
-        print("Connect to", ip)
-        self.statusBar.showMessage("Подключение к: " + ip, 3000)
-        self.tableWidget.item(ind.row(), 9).setText("Подключено")
-        self.tableWidget.item(ind.row(), 9).setBackground(Qt.green)
-        threading.Timer(6.0, lambda: self.statusBar.showMessage("Начат новый шов", 3000)).start()
-        threading.Timer(38.0, lambda: self.statusBar.showMessage("Шов добавлен", 3000)).start()
-        threading.Timer(41.0, lambda: self.statusBar.showMessage("", 3000)).start()
-
-
-    def robConnect(self):
-        btn = self.app.focusWidget()
-        ind = self.tableWidget.indexAt(btn.pos())
-        ip = self.tableWidget.item(ind.row(), 4).text()
-        print("Connect to",ip)
-        self.statusBar.showMessage("Подключение к: " + ip, 3000)
-        ###
-        try:
-            if ip in self.HarvestrDict:
-                print(self.HarvestrDict[ip])
-                self.HarvestrDict[ip].start()
-            else:
-                try:
-                    equId = Equipment.get(Equipment.ip == ip).id
-                except: pass
-                guiInfo = [self.statusBar,self.AfUser,equId]
-                print("new harvestr")
-                self.HarvestrDict[ip] = opcc.DataHarvestr(ip, self.statusBar, self.AfUser.id)
-                self.HarvestrDict[ip].start()
-            if self.HarvestrDict[ip].active:
-                self.tableWidget.item(ind.row(), 9).setText("Подключено")
-                self.tableWidget.item(ind.row(), 9).setBackground(Qt.green)
-        except:
-            self.statusBar.showMessage("Нет подключения к: " + ip, 3000)
-
-    def robDisconnect(self):
-        btn = self.app.focusWidget()
-        ind = self.tableWidget.indexAt(btn.pos())
-        ip = self.tableWidget.item(ind.row(), 4).text()
-        if ip in self.HarvestrDict:
-            self.HarvestrDict[ip].stop()
-        self.statusBar.showMessage("Отключение от: " + ip, 3000)
-        ###
-        try:
-            self.tableWidget.item(ind.row(), 9).setText("Нет подключения")
-            self.tableWidget.item(ind.row(), 9).setBackground(Qt.red)
-        except:
-            pass
-
-    def detailTable(self):
-        self.adPanelName.setText("Панель управления чертежами:")
-        self.tableWidget.setColumnCount(6)
-        self.tableWidget.setHorizontalHeaderLabels(["id", "Номер чертежа", "Наименование", "Марка материала","Программа сварки","Расчётное время"])
-        details = Detail.select()
-        self.tableWidget.setRowCount(len(details))
-
-        for i in range(len(details)):
-            self.tableWidget.setItem(i, 0, twi(str(details[i].id)))
-            self.tableWidget.setItem(i, 1, twi(details[i].blueprinNumber))
-            self.tableWidget.setItem(i, 2, twi(details[i].detailName))
-            self.tableWidget.setItem(i, 3, twi(details[i].materialGrade))
-            self.tableWidget.setItem(i, 4, twi(details[i].weldingProgram))
-            self.tableWidget.setItem(i, 5, twi(str(details[i].processingTime)))
-        self.tableWidget.resizeColumnsToContents()
-
-    def realDetailTable(self):
-        self.adPanelName.setText("Панель управления деталями:")
-        self.tableWidget.setColumnCount(5)
-        self.tableWidget.setHorizontalHeaderLabels(["id", "Номер чертежа", "Наименование","Номер партии", "Номер детали"])
-        details = Seam.select().join(Detail).group_by(Seam.batchNumber, Seam.detailNumber)
-        self.tableWidget.setRowCount(len(details))
-        voidRow = None
-        for i in range(len(details)):
-            if details[i].batchNumber !="" and details[i].detailNumber !="":
-                self.tableWidget.setItem(i, 0, twi("0"))
-                self.tableWidget.setItem(i, 1, twi(details[i].detailId.blueprinNumber))
-                self.tableWidget.setItem(i, 2, twi(str(details[i].detailId.detailName)))
-                self.tableWidget.setItem(i, 3, twi(str(details[i].batchNumber)))
-                self.tableWidget.setItem(i, 4, twi(str(details[i].detailNumber)))
-            else:
-                voidRow = i
-        if voidRow is not None:
-            self.tableWidget.removeRow(voidRow)
-        self.tableWidget.resizeColumnsToContents()
-
-    def userTable(self):
-        self.adPanelName.setText("Панель управления пользователями:")
-        self.tableWidget.setColumnCount(13)
-        self.tableWidget.setHorizontalHeaderLabels(
-            ["id", "Логин", "Имя", "Пароль", "Пользователи", "Детали", "Соединения",
-             "Протоколы", "Архивы", "Добавление", "Удаление", "Комплексы", "Типы колебаний"])
-        users = User.select()
-        self.tableWidget.setRowCount(len(users))
-        for i in range(len(users)):
-            print(users[i].name)
-            self.tableWidget.setItem(i, 0, twi(str(users[i].id)))
-            self.tableWidget.setItem(i, 1, twi(users[i].login))
-            self.tableWidget.setItem(i, 2, twi(users[i].name))
-            self.tableWidget.setItem(i, 3, twi(users[i].passWord))
-            self.tableWidget.setCellWidget(i, 4, QtWidgets.QCheckBox())
-            self.tableWidget.setCellWidget(i, 5, QtWidgets.QCheckBox())
-            self.tableWidget.setCellWidget(i, 6, QtWidgets.QCheckBox())
-            self.tableWidget.setCellWidget(i, 7, QtWidgets.QCheckBox())
-            self.tableWidget.setCellWidget(i, 8, QtWidgets.QCheckBox())
-            self.tableWidget.setCellWidget(i, 9, QtWidgets.QCheckBox())
-            self.tableWidget.setCellWidget(i, 10, QtWidgets.QCheckBox())
-            self.tableWidget.setCellWidget(i, 11, QtWidgets.QCheckBox())
-            self.tableWidget.setCellWidget(i, 12, QtWidgets.QCheckBox())
-            self.tableWidget.cellWidget(i, 4).setCheckState(
-                QtCore.Qt.Checked if users[i].accessUser else QtCore.Qt.Unchecked)
-            self.tableWidget.cellWidget(i, 5).setCheckState(
-                QtCore.Qt.Checked if users[i].accessDetail else QtCore.Qt.Unchecked)
-            self.tableWidget.cellWidget(i, 6).setCheckState(
-                QtCore.Qt.Checked if users[i].accessConn else QtCore.Qt.Unchecked)
-            self.tableWidget.cellWidget(i, 7).setCheckState(
-                QtCore.Qt.Checked if users[i].accessProt else QtCore.Qt.Unchecked)
-            self.tableWidget.cellWidget(i, 8).setCheckState(
-                QtCore.Qt.Checked if users[i].accessArch else QtCore.Qt.Unchecked)
-            self.tableWidget.cellWidget(i, 9).setCheckState(
-                QtCore.Qt.Checked if users[i].accessAdd else QtCore.Qt.Unchecked)
-            self.tableWidget.cellWidget(i, 10).setCheckState(
-                QtCore.Qt.Checked if users[i].accessRemove else QtCore.Qt.Unchecked)
-            self.tableWidget.cellWidget(i, 11).setCheckState(
-                QtCore.Qt.Checked if users[i].accessEquipment else QtCore.Qt.Unchecked)
-            self.tableWidget.cellWidget(i, 12).setCheckState(
-                QtCore.Qt.Checked if users[i].accessOscilationType else QtCore.Qt.Unchecked)
-
-        self.tableWidget.resizeColumnsToContents()
-
-    def connectTable(self):
-        self.adPanelName.setText("Панель управления соединениями:")
-        self.tableWidget.setColumnCount(12)
-        self.tableWidget.setHorizontalHeaderLabels(
-            ["id", "Вид соединения", "Толщина элементов", "Разделка кромок", "Размеры шва с допусками", "Марка/сечение проволоки", "Расход проволоки [м/мин]","Защитный газ","Расход газа [л/мин]","Программа сварки","Расчётное время","Предпочтительное частота сбора данных [с]"])
-        connections = Connection.select()
-        self.tableWidget.setRowCount(len(connections))
-        for i in range(len(connections)):
-            self.tableWidget.setItem(i, 0, twi(str(connections[i].id)))
-            self.tableWidget.setItem(i, 1, twi(connections[i].ctype))
-            self.tableWidget.setItem(i, 2, twi(connections[i].thicknessOfElement))
-            self.tableWidget.setItem(i, 3, twi(connections[i].jointBevelling))
-            self.tableWidget.setItem(i, 4, twi(connections[i].seamDimensions))
-            self.tableWidget.setItem(i, 5, twi(connections[i].fillerWireMark+'/'+str(connections[i].fillerWireDiam)))
-            self.tableWidget.setItem(i, 6, twi(str(connections[i].wireConsumption)))
-            self.tableWidget.setItem(i, 7, twi(connections[i].shieldingGasType))
-            self.tableWidget.setItem(i, 8, twi(str(connections[i].shieldingGasConsumption)))
-            self.tableWidget.setItem(i, 9, twi(connections[i].programmName))
-            self.tableWidget.setItem(i, 10, twi(str(connections[i].weldingTime)))
-            self.tableWidget.setItem(i, 11, twi(str(connections[i].preferredPeriod)))
-        self.tableWidget.resizeColumnsToContents()
-
-    def veiwSeamTable(self):
-        self.adPanelName.setText("Панель управления швами:")
-        self.tableWidget.setColumnCount(11)
-        self.tableWidget.setHorizontalHeaderLabels(
-            ["id", "Тип соединения", "Тип детали", "Номер партии", "Номер детали", "Начало", "Окончание", "Статус","Установка",
-             "Программа сварки", "Пользователь"])
-        seams = Seam.select()
-        self.tableWidget.setRowCount(len(seams))
-        for i in range(len(seams)):
-            self.tableWidget.setItem(i, 0, twi(str(seams[i].id)))
-            if seams[i].connId is not None:
-                self.tableWidget.setItem(i, 1, twi(str(seams[i].connId.ctype)))
-            if seams[i].detailId is not None:
-                self.tableWidget.setItem(i, 2, twi(str(seams[i].detailId.detailName)))
-            self.tableWidget.setItem(i, 3, twi(str(seams[i].batchNumber)))
-            self.tableWidget.setItem(i, 4, twi(str(seams[i].detailNumber)))
-            self.tableWidget.setItem(i, 5, twi(str(seams[i].startTime)[:19]))
-            self.tableWidget.setItem(i, 6, twi(str(seams[i].endTime)[:19]))
-            if seams[i].endStatus == 0:
-                self.tableWidget.setItem(i, 7, twi("Успешно"))
-            else:
-                self.tableWidget.setItem(i, 7, twi("Ошибка!"))
-            if seams[i].equipmentId is not None:
-                self.tableWidget.setItem(i, 8, twi(str(seams[i].equipmentId.name)))
-            self.tableWidget.setItem(i, 9, twi(seams[i].weldingProgram))
-            if seams[i].authorizedUser is not None:
-                self.tableWidget.setItem(i, 10, twi(str(seams[i].authorizedUser.name)))
-        self.tableWidget.resizeColumnsToContents()
-
-    def oscilationTable(self):
-        self.adPanelName.setText("Панель управления параметрами колебаний:")
-        self.tableWidget.setColumnCount(4)
-        self.tableWidget.setHorizontalHeaderLabels(["id", "Номер", "Название", "Изображение"])
-        osc = OscilationType.select()
-        self.tableWidget.setRowCount(len(osc))
-        for i in range(len(osc)):
-            ba = QtCore.QByteArray(osc[i].oscImg)
-            pixmap = QtGui.QPixmap()
-            pixmap.loadFromData(ba, "PNG")
-
-            self.tableWidget.setItem(i, 0, twi(str(osc[i].id)))
-            self.tableWidget.setItem(i, 1, twi(str(osc[i].oscNumber)))
-            self.tableWidget.setItem(i, 2, twi(osc[i].oscName))
-            self.tableWidget.setCellWidget(i, 3, QtWidgets.QLabel())
-            self.tableWidget.cellWidget(i, 3).setPixmap(pixmap)
-        self.tableWidget.resizeColumnsToContents()
-    #######################################
 
 class MWin(QtWidgets.QMainWindow):
     def __init__(self, app):
@@ -1496,276 +905,23 @@ class MWin(QtWidgets.QMainWindow):
         self.dialog.show()
 
 
-class timePdfWin(QtWidgets.QWidget):
-    def __init__(self):
-        super().__init__()
-        self.ui = Ui_timePdf()
-        self.ui.setupUi(self)
-        self.ui.chooseAdress.clicked.connect(self.chooseAdress)
-        self.ui.makePdf.clicked.connect(self.createPdf)
-
-    def chooseAdress(self):
-        filename = QtWidgets.QFileDialog.getExistingDirectory()
-        print(filename)
-        self.ui.adress.setText(filename)
-
-    def createPdf(self):
-        start = self.ui.startTime.dateTime().toPyDateTime()
-        end = self.ui.endTime.dateTime().toPyDateTime()
-        adr = self.ui.adress.text()
-        if adr != "" and (end-start > datetime.timedelta(0,0,0,0,0,0,0)):
-            pg.create_periodPdf(adr, start, end)
-
-
-class AddConn(QtWidgets.QWidget):
-    detId = 0
-    def __init__(self, id, mainUi):
-        super().__init__()
-        print(mainUi.otype)
-        self.detId = id
-        self.mainUi = mainUi
-        self.ui = Ui_connAdd()
-        self.ui.setupUi(self)
-        if mainUi.otype == "blueprint":
-            self.ui.listOfConn.setColumnCount(12)
-            self.ui.listOfConn.setHorizontalHeaderLabels(
-                ["id", "Присвоено", "Вид сварного соединения", "Толщина элементов", "Разделка кромок",
-                 "Размеры шва (мм)",
-                 "Марка/сечение проволоки", "Расход проволоки (см/мин)", "Газ", "Расход газа (л/мин)",
-                 "Программа сварки", "Рассчётное время"])
-            self.ui.listOfConn.hideColumn(0)
-            connections = Connection.select()
-            self.ui.listOfConn.setRowCount(len(connections))
-            connDetsId = []
-            condets = DetConn.select().where(DetConn.detailId == self.detId)
-            for condet in condets:
-                connDetsId.append(condet.connId)
-            for i in range(len(connections)):
-                self.ui.listOfConn.setItem(i, 0, twi(str(connections[i].id)))
-                self.ui.listOfConn.setCellWidget(i, 1, QtWidgets.QCheckBox())
-                self.ui.listOfConn.cellWidget(i, 1).setCheckState(
-                    QtCore.Qt.Checked if (connections[i] in connDetsId) else QtCore.Qt.Unchecked)
-                self.ui.listOfConn.setItem(i, 2, twi(connections[i].ctype))
-                self.ui.listOfConn.setItem(i, 3, twi(connections[i].thicknessOfElement))
-                self.ui.listOfConn.setItem(i, 4, twi(connections[i].jointBevelling))
-                self.ui.listOfConn.setItem(i, 5, twi(connections[i].seamDimensions))
-                self.ui.listOfConn.setItem(i, 6,
-                                        twi(connections[i].fillerWireMark + '/' + str(connections[i].fillerWireDiam)))
-                self.ui.listOfConn.setItem(i, 7, twi(str(connections[i].wireConsumption)))
-                self.ui.listOfConn.setItem(i, 8, twi(connections[i].shieldingGasType))
-                self.ui.listOfConn.setItem(i, 9, twi(str(connections[i].shieldingGasConsumption)))
-                self.ui.listOfConn.setItem(i, 10, twi(connections[i].programmName))
-                self.ui.listOfConn.setItem(i, 11, twi(str(connections[i].weldingTime)))
-        elif mainUi.otype == "realDetail":
-            self.ui.listOfConn.setColumnCount(10)
-            self.ui.listOfConn.hideColumn(0)
-            self.ui.listOfConn.setHorizontalHeaderLabels(
-                ["id", "Тип соединения", "Тип детали", "Номер партии", "Номер детали", "Начало", "Окончание", "Статус",
-                 "Программа сварки", "Пользователь"])
-            seams = Seam.select()
-            self.ui.listOfConn.setRowCount(len(seams))
-            for i in range(len(seams)):
-                self.ui.listOfConn.setItem(i, 0, twi(str(seams[i].id)))
-                if seams[i].connId is not None:
-                    self.ui.listOfConn.setItem(i, 1, twi(str(seams[i].connId.ctype)))
-                if seams[i].detailId is not None:
-                    self.ui.listOfConn.setItem(i, 2, twi(str(seams[i].detailId.detailName)))
-                self.ui.listOfConn.setItem(i, 3, twi(str(seams[i].batchNumber)))
-                self.ui.listOfConn.setItem(i, 4, twi(str(seams[i].detailNumber)))
-                self.ui.listOfConn.setItem(i, 5, twi(str(seams[i].startTime)[:19]))
-                self.ui.listOfConn.setItem(i, 6, twi(str(seams[i].endTime)[:19]))
-                if seams[i].endStatus == 0:
-                    self.ui.listOfConn.setItem(i, 7, twi("Успешно"))
-                else:
-                    self.ui.listOfConn.setItem(i, 7, twi("Ошибка!"))
-                self.ui.listOfConn.setItem(i, 8, twi(seams[i].weldingProgram))
-                if seams[i].authorizedUser is not None:
-                    self.ui.listOfConn.setItem(i, 9, twi(str(seams[i].authorizedUser.name)))
-        self.ui.listOfConn.resizeColumnsToContents()
-        self.ui.addButton.clicked.connect(self.add)
-
-    def add(self):
-        if self.mainUi.otype == "realDetail":
-            if (self.mainUi.batchNumber_2.text() != "" and
-                self.mainUi.numberInBatch.text() != "" and
-                self.mainUi.blprName.text() != ""):
-                self.mainUi.realDetailUpdate()
-                addInd = []
-                for ind in self.ui.listOfConn.selectedIndexes():
-                    if ind.row() not in addInd:
-                        addInd.append(ind.row())
-                detId = None
-                if self.mainUi.curId:
-                    detId = self.mainUi.curId
-                for ind in addInd:
-                    print(self.ui.listOfConn.item(ind, 0).text())
-                    query = Seam.update(
-                        batchNumber=self.mainUi.batchNumber_2.text(),
-                        detailNumber=self.mainUi.numberInBatch.text(),
-                        detailId = detId).where(
-                        Seam.id == int(self.ui.listOfConn.item(ind, 0).text()))
-                    query.execute()
-                self.mainUi.realDetailView(butchN = self.mainUi.batchNumber_2.text(), detailN = self.mainUi.numberInBatch.text())
-            else:
-                self.mainUi.statusBar.showMessage("Заполните данные по детали", 3000)
-        elif self.mainUi.otype == "blueprint":
-            if self.detId < 1:
-                self.detId = self.mainUi.saveDeteil()
-            for i in range(self.ui.listOfConn.rowCount()):
-                conId = int(self.ui.listOfConn.item(i, 0).text())
-                countInDb = len(DetConn.select().where((DetConn.detailId == self.detId) & (DetConn.connId == conId)))
-                isAdd = self.ui.listOfConn.cellWidget(i, 1).isChecked()
-                if countInDb == 0 and isAdd:
-                    DetConn(
-                    connId=conId,
-                    detailId=self.detId).save()
-                elif countInDb > 0 and not isAdd:
-                    print("dell")
-                    dellDetConn = DetConn.get((DetConn.detailId == self.detId) & (DetConn.connId == conId))
-                    dellDetConn.delete_instance()
-                self.mainUi.detailView(self.detId)
-        self.close()
-
-
-class chooseData(QtWidgets.QWidget):
-    seamId = 0
-    dataType = 'connection'
-    def __init__(self, id, dataType, mainUi):
-        super().__init__()
-        self.seamId = id
-        self.dataType = dataType
-        self.mainUi = mainUi
-        self.ui = Ui_Form()
-        self.ui.setupUi(self)
-        self.ui.chooseTable.doubleClicked.connect(self.doubleClick)
-        self.ui.selectButton.hide()
-        if self.dataType == 'user':
-            self.ui.chooseTable.setColumnCount(3)
-            self.ui.chooseTable.setHorizontalHeaderLabels(
-                ["id", "Логин", "Имя"])
-            users = User.select()
-            self.ui.chooseTable.setRowCount(len(users))
-            for i in range(len(users)):
-                print(users[i].name)
-                self.ui.chooseTable.setItem(i, 0, twi(str(users[i].id)))
-                self.ui.chooseTable.setItem(i, 1, twi(users[i].login))
-                self.ui.chooseTable.setItem(i, 2, twi(users[i].name))
-        elif self.dataType == 'eqvipment':
-            self.ui.chooseTable.setColumnCount(5)
-            self.ui.chooseTable.setHorizontalHeaderLabels(
-                ["id", "Серийный номер", "Наименование", "Модель", "IP"])
-            equipments = Equipment.select()
-            self.ui.chooseTable.setRowCount(len(equipments))
-            for i in range(len(equipments)):
-                self.ui.chooseTable.setItem(i, 0, twi(str(equipments[i].id)))
-                self.ui.chooseTable.setItem(i, 1, twi(equipments[i].serialNumber))
-                self.ui.chooseTable.setItem(i, 2, twi(equipments[i].name))
-                self.ui.chooseTable.setItem(i, 3, twi(equipments[i].model))
-                self.ui.chooseTable.setItem(i, 4, twi(equipments[i].ip))
-        elif self.dataType == 'blueprint':
-            self.ui.chooseTable.setColumnCount(6)
-            self.ui.chooseTable.setHorizontalHeaderLabels(
-                ["id", "Номер чертежа", "Наименование", "Марка материала", "Программа сварки", "Расчётное время"])
-            details = Detail.select()
-            self.ui.chooseTable.setRowCount(len(details))
-
-            for i in range(len(details)):
-                self.ui.chooseTable.setItem(i, 0, twi(str(details[i].id)))
-                self.ui.chooseTable.setItem(i, 1, twi(details[i].blueprinNumber))
-                self.ui.chooseTable.setItem(i, 2, twi(details[i].detailName))
-                self.ui.chooseTable.setItem(i, 3, twi(details[i].materialGrade))
-                self.ui.chooseTable.setItem(i, 4, twi(details[i].weldingProgram))
-                self.ui.chooseTable.setItem(i, 5, twi(str(details[i].processingTime)))
-        elif self.dataType == 'connection':
-            self.ui.chooseTable.setColumnCount(7)
-            self.ui.chooseTable.setHorizontalHeaderLabels(
-                ["id", "Вид соединения", "Толщина элементов", "Разделка кромок", "Размеры шва с допусками",
-                 "Марка/сечение проволоки", "Защитный газ"])
-            seam = Seam.get(Seam.id == self.seamId)
-            print(seam)
-            if seam.detailId is not None:
-                connections = Connection.select().join(DetConn).where(DetConn.detailId == seam.detailId)
-                print(connections)
-                self.ui.chooseTable.setRowCount(len(connections))
-                for i in range(len(connections)):
-                    self.ui.chooseTable.setItem(i, 0, twi(str(connections[i].id)))
-                    self.ui.chooseTable.setItem(i, 1, twi(connections[i].ctype))
-                    self.ui.chooseTable.setItem(i, 2, twi(connections[i].thicknessOfElement))
-                    self.ui.chooseTable.setItem(i, 3, twi(connections[i].jointBevelling))
-                    self.ui.chooseTable.setItem(i, 4, twi(connections[i].seamDimensions))
-                    self.ui.chooseTable.setItem(i, 5,
-                                             twi(connections[i].fillerWireMark + '/' + str(connections[i].fillerWireDiam)))
-                    self.ui.chooseTable.setItem(i, 6, twi(connections[i].shieldingGasType))
-        self.ui.chooseTable.resizeColumnsToContents()
-
-    def doubleClick(self):
-        if self.ui.chooseTable.currentRow() >= 0 and self.ui.chooseTable.item(self.ui.chooseTable.currentRow(), 0) is not None:
-            id = int(self.ui.chooseTable.item(self.ui.chooseTable.currentRow(), 0).text())
-            if self.dataType == 'user':
-                query = Seam.update(authorizedUser = id).where(
-                    Seam.id == self.seamId)
-                query.execute()
-            elif self.dataType == 'eqvipment':
-                query = Seam.update(equipmentId=id).where(
-                    Seam.id == self.seamId)
-                query.execute()
-            elif self.dataType == 'blueprint':
-                if self.seamId is None:
-                    self.mainUi.curId = id
-                    det = Detail.get(Detail.id == id)
-                    self.mainUi.blprName.setText(det.detailName)
-                    self.mainUi.imgs = det.img
-                    self.mainUi.curImg = 0
-                    self.mainUi.veiwImg(self.mainUi.dateilImg)
-                    self.close()
-                    return
-                else:
-                    query = Seam.update(detailId=id, connId=None).where(
-                        Seam.id == self.seamId)
-                    query.execute()
-            elif self.dataType == 'connection':
-                query = Seam.update(connId=id).where(
-                    Seam.id == self.seamId)
-                query.execute()
-            self.close()
-            self.mainUi.protocolView(self.seamId)
-
-
-class settingsWin(QtWidgets.QWidget):
-    def __init__(self, archivator):
-        super().__init__()
-        self.arch = archivator
-        self.ui = Ui_settingsWin()
-        self.ui.setupUi(self)
-        self.ui.chooseAdress.clicked.connect(self.chooseAdress)
-        self.ui.saveBtn.clicked.connect(self.saveSettings)
-        config = self.arch.getConfig()
-        print(config)
-        self.ui.adress.setText(config['saveAdress'])
-        self.ui.hours.setValue(int(config['periodH']))
-        self.ui.minuts.setValue(int(config['periodM']))
-        self.ui.seconds.setValue(int(config['periodS']))
-        self.ui.size.setValue(int(config['sizeparam']))
-        self.ui.timeArch.setCheckState(QtCore.Qt.Checked)
-        self.ui.sizeArch.setCheckState(QtCore.Qt.Checked)
-
-
-    def chooseAdress(self):
-        filename = QtWidgets.QFileDialog.getExistingDirectory()
-        print(filename)
-        self.ui.adress.setText(filename)
-
-    def saveSettings(self):
-        print("save")
-        self.arch.setConfig(self.ui.adress.text(),
-                            self.ui.hours.text(),
-                            self.ui.minuts.text(),
-                            self.ui.seconds.text(),
-                            self.ui.size.text())
-
 if __name__ == "__main__":
-    print("start")
+    print("Запуск")
+    migration300522()
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = MWin(app)
     MainWindow.show()
     sys.exit(app.exec_())
+
+    """def demoConn(self):
+            print("a")
+            btn = self.app.focusWidget()
+            ind = self.tableWidget.indexAt(btn.pos())
+            ip = self.tableWidget.item(ind.row(), 4).text()
+            print("Connect to", ip)
+            self.statusBar.showMessage("Подключение к: " + ip, 3000)
+            self.tableWidget.item(ind.row(), 9).setText("Подключено")
+            self.tableWidget.item(ind.row(), 9).setBackground(Qt.green)
+            threading.Timer(6.0, lambda: self.statusBar.showMessage("Начат новый шов", 3000)).start()
+            threading.Timer(38.0, lambda: self.statusBar.showMessage("Шов добавлен", 3000)).start()
+            threading.Timer(41.0, lambda: self.statusBar.showMessage("", 3000)).start()"""

@@ -1,5 +1,5 @@
 from peewee import *
-from models import *
+from mainWinFunc.models import *
 from zipfile import ZipFile
 import os
 
@@ -20,6 +20,7 @@ def chooseDB(db):
     OscilationType._meta.database = db
     Seam._meta.database = db
     DetConn._meta.database = db
+    RealDetail._meta.database = db
 
 def connToDb(path):
     db = SqliteDatabase(path)

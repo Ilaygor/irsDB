@@ -2,7 +2,7 @@ import time
 import datetime
 from opcua import Client, ua
 import struct
-from models import Seam, Equipment, OscilationType
+from mainWinFunc.models import Seam, Equipment, OscilationType
 
 def addSeam(torchSpeed,wireSpeed,current,voltage,
             burnerOscillation, errNum, weldingProgramm,
@@ -122,11 +122,12 @@ class SubHandler(object):
         elif node == self.nodes["ROB_Welding_Set_Num"]:
             self.oscTypeNum = val
         elif node == self.nodes["PLC_time"]:
-            self.voltMass.append(self.volt/100)
-            self.currMass.append(self.curr/10)
-            self.speedMass.append(self.speed*60*100/10000)
-            self.wireSpeedMass.append(self.wireSpeed)
-            self.times.append(val)
+            if val not in self.times:
+                self.voltMass.append(self.volt/100)
+                self.currMass.append(self.curr/10)
+                self.speedMass.append(self.speed*60*100/10000)
+                self.wireSpeedMass.append(self.wireSpeed)
+                self.times.append(val)
 
 
     def event_notification(self, event):

@@ -2,6 +2,7 @@ import sqlite3
 from peewee import *
 
 db = SqliteDatabase("IRSwelding.db")
+#db = SqliteDatabase("test/IRSwelding3.db")
 
 class BaseModel(Model):
     id = PrimaryKeyField(unique=True)
@@ -47,6 +48,7 @@ class Connection(BaseModel):
     fillerWireMark = CharField()
     fillerWireDiam = CharField()
     wireConsumption = DoubleField()
+    wireMassConsumption = DoubleField()
     shieldingGasType = CharField()
     shieldingGasConsumption = DoubleField()
     programmName = CharField()
@@ -75,8 +77,9 @@ class Batch(BaseModel):
     detailId = ForeignKeyField(Detail, null=True) #blueprintId
 
 class RealDetail(BaseModel):
-    BatchId = ForeignKeyField(Batch, null=True)
+    batchNumber = CharField()
     detailNumber = CharField()  # заменить
+    detailId = ForeignKeyField(Detail, null=True)
 
 class Seam(BaseModel):
     connId = ForeignKeyField(Connection, null=True)
@@ -97,6 +100,7 @@ class Seam(BaseModel):
     wireSpeed = BlobField(default = b'0')#
     gasConsumption = BlobField(default = b'0')
     period = DoubleField(default=0.1)#
+    realDetId = ForeignKeyField(RealDetail, null=True)
 
     class Meta:
         db_table = 'Seams'

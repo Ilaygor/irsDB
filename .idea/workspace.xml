@@ -2,28 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="36008499-1f64-4380-b3f6-8d904b9280fa" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/chartPainter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/loginFunc.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/popUpWins.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/tabelVeiwers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/irsDB/migration300522.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/easy-install.pth" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/easy-install.pth" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/pip-20.2.4.dist-info/RECORD" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/pip-20.2.4.dist-info/RECORD" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/setuptools-40.8.0-py3.7.egg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Scripts/easy_install-3.7-script.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Scripts/easy_install-3.7.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Scripts/easy_install-script.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Scripts/easy_install.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Scripts/pip.exe" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Scripts/pip.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Scripts/pip3.7.exe" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Scripts/pip3.7.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Scripts/pip3.exe" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Scripts/pip3.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/irsDB/GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/GUI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/irsDB/IRSwelding.db" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/IRSwelding.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/irsDB/OPCclient.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/OPCclient.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/archivate.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/archivate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/irsDB/base.ui" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/base.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/config.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/config.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/irsDB/chooseDB.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/chooseDB.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/irsDB/connWin.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/connWin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/irsDB/experimental.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/experimental.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/irsDB/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/irsDB/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/irsDB/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/irsDB/pdfGenerator.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/pdfGenerator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/simServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/simServer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,31 +54,15 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../dna" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../nirs2" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\irsDB\venv\irsDB\mainWinFunc" />
+    </key>
+  </component>
   <component name="RunManager" selected="Python.main">
-    <configuration name="OPCclient" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="irsDB" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/venv/irsDB" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/venv/irsDB/OPCclient.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="experimental" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="irsDB" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -97,6 +76,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/venv/irsDB/experimental.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="loginFunc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="irsDB" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/venv/irsDB/mainWinFunc" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/venv/irsDB/mainWinFunc/loginFunc.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -126,28 +126,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="simServer (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="irsDB" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Downloads" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/Downloads/simServer.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="simServer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="migration300522" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="irsDB" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -159,7 +138,28 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/venv/irsDB/simServer.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/venv/irsDB/migration300522.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pdfGenerator" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="irsDB" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/venv/irsDB" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/venv/irsDB/pdfGenerator.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -171,10 +171,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.simServer" />
-        <item itemvalue="Python.OPCclient" />
-        <item itemvalue="Python.simServer (1)" />
+        <item itemvalue="Python.pdfGenerator" />
         <item itemvalue="Python.experimental" />
+        <item itemvalue="Python.migration300522" />
+        <item itemvalue="Python.loginFunc" />
       </list>
     </recent_temporary>
   </component>
@@ -211,14 +211,22 @@
       <option name="project" value="LOCAL" />
       <updated>1643376072714</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Рабочая альфа версия">
+      <created>1644912770893</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1644912770894</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="seam update" />
     <MESSAGE value="Эмуляция opcua связи" />
     <MESSAGE value="Рамы протестированы" />
-    <option name="LAST_COMMIT_MESSAGE" value="Рамы протестированы" />
+    <MESSAGE value="Рабочая альфа версия" />
+    <option name="LAST_COMMIT_MESSAGE" value="Рабочая альфа версия" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -230,13 +238,118 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/venv/irsDB/pdfGenerator.py</url>
-          <line>82</line>
+          <line>98</line>
           <option name="timeStamp" value="107" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/main.py</url>
+          <line>895</line>
+          <option name="timeStamp" value="147" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/mainWinFunc/popUpWins.py</url>
+          <line>139</line>
+          <option name="timeStamp" value="148" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/mainWinFunc/tabelVeiwers.py</url>
+          <line>88</line>
+          <option name="timeStamp" value="150" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/main.py</url>
+          <line>503</line>
+          <option name="timeStamp" value="154" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/mainWinFunc/popUpWins.py</url>
+          <line>31</line>
+          <option name="timeStamp" value="157" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/main.py</url>
+          <line>891</line>
+          <option name="timeStamp" value="158" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/mainWinFunc/tabelVeiwers.py</url>
+          <line>23</line>
+          <option name="timeStamp" value="163" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/mainWinFunc/popUpWins.py</url>
+          <line>97</line>
+          <option name="timeStamp" value="168" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/main.py</url>
+          <line>181</line>
+          <option name="timeStamp" value="169" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/main.py</url>
+          <line>663</line>
+          <option name="timeStamp" value="172" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/main.py</url>
+          <line>531</line>
+          <option name="timeStamp" value="173" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/main.py</url>
+          <line>685</line>
+          <option name="timeStamp" value="174" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/main.py</url>
+          <line>658</line>
+          <option name="timeStamp" value="176" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/venv/irsDB/pdfGenerator.py</url>
-          <line>269</line>
-          <option name="timeStamp" value="130" />
+          <line>319</line>
+          <option name="timeStamp" value="177" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/main.py</url>
+          <line>557</line>
+          <option name="timeStamp" value="178" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/main.py</url>
+          <line>419</line>
+          <option name="timeStamp" value="179" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/mainWinFunc/tabelVeiwers.py</url>
+          <line>120</line>
+          <option name="timeStamp" value="180" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/pdfGenerator.py</url>
+          <line>445</line>
+          <option name="timeStamp" value="181" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/pdfGenerator.py</url>
+          <line>259</line>
+          <option name="timeStamp" value="182" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/migration300522.py</url>
+          <line>8</line>
+          <option name="timeStamp" value="183" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/migration300522.py</url>
+          <line>35</line>
+          <option name="timeStamp" value="185" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/irsDB/mainWinFunc/loginFunc.py</url>
+          <line>28</line>
+          <option name="timeStamp" value="187" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

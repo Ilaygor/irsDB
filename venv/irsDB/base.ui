@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1127</width>
+    <width>1122</width>
     <height>853</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>IRS протоколирование параметров сварки</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="imgs.qrc">
+   <iconset>
     <normaloff>:/imgs/kjuj 2 — копия (2).png</normaloff>:/imgs/kjuj 2 — копия (2).png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -22,7 +22,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="protocol">
        <property name="sizePolicy">
@@ -252,17 +252,63 @@
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="groupBox_2">
+           <widget class="QGroupBox" name="groupBox_10">
             <property name="title">
              <string>Деталь</string>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_19">
+            <layout class="QHBoxLayout" name="horizontalLayout_21">
              <item>
-              <layout class="QGridLayout" name="gridLayout_6">
-               <property name="sizeConstraint">
-                <enum>QLayout::SetMinimumSize</enum>
-               </property>
-               <item row="4" column="2">
+              <layout class="QGridLayout" name="gridLayout_9">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_19">
+                 <property name="text">
+                  <string>Выбор детали:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QToolButton" name="chooseBlueprint">
+                 <property name="text">
+                  <string>...</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_30">
+                 <property name="text">
+                  <string>Соединение:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_34">
+                 <property name="text">
+                  <string>Номер детали:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_35">
+                 <property name="text">
+                  <string>Номер партии:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="detailId">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="detailNumber">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="2">
                 <widget class="QToolButton" name="chooseConn">
                  <property name="text">
                   <string>...</string>
@@ -270,76 +316,35 @@
                 </widget>
                </item>
                <item row="1" column="1">
-                <widget class="QLineEdit" name="detailNumber"/>
-               </item>
-               <item row="4" column="1">
-                <widget class="QLineEdit" name="connId_2">
+                <widget class="QLineEdit" name="batchNumber">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
                 </widget>
                </item>
                <item row="3" column="1">
-                <widget class="QLineEdit" name="detailId">
+                <widget class="QLineEdit" name="connId_2">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
                 </widget>
                </item>
                <item row="4" column="0">
-                <widget class="QLabel" name="label_30">
-                 <property name="text">
-                  <string>Соединение:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_19">
-                 <property name="text">
-                  <string>Название чертежа:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="batchNumber"/>
-               </item>
-               <item row="2" column="1">
-                <widget class="QLineEdit" name="authorizedUser">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_34">
-                 <property name="text">
-                  <string>Номер детали:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_35">
-                 <property name="text">
-                  <string>Номер партии:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
                 <widget class="QLabel" name="label_59">
                  <property name="text">
                   <string>Пользователь:</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="2">
-                <widget class="QToolButton" name="chooseUser">
-                 <property name="text">
-                  <string>...</string>
+               <item row="4" column="1">
+                <widget class="QLineEdit" name="authorizedUser">
+                 <property name="enabled">
+                  <bool>false</bool>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="2">
-                <widget class="QToolButton" name="chooseBlueprint">
+               <item row="4" column="2">
+                <widget class="QToolButton" name="chooseUser">
                  <property name="text">
                   <string>...</string>
                  </property>
@@ -570,7 +575,7 @@
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap resource="imgs.qrc">:/imgs/kjuj 2 — копия.png</pixmap>
+             <pixmap>:/imgs/kjuj 2 — копия.png</pixmap>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -1188,56 +1193,56 @@ p, li { white-space: pre-wrap; }
                  </property>
                 </widget>
                </item>
-               <item row="8" column="0">
+               <item row="9" column="0">
                 <widget class="QLabel" name="label_52">
                  <property name="text">
                   <string>Защитный газ:</string>
                  </property>
                 </widget>
                </item>
-               <item row="8" column="1">
+               <item row="9" column="1">
                 <widget class="QLineEdit" name="shieldingGasType">
                  <property name="toolTip">
                   <string>Тип защитного газа</string>
                  </property>
                 </widget>
                </item>
-               <item row="9" column="0">
+               <item row="10" column="0">
                 <widget class="QLabel" name="label_53">
                  <property name="text">
                   <string>Расход газа [л/мин]:</string>
                  </property>
                 </widget>
                </item>
-               <item row="9" column="1">
+               <item row="10" column="1">
                 <widget class="QDoubleSpinBox" name="shieldingGasConsumption">
                  <property name="toolTip">
                   <string>Рассчётный расход защитного газа на соединение</string>
                  </property>
                 </widget>
                </item>
-               <item row="10" column="0">
+               <item row="11" column="0">
                 <widget class="QLabel" name="label_54">
                  <property name="text">
                   <string>Программа сварки:</string>
                  </property>
                 </widget>
                </item>
-               <item row="10" column="1">
+               <item row="11" column="1">
                 <widget class="QLineEdit" name="programmName">
                  <property name="toolTip">
                   <string>Наименование программы сварки соединения</string>
                  </property>
                 </widget>
                </item>
-               <item row="11" column="0">
+               <item row="12" column="0">
                 <widget class="QLabel" name="label_55">
                  <property name="text">
                   <string>Расчётное время:</string>
                  </property>
                 </widget>
                </item>
-               <item row="11" column="1">
+               <item row="12" column="1">
                 <layout class="QHBoxLayout" name="horizontalLayout_10">
                  <item>
                   <widget class="QLabel" name="label_16">
@@ -1279,19 +1284,29 @@ p, li { white-space: pre-wrap; }
                  </item>
                 </layout>
                </item>
-               <item row="12" column="0">
+               <item row="13" column="0">
                 <widget class="QLabel" name="label_40">
                  <property name="text">
                   <string>Частота сбора данных [с]:</string>
                  </property>
                 </widget>
                </item>
-               <item row="12" column="1">
+               <item row="13" column="1">
                 <widget class="QDoubleSpinBox" name="preferredPeriod">
                  <property name="minimum">
                   <double>0.100000000000000</double>
                  </property>
                 </widget>
+               </item>
+               <item row="8" column="0">
+                <widget class="QLabel" name="label_5">
+                 <property name="text">
+                  <string>Расход проволоки [гр/м]</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="1">
+                <widget class="QDoubleSpinBox" name="wireMassConsumption"/>
                </item>
               </layout>
              </item>
@@ -1579,7 +1594,7 @@ p, li { white-space: pre-wrap; }
                 <item>
                  <widget class="QPushButton" name="DetailSeamsSave">
                   <property name="text">
-                   <string>Обновить общие параметры</string>
+                   <string>Сохранить</string>
                   </property>
                  </widget>
                 </item>
@@ -1776,7 +1791,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1127</width>
+     <width>1122</width>
      <height>26</height>
     </rect>
    </property>
@@ -1915,7 +1930,9 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../sourse/imgs.qrc"/>
+  <include location="imgs.qrc"/>
+  <include location="imgs.qrc"/>
+  <include location="imgs.qrc"/>
   <include location="imgs.qrc"/>
  </resources>
  <connections/>
