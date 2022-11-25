@@ -8,7 +8,7 @@ from PyQt5.QtCore import QPoint, QPointF
 from PyQt5.Qt import QPen, QFont, Qt, QSize
 from PyQt5.QtGui import QColor, QBrush, QPainter, QMouseEvent
 from PIL import Image, ImageQt
-import pdfGenerator as pg
+import mainWinFunc.pdfGenerator as pg
 import numpy as np
 from migration300522 import *
 
@@ -25,11 +25,11 @@ import struct
 import archivate
 import chooseDB as cdb
 import os
-import OPCclient as opcc
+import mainWinFunc.OPCclient as opcc
 
 import threading
 
-#pyuic5 -x base.ui -o gui.py
+#pyuic5 -x base.ui -o gui.py для обновлений из qt designer
 
 from mainWinFunc.models import *
 from mainWinFunc import loginFunc
@@ -39,33 +39,27 @@ from mainWinFunc.chartPainter import *
 
 class UImodif(Ui_MainWindow):
 
-    otype = ""
-    imgs = b'\x00\x00\x00\x00'
-    curImg = 0
-    curId = 0
-    AfUser = User.select()[0]
-    A = archivate.Archivator("IRSwelding.db")
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! перед сборкой раскомитить !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    otype = "" # текущий тип объектов взаимодействия
+    imgs = b'\x00\x00\x00\x00' # бинарный массив изображений
+    curImg = 0 # номер текущего изображения для демонстрации
+    curId = 0 # id выбранного объекта
+    AfUser = User.select()[0] # id авторизованного пользователя
+    A = archivate.Archivator("IRSwelding.db") # автоархиватор
     A.asincArch()
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     isActualDB = True
-    HarvestrDict = {}
+    HarvestrDict = {} # словарь
 
     #инициализация функций нажатий
     def setupUi(self, MainWindow, app):
         super().setupUi(MainWindow)
         self.app = app
-        #стартовая конфигурация!!!!!!!!!!!!!!!!!!!!!! перед сборкой раскомитить !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         loginFunc.exitf(self)
-        #self.centralwidget.setStyleSheet("background-color:white;")
-        #self.centralwidget.setStyleSheet("")
         #кнопки
         self.passFld.setEchoMode(QLineEdit.Password)
         self.loginBtn.clicked.connect(lambda: loginFunc.login(self))
         self.addBtn.clicked.connect(self.add)
         self.saveChalenges.clicked.connect(self.saveDeteil)
         self.saveConn.clicked.connect(self.saveConnChlngs)
-        #self.makePdf.clicked.connect(lambda: print("pdf"))
         self.saveBtn.clicked.connect(self.save)
         self.delBtn.clicked.connect(self.dell)
         self.addConnection.clicked.connect(lambda: MainWindow.addConnDia(self.curId))
@@ -136,30 +130,26 @@ class UImodif(Ui_MainWindow):
         self.gasConsumptionchb.hide()
         self.voltageCorrectionchb.hide()
 
-    #######Область тестовых функций########
-    def stopAll(self):
+    
+    def stopAll(self): #деактивация сбора данных с комплексов
         print(self.HarvestrDict)
         for harvestr in self.HarvestrDict:
             HarvestrDict[harvestr].stop
         self.A.deactivate()
 
-    def sArchAs(self):
+    def sArchAs(self): # сохранение текущей бд как архива
         filename = QtWidgets.QFileDialog.getSaveFileName()[0]
         if filename != "":
-            print(filename)
             if self.isActualDB:
                 self.A.saveAs("IRSwelding.db",filename+".zip")
             else:
                 self.A.saveAs("tmp/IRSwelding.db",filename+".zip")
 
-    def detReport(self):
-        batch = self.batchNumber_2.text()
-        det = self.numberInBatch.text()
-        adress = self.pdfAdress.text()
-        pg.create_pdf(adress, batch, det)
+    def detReport(self): # отчёт по детали
+        pg.create_pdf(self.pdfAdress.text(), self.curId)
         self.statusBar.showMessage("Отчёт готов", 3000)
 
-    def saveProtocol(self):
+    def saveProtocol(self): # сохранение данных шва
         if self.curId < 1:
             try:
                 pass  # DoubleField()
@@ -188,7 +178,6 @@ class UImodif(Ui_MainWindow):
                 if ind.row() not in addInd:
                     addInd.append(ind.row())
             for ind in addInd:
-                #print(self.seamTable.item(ind, 0).text())
                 query = Seam.update(
                     batchNumber = "",
                     detailNumber = "",
@@ -198,13 +187,12 @@ class UImodif(Ui_MainWindow):
             if self.curId:
                 self.realDetailView(self.curId)
 
-    def manualArch(self):
+    def manualArch(self): # ручная архивация
         self.A.arch('User_s reqvest',self.A.getConfig()["saveAdress"])
 
-    def chArch(self):
+    def chArch(self): # открыть архив
         filename = QtWidgets.QFileDialog.getOpenFileName(filter = '*.zip')[0]
         if filename != "":
-            #print(filename)
             cdb.cooseArch(filename)
             migration300522()
             self.statusBar.showMessage("Переклёчен на архив: " + filename, 3000)
@@ -212,7 +200,7 @@ class UImodif(Ui_MainWindow):
             loginFunc.makeEnable(self, self.AfUser.accessUser, self.AfUser.accessArch, self.AfUser.accessArch,
                             self.AfUser.accessArch, self.AfUser.accessArch, self.AfUser.accessArch)
 
-    def returnToActual(self):
+    def returnToActual(self): # вернуться к актуальной бд
         cdb.connToDb("IRSwelding.db")
         migration300522()
         try:
@@ -224,9 +212,8 @@ class UImodif(Ui_MainWindow):
         loginFunc.makeEnable(self, self.AfUser.accessUser, self.AfUser.accessDetail, self.AfUser.accessConn,
                         self.AfUser.accessProt, self.AfUser.accessAdd, self.AfUser.accessRemove)
 
-    def adrForPdf(self):
+    def adrForPdf(self): # выбор директории для сохранеия отчёта
         filename = QtWidgets.QFileDialog.getExistingDirectory()
-        #print(filename)
         self.pdfAdress.setText(filename)
 
     def create_pdf(self):
@@ -240,13 +227,13 @@ class UImodif(Ui_MainWindow):
     def save (self):
         if self.otype == "user":
             self.saveUser()
-            self.userTable()
+            userTable(self)
         if self.otype == "equipments":
             self.saveEquipment()
-            self.equipmentTable()
+            equipmentTable(self)
         if self.otype == "oscilation":
             self.saveOscilation()
-            self.oscilationTable()
+            oscilationTable(self)
 
     def saveUser(self):
         for i in range(self.tableWidget.rowCount()):
@@ -254,7 +241,6 @@ class UImodif(Ui_MainWindow):
                 if (self.tableWidget.item(i, 1) is not None and
                     self.tableWidget.item(i,2) is not None and
                     self.tableWidget.item(i, 3) is not None):
-                    #print(self.tableWidget.cellWidget(i, 4).isChecked())
                     try:
                         User(login=self.tableWidget.item(i, 1).text(),
                              name=self.tableWidget.item(i, 2).text(),
@@ -331,7 +317,6 @@ class UImodif(Ui_MainWindow):
             except: pass
             #assert ok
             pixmap_bytes = ba.data()
-            #print(type(pixmap_bytes))
             if self.tableWidget.item(i, 0) is None or self.tableWidget.item(i, 0).text() == "":
                 try:
                     OscilationType(
@@ -434,8 +419,8 @@ class UImodif(Ui_MainWindow):
                     except:pass
                     dellUser = User.get(User.id == dellId)
                     dellUser.delete_instance()
-                    print("dell")
-                self.userTable()
+                    print("Удалено")
+                userTable(self)
             elif self.otype == "blueprint":
                 for ind in addInd:
                     dellId = int(self.tableWidget.item(ind, 0).text())
@@ -471,7 +456,7 @@ class UImodif(Ui_MainWindow):
                     except: pass
                     dellConnection = Connection.get(Connection.id == dellId)
                     dellConnection.delete_instance()
-                self.connectTable()
+                connectTable(self)
             elif self.otype == "equipments":
                 for ind in addInd:
                     dellId = int(self.tableWidget.item(ind, 0).text())
@@ -481,7 +466,7 @@ class UImodif(Ui_MainWindow):
                     except:pass
                     dellEquipment = Equipment.get(Equipment.id == dellId)
                     dellEquipment.delete_instance()
-                self.equipmentTable()
+                equipmentTable(self)
             elif self.otype == "oscilation":
                 for ind in addInd:
                     dellId = int(self.tableWidget.item(ind, 0).text())
@@ -491,13 +476,13 @@ class UImodif(Ui_MainWindow):
                     except:pass
                     dellOscilationType = OscilationType.get(OscilationType.id == dellId)
                     dellOscilationType.delete_instance()
-                self.oscilationTable()
+                oscilationTable(self)
             elif self.otype == "seams":
                 for ind in addInd:
                     dellId = int(self.tableWidget.item(ind, 0).text())
                     dellSeam = Seam.get(Seam.id == dellId)
                     dellSeam.delete_instance()
-                self.veiwSeamTable()
+                veiwSeamTable(self)
             elif self.otype == "realDetail":
                 for ind in addInd:
                     try:
@@ -510,7 +495,7 @@ class UImodif(Ui_MainWindow):
                         query.execute()
                         dellRealDetail = RealDetail.get(RealDetail.id == dellId)
                         dellRealDetail.delete_instance()
-                        print("dell ok")
+                        print("Удалено")
                         """delDeteil = int(self.tableWidget.item(ind, 4).text())
                         delBatch = int(self.tableWidget.item(ind, 3).text())
                         print("dell", delDeteil, delBatch)
@@ -523,12 +508,11 @@ class UImodif(Ui_MainWindow):
                         pass
                 realDetailTable(self)
 
-    # временная функция
-    def redirect(self, n):
+    def redirect(self, n): # переход между окнами
         imgs = b'\x00\x00\x00\x00'
         self.stackedWidget.setCurrentIndex(n)
-    #Отображение данных в спец формах
-    def realDetailView(self, id):
+
+    def realDetailView(self, id): # Отображение данных в спец формах
         self.stackedWidget.setCurrentIndex(5)
         self.toolBar.show()
         detail = RealDetail.get(RealDetail.id == id)
@@ -555,7 +539,6 @@ class UImodif(Ui_MainWindow):
             self.veiwImg(self.dateilImg)
 
     def realDetailUpdate(self):
-        #print(self.tableWidget.currentRow())
         newButchN = self.batchNumber_2.text()
         newDetailN = self.numberInBatch.text()
         newBlprName = self.blprName.text()
@@ -563,12 +546,12 @@ class UImodif(Ui_MainWindow):
         if newBlprName != "":
             detailId = Detail.get(Detail.detailName == newBlprName).id
         if self.curId < 1:
-            print("create")
+            print("Создано")
             rd = RealDetail(batchNumber = newButchN, detailNumber = newDetailN, detailId = detailId)
             rd.save()
             self.curId = rd.id
         else:
-            print("update")
+            print("Обновлено")
             query = RealDetail.update(batchNumber = newButchN, detailNumber = newDetailN, detailId = detailId).where(
                 RealDetail.id == self.curId)
             query.execute()
@@ -836,7 +819,6 @@ class UImodif(Ui_MainWindow):
         return self.curId
 
     def saveConnChlngs(self):
-        print("save conn")
         if self.curId < 1:
             try:
                 Connection(ctype = self.ctype.text(),#CharField()
@@ -897,7 +879,7 @@ class MWin(QtWidgets.QMainWindow):
         self.dialog.show()
 
     def timePdfDia(self):
-        self.dialog = timePdfWin()
+        self.dialog = timePdfWin(self)
         self.dialog.show()
 
     def archSettings(self, archivator):

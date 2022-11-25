@@ -22,7 +22,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="protocol">
        <property name="sizePolicy">
@@ -326,6 +326,9 @@
                 <widget class="QLineEdit" name="connId_2">
                  <property name="enabled">
                   <bool>false</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Из привязанных к чертежу</string>
                  </property>
                 </widget>
                </item>

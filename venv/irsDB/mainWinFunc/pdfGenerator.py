@@ -146,7 +146,6 @@ def addChart(values, name, yAxesName, period):
     lp.yValueAxis.valueMax = valmax
     lp.yValueAxis.valueMin = 0
     lp.yValueAxis.valueStep = valmax / 4
-    #print(name, max(values))
     drawing.add(lp)
 
     laby = Label()
@@ -363,10 +362,6 @@ def create_pdf(pdf_path, id):
     detail = Detail.get(Detail.id == real_detail.detailId)
     seams = Seam.select().where(Seam.realDetId == id).order_by(
         Seam.connId)
-    print("real_detail", real_detail)
-    print("detail", detail)
-    for seam in seams:
-        print("seam", seam)
 
     pdfmetrics.registerFont(TTFont('DejaVuSans', "DejaVuSansCondensed.ttf"))
 
@@ -380,17 +375,28 @@ def create_pdf(pdf_path, id):
     styles.add(ParagraphStyle(name='russMain', fontName='DejaVuSans', alignment=TA_CENTER, fontSize=16, spaceAfter=10))
 
     Story = []
-    Story.append(Paragraph("ИРС-СМАЗ Робототехнический комплекс " + seams[-1].equipmentId.name, styles["russMain"]))
+    if len(seams) > 0:
+        if seams[-1].equipmentId is not None:
+            Story.append(Paragraph("ИРС-СМАЗ Робототехнический комплекс " + seams[-1].equipmentId.name, styles["russMain"]))
+        else:
+            Story.append(Paragraph("ИРС-СМАЗ Робототехнический комплекс ", styles["russMain"]))
+    else:
+        Story.append(Paragraph("ИРС-СМАЗ Робототехнический комплекс ", styles["russMain"]))
     Story.append(Paragraph("Паспорт РТК", styles["russMain"]))
     Story.append(HorizontalRule())
     Story.append(Spacer(0, 5))
     Story.append(Paragraph("Информация о сварке", styles["russ"]))
     Story.append(Spacer(0, 5))
-    Story.append(add_welding_info_table(seam, real_detail))
+    if len(seams)>0 and real_detail is not None:
+        Story.append(add_welding_info_table(seams[-1], real_detail))
+    else:
+        Story.append(Paragraph("Нет данных о швах", styles["russ"]))
     Story.append(Spacer(0, 5))
     Story.append(Paragraph("Изображение детали", styles["russ"]))
     Story.append(Spacer(0, 5))
-    detImg = bi.unzip(detail.img)
+    if detail is not None:
+        if detail.img is not None:
+            detImg = bi.unzip(detail.img)
     if len(detImg) > 0:
         stream = BytesIO(detImg[-1])
         img = plimg.open(stream)
@@ -417,30 +423,6 @@ def create_pdf(pdf_path, id):
         Story.append(
             addChart(swireSpeed, "Скорость подачи проволоки", "Скорость подачи проволоки [м/мин]", seam.period))
         Story.append(PageBreak())
-    """Story.append(addDetTable(detail, styles))
-    Story.append(Spacer(0, 5))
-    detImg = bi.unzip(detail.img)
-    if len(detImg) > 0:
-        stream = BytesIO(detImg[-1])
-        img = plimg.open(stream)
-        im = Image(stream, 300, int(300*img.size[1]/img.size[0]))
-        Story.append(im)
-
-    Story.append(PageBreak())
-
-    for seam in seams:
-        storchSpeed = struct.unpack('%sf' % (len(seam.torchSpeed) // 4), seam.torchSpeed)
-        scurrent = struct.unpack('%sf' % (len(seam.current) // 4), seam.current)
-        svoltage = struct.unpack('%sf' % (len(seam.voltage) // 4), seam.voltage)
-        swireSpeed = struct.unpack('%sf' % (len(seam.wireSpeed) // 4), seam.wireSpeed)
-        Story.append(
-            Paragraph("Отчёт по сварке", styles["russMain"]))
-        Story.append(addSeamTable(seam, styles, storchSpeed, scurrent, svoltage, swireSpeed))
-        Story.append(addChart(storchSpeed, "Скорость сварки", "Скорость сварки [см/мин]",seam.period))
-        Story.append(addChart(scurrent, "Сила тока", "Сила тока [А]",seam.period))
-        Story.append(addChart(svoltage, "Напряжение дуги", "Напряжение дуги [В]",seam.period))
-        Story.append(addChart(swireSpeed, "Скорость подачи проволоки", "Скорость подачи проволоки [м/мин]",seam.period))
-        Story.append(PageBreak())"""
     doc.build(Story, canvasmaker=PageNumCanvas)
 # ----------------------------------------------------------------------
 if __name__ == "__main__":

@@ -5,10 +5,21 @@ from connWin import *
 from selectUI import *
 from timePdf import *
 from settings import *
+import mainWinFunc.pdfGenerator as pg
+import datetime
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QTableWidgetItem as twi
+from PyQt5.QtWidgets import QMessageBox, QLineEdit
+from PyQt5.QtChart import QChart, QChartView, QLineSeries, QCategoryAxis, QValueAxis
+from PyQt5.QtCore import QPoint, QPointF
+from PyQt5.Qt import QPen, QFont, Qt, QSize
+from PyQt5.QtGui import QColor, QBrush, QPainter, QMouseEvent
 
 class timePdfWin(QtWidgets.QWidget):
-    def __init__(self):
+    def __init__(self, mainUI):
         super().__init__()
+        self.mainUI = mainUI
         self.ui = Ui_timePdf()
         self.ui.setupUi(self)
         self.ui.chooseAdress.clicked.connect(self.chooseAdress)
@@ -23,14 +34,16 @@ class timePdfWin(QtWidgets.QWidget):
         start = self.ui.startTime.dateTime().toPyDateTime()
         end = self.ui.endTime.dateTime().toPyDateTime()
         adr = self.ui.adress.text()
-        if adr != "" and (end-start > datetime.timedelta(0,0,0,0,0,0,0)):
+        if (end-start > datetime.timedelta(0,0,0,0,0,0,0)):
+            print("Отчёт формируется")
             pg.create_periodPdf(adr, start, end)
+            print("Отчёт готов")
 
 class AddConn(QtWidgets.QWidget):
     detId = 0
     def __init__(self, id, mainUi):
         super().__init__()
-        print(mainUi.otype)
+        #print(mainUi.otype)
         self.detId = id
         self.mainUi = mainUi
         self.ui = Ui_connAdd()
@@ -104,7 +117,7 @@ class AddConn(QtWidgets.QWidget):
                     if ind.row() not in addInd:
                         addInd.append(ind.row())
                 for ind in addInd:
-                    print(self.ui.listOfConn.item(ind, 0).text())
+                    #print(self.ui.listOfConn.item(ind, 0).text())
                     query = Seam.update(
                         batchNumber = self.mainUi.batchNumber_2.text(),
                         detailNumber = self.mainUi.numberInBatch.text(),
@@ -127,7 +140,7 @@ class AddConn(QtWidgets.QWidget):
                     connId=conId,
                     detailId=self.detId).save()
                 elif countInDb > 0 and not isAdd:
-                    print("dell")
+                    #print("dell")
                     dellDetConn = DetConn.get((DetConn.detailId == self.detId) & (DetConn.connId == conId))
                     dellDetConn.delete_instance()
                 self.mainUi.detailView(self.detId)
@@ -152,7 +165,7 @@ class chooseData(QtWidgets.QWidget):
             users = User.select()
             self.ui.chooseTable.setRowCount(len(users))
             for i in range(len(users)):
-                print(users[i].name)
+                #print(users[i].name)
                 self.ui.chooseTable.setItem(i, 0, twi(str(users[i].id)))
                 self.ui.chooseTable.setItem(i, 1, twi(users[i].login))
                 self.ui.chooseTable.setItem(i, 2, twi(users[i].name))
@@ -199,10 +212,10 @@ class chooseData(QtWidgets.QWidget):
                 ["id", "Вид соединения", "Толщина элементов", "Разделка кромок", "Размеры шва с допусками",
                  "Марка/сечение проволоки", "Защитный газ"])
             seam = Seam.get(Seam.id == self.seamId)
-            print(seam)
+            #print(seam)
             if seam.detailId is not None:
                 connections = Connection.select().join(DetConn).where(DetConn.detailId == seam.detailId)
-                print(connections)
+                #print(connections)
                 self.ui.chooseTable.setRowCount(len(connections))
                 for i in range(len(connections)):
                     self.ui.chooseTable.setItem(i, 0, twi(str(connections[i].id)))
@@ -262,7 +275,7 @@ class settingsWin(QtWidgets.QWidget):
         self.ui.chooseAdress.clicked.connect(self.chooseAdress)
         self.ui.saveBtn.clicked.connect(self.saveSettings)
         config = self.arch.getConfig()
-        print(config)
+        #print(config)
         self.ui.adress.setText(config['saveAdress'])
         self.ui.hours.setValue(int(config['periodH']))
         self.ui.minuts.setValue(int(config['periodM']))
@@ -278,7 +291,7 @@ class settingsWin(QtWidgets.QWidget):
         self.ui.adress.setText(filename)
 
     def saveSettings(self):
-        print("save")
+        print("Настройки сохранены")
         self.arch.setConfig(self.ui.adress.text(),
                             self.ui.hours.text(),
                             self.ui.minuts.text(),

@@ -1,3 +1,4 @@
+# модели БД
 import sqlite3
 from peewee import *
 

@@ -1,3 +1,4 @@
+# переключение активной БД
 from peewee import *
 from mainWinFunc.models import *
 from zipfile import ZipFile
@@ -5,6 +6,7 @@ import os
 
 print("cdb")
 
+# создание временной разархивированной БД
 def anzip(path):
     try:
         os.remove("tmp/IRSwelding.db")
@@ -12,6 +14,7 @@ def anzip(path):
     with ZipFile(path, 'r') as zipObj:
         zipObj.extractall(path="tmp/")
 
+# Изменеие привявязок моделей к другой БД
 def chooseDB(db):
     User._meta.database = db
     Detail._meta.database = db

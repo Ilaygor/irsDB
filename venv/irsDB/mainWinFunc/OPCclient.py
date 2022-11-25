@@ -1,19 +1,21 @@
+# клиент собирающий данные
 import time
 import datetime
 from opcua import Client, ua
 import struct
 from mainWinFunc.models import Seam, Equipment, OscilationType
+from mainWinFunc.test import *
 
-def addSeam(torchSpeed,wireSpeed,current,voltage,
+def addSeam(torchSpeed,wireSpeed,current,voltage, # добавление шва в БД
             burnerOscillation, errNum, weldingProgramm,
             startTime,endTime, period,
             equpmetId, userId):
     gasConsumption = []
+    print("Скорость сварки",torchSpeed)
     btorchSpeed = struct.pack('%sf' % len(torchSpeed), *torchSpeed)
     bwireSpeed = struct.pack('%sf' % len(wireSpeed), *wireSpeed)
     bcurrent = struct.pack('%sf' % len(current), *current)
     bvoltage = struct.pack('%sf' % len(voltage), *voltage)
-    #активировать, когда будет готов ПЛК !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     oscId = OscilationType.get(OscilationType.oscNumber == burnerOscillation).id
 
     Seam(connId=None,  # ForeignKeyField(Connection)
@@ -37,7 +39,7 @@ def addSeam(torchSpeed,wireSpeed,current,voltage,
          ).save()
 
 
-class SubHandler(object):
+class SubHandler(object): # "слушатель" сервера ПЛК
 
     def __init__(self, Nodes, weldProg, eqwNum, userId, statusBar = None):
         self.statusBar = statusBar
@@ -134,7 +136,7 @@ class SubHandler(object):
         print("new event", event)
 
 
-class DataHarvestr():
+class DataHarvestr(): # сборщик данных 
     #ActSeam = ActualSeam()
 
     def __init__(self, IP, statusBar, userId):
@@ -153,6 +155,7 @@ class DataHarvestr():
             self.client.connect()
             self.active = True
             root = self.client.get_root_node()
+            #analize(str(self.IP), root)
             node = root.get_child(["0:Objects","3:ServerInterfaces"])#,"4:WELD_DATA_RAMY"])
             for n in node.get_children():
                 print(n.get_browse_name())

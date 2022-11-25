@@ -2,26 +2,6 @@
 from mainWinFunc.models import *
 
 
-def login(self):
-    #print(self.loginFld.text(), self.passFld.text())
-    try:
-        user = User.get(User.login == self.loginFld.text())
-        if user.passWord == self.passFld.text():
-            self.stackedWidget.setCurrentIndex(4)
-            self.menubar.show()
-
-            self.AfUser = user
-
-            self.centralwidget.setStyleSheet("")
-
-            self.makeEnable(self.AfUser.accessUser, self.AfUser.accessDetail, self.AfUser.accessConn,
-                            self.AfUser.accessProt, self.AfUser.accessAdd, self.AfUser.accessRemove)
-        else:
-            self.statusBar.showMessage("Неверный пароль", 4000)
-    except:
-        self.statusBar.showMessage("Логин не зарегистрирован", 4000)
-
-
 def makeEnable(self, accessUser, accessDetail, accessConn,
                accessProt, accessAdd, accessRemove):
     #self.adpanel("blueprint")
@@ -83,6 +63,25 @@ def makeEnable(self, accessUser, accessDetail, accessConn,
     self.addBtn.setEnabled(accessAdd)
 
     self.delBtn.setEnabled(accessRemove)
+
+def login(self):
+    #print(self.loginFld.text(), self.passFld.text())
+    try:
+        user = User.get(User.login == self.loginFld.text())
+        if user.passWord == self.passFld.text():
+            self.stackedWidget.setCurrentIndex(4)
+            self.menubar.show()
+
+            self.AfUser = user
+
+            self.centralwidget.setStyleSheet("")
+
+            makeEnable(self, self.AfUser.accessUser, self.AfUser.accessDetail, self.AfUser.accessConn,
+                            self.AfUser.accessProt, self.AfUser.accessAdd, self.AfUser.accessRemove)
+        else:
+            self.statusBar.showMessage("Неверный пароль", 4000)
+    except:
+        self.statusBar.showMessage("Логин не зарегистрирован", 4000)
 
 def exitf(self):
     self.centralwidget.setStyleSheet("background-color:white;")

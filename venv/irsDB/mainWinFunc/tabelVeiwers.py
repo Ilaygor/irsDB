@@ -3,6 +3,8 @@ from mainWinFunc.models import *
 from PyQt5.QtWidgets import QTableWidgetItem as twi
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.Qt import QPen, QFont, Qt, QSize
+import mainWinFunc.OPCclient as opcc
+print("opc ok")
 
 def adpanel(self, otype):
     self.otype = otype
@@ -56,7 +58,7 @@ def robConnect(self):
                 equId = Equipment.get(Equipment.ip == ip).id
             except: pass
             guiInfo = [self.statusBar,self.AfUser,equId]
-            print("new harvestr")
+            #print("new harvestr")
             self.HarvestrDict[ip] = opcc.DataHarvestr(ip, self.statusBar, self.AfUser.id)
             self.HarvestrDict[ip].start()
         if self.HarvestrDict[ip].active:

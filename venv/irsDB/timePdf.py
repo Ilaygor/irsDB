@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*- # настройки отчёта за время
 
 # Form implementation generated from reading ui file 'pdf.ui'
 #

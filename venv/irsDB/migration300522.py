@@ -1,3 +1,4 @@
+# обновление бд до новой версии
 from playhouse.migrate import *
 from mainWinFunc.models import *
 

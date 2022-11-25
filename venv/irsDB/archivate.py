@@ -1,3 +1,4 @@
+# Класс для архивации и работы с бд в архивированном состоянии
 import zipfile
 import os
 import datetime
@@ -20,10 +21,15 @@ class Archivator: #дописать логику первого запуска
         data = datetime.datetime.now()
         size = os.path.getsize(self.database)//1000000
         f.write(str(data) +'|'+str(size)+'|'+ cause + '\n')
-        archiv = zipfile.ZipFile(adress+'/'+data.strftime("%Y_%m_%d_%H%M%S")+'.zip', 'w')
+        try:
+            archiv = zipfile.ZipFile(adress+'/'+data.strftime("%Y_%m_%d_%H%M%S")+'.zip', 'w')
+        except:
+            os.mkdir(adress)
+            archiv = zipfile.ZipFile(adress + '/' + data.strftime("%Y_%m_%d_%H%M%S") + '.zip', 'w')
         archiv.write(self.database, compress_type=zipfile.ZIP_DEFLATED)
         archiv.close()
 
+    # Сохранить текущую БД как архив с именем
     def saveAs(self, DB, saveAdress):
         print(DB,saveAdress)
         archiv = zipfile.ZipFile(saveAdress, 'w')
@@ -39,6 +45,7 @@ class Archivator: #дописать логику первого запуска
             params.append(tuple(line.replace('\n','').split('|')))
         return dict(params)
 
+    # сохранение настроек автоархивации
     def setConfig(self, adress, hours, minuts, seconds, size):
         f = open('config.txt', 'w')
         f.write('saveAdress|' + adress + '\n')
@@ -46,6 +53,7 @@ class Archivator: #дописать логику первого запуска
         f.write('periodM|' + minuts + '\n')
         f.write('periodS|' + seconds + '\n')
         f.write('sizeparam|' + size + '\n')
+        
     # проверка параметров автоархивации и архивация при необходимости
     def autoarch(self):
         config = self.getConfig()
