@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="36008499-1f64-4380-b3f6-8d904b9280fa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/test.py" afterDir="false" />
+    <list default="true" id="36008499-1f64-4380-b3f6-8d904b9280fa" name="Default Changelist" comment="221125">
+      <change afterPath="$PROJECT_DIR$/gui.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/irsDB/IRS256.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/irsDB/IRS_протокол.spec" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/irsDB/experimental.spec" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/irsDB/imgs.qrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/irsDB/imgs_rc.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/irsDB/localhost.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/IRSwelding.db" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/IRSwelding.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/OPCclient.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/OPCclient.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/archivate.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/archivate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/base.ui" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/base.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/chooseDB.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/chooseDB.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/loginFunc.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/loginFunc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/popUpWins.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/popUpWins.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/tabelVeiwers.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/tabelVeiwers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/migration300522.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/migration300522.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/pdfGenerator.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/pdfGenerator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/simServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/simServer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/irsDB/timePdf.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/timePdf.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -241,7 +232,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654965380427</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="221125">
+      <created>1669367610057</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1669367610057</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -249,7 +247,8 @@
     <MESSAGE value="Эмуляция opcua связи" />
     <MESSAGE value="Рамы протестированы" />
     <MESSAGE value="Рабочая альфа версия" />
-    <option name="LAST_COMMIT_MESSAGE" value="Рабочая альфа версия" />
+    <MESSAGE value="221125" />
+    <option name="LAST_COMMIT_MESSAGE" value="221125" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

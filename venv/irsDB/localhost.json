@@ -1,0 +1,3265 @@
+{
+    "0:Objects": {
+        "0:Server": {
+            "0:ServerArray": {},
+            "0:NamespaceArray": {},
+            "0:ServerStatus": {
+                "0:StartTime": {},
+                "0:CurrentTime": {},
+                "0:State": {},
+                "0:BuildInfo": {
+                    "0:ProductUri": {},
+                    "0:ManufacturerName": {},
+                    "0:ProductName": {},
+                    "0:SoftwareVersion": {},
+                    "0:BuildNumber": {},
+                    "0:BuildDate": {}
+                },
+                "0:SecondsTillShutdown": {},
+                "0:ShutdownReason": {}
+            },
+            "0:ServiceLevel": {},
+            "0:Auditing": {},
+            "0:EstimatedReturnTime": {},
+            "0:LocalTime": {},
+            "0:ServerCapabilities": {
+                "0:ServerProfileArray": {},
+                "0:LocaleIdArray": {},
+                "0:MinSupportedSampleRate": {},
+                "0:MaxBrowseContinuationPoints": {},
+                "0:MaxQueryContinuationPoints": {},
+                "0:MaxHistoryContinuationPoints": {},
+                "0:SoftwareCertificates": {},
+                "0:MaxArrayLength": {},
+                "0:MaxStringLength": {},
+                "0:MaxByteStringLength": {},
+                "0:OperationLimits": {
+                    "0:MaxNodesPerRead": {},
+                    "0:MaxNodesPerHistoryReadData": {},
+                    "0:MaxNodesPerHistoryReadEvents": {},
+                    "0:MaxNodesPerWrite": {},
+                    "0:MaxNodesPerHistoryUpdateData": {},
+                    "0:MaxNodesPerHistoryUpdateEvents": {},
+                    "0:MaxNodesPerMethodCall": {},
+                    "0:MaxNodesPerBrowse": {},
+                    "0:MaxNodesPerRegisterNodes": {},
+                    "0:MaxNodesPerTranslateBrowsePathsToNodeIds": {},
+                    "0:MaxNodesPerNodeManagement": {},
+                    "0:MaxMonitoredItemsPerCall": {}
+                },
+                "0:ModellingRules": {},
+                "0:AggregateFunctions": {},
+                "0:RoleSet": {
+                    "0:AddRole": {
+                        "0:InputArguments": {},
+                        "0:OutputArguments": {}
+                    },
+                    "0:RemoveRole": {
+                        "0:InputArguments": {}
+                    },
+                    "0:Anonymous": {
+                        "0:Identities": {},
+                        "0:Applications": {},
+                        "0:ApplicationsExclude": {},
+                        "0:Endpoints": {},
+                        "0:EndpointsExclude": {},
+                        "0:AddIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddEndpoint": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveEndpoint": {
+                            "0:InputArguments": {}
+                        }
+                    },
+                    "0:AuthenticatedUser": {
+                        "0:Identities": {},
+                        "0:Applications": {},
+                        "0:ApplicationsExclude": {},
+                        "0:Endpoints": {},
+                        "0:EndpointsExclude": {},
+                        "0:AddIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddEndpoint": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveEndpoint": {
+                            "0:InputArguments": {}
+                        }
+                    },
+                    "0:Observer": {
+                        "0:Identities": {},
+                        "0:Applications": {},
+                        "0:ApplicationsExclude": {},
+                        "0:Endpoints": {},
+                        "0:EndpointsExclude": {},
+                        "0:AddIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddEndpoint": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveEndpoint": {
+                            "0:InputArguments": {}
+                        }
+                    },
+                    "0:Operator": {
+                        "0:Identities": {},
+                        "0:Applications": {},
+                        "0:ApplicationsExclude": {},
+                        "0:Endpoints": {},
+                        "0:EndpointsExclude": {},
+                        "0:AddIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddEndpoint": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveEndpoint": {
+                            "0:InputArguments": {}
+                        }
+                    },
+                    "0:Engineer": {
+                        "0:Identities": {},
+                        "0:Applications": {},
+                        "0:ApplicationsExclude": {},
+                        "0:Endpoints": {},
+                        "0:EndpointsExclude": {},
+                        "0:AddIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddEndpoint": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveEndpoint": {
+                            "0:InputArguments": {}
+                        }
+                    },
+                    "0:Supervisor": {
+                        "0:Identities": {},
+                        "0:Applications": {},
+                        "0:ApplicationsExclude": {},
+                        "0:Endpoints": {},
+                        "0:EndpointsExclude": {},
+                        "0:AddIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddEndpoint": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveEndpoint": {
+                            "0:InputArguments": {}
+                        }
+                    },
+                    "0:ConfigureAdmin": {
+                        "0:Identities": {},
+                        "0:Applications": {},
+                        "0:ApplicationsExclude": {},
+                        "0:Endpoints": {},
+                        "0:EndpointsExclude": {},
+                        "0:AddIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddEndpoint": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveEndpoint": {
+                            "0:InputArguments": {}
+                        }
+                    },
+                    "0:SecurityAdmin": {
+                        "0:Identities": {},
+                        "0:Applications": {},
+                        "0:ApplicationsExclude": {},
+                        "0:Endpoints": {},
+                        "0:EndpointsExclude": {},
+                        "0:AddIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveIdentity": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveApplication": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AddEndpoint": {
+                            "0:InputArguments": {}
+                        },
+                        "0:RemoveEndpoint": {
+                            "0:InputArguments": {}
+                        }
+                    }
+                },
+                "0:HistoryServerCapabilities": {
+                    "0:AccessHistoryDataCapability": {},
+                    "0:AccessHistoryEventsCapability": {},
+                    "0:MaxReturnDataValues": {},
+                    "0:MaxReturnEventValues": {},
+                    "0:InsertDataCapability": {},
+                    "0:ReplaceDataCapability": {},
+                    "0:UpdateDataCapability": {},
+                    "0:DeleteRawCapability": {},
+                    "0:DeleteAtTimeCapability": {},
+                    "0:InsertEventCapability": {},
+                    "0:ReplaceEventCapability": {},
+                    "0:UpdateEventCapability": {},
+                    "0:DeleteEventCapability": {},
+                    "0:InsertAnnotationCapability": {},
+                    "0:AggregateFunctions": {},
+                    "0:ServerTimestampSupported": {}
+                }
+            },
+            "0:ServerDiagnostics": {
+                "0:ServerDiagnosticsSummary": {
+                    "0:ServerViewCount": {},
+                    "0:CurrentSessionCount": {},
+                    "0:CumulatedSessionCount": {},
+                    "0:SecurityRejectedSessionCount": {},
+                    "0:RejectedSessionCount": {},
+                    "0:SessionTimeoutCount": {},
+                    "0:SessionAbortCount": {},
+                    "0:PublishingIntervalCount": {},
+                    "0:CurrentSubscriptionCount": {},
+                    "0:CumulatedSubscriptionCount": {},
+                    "0:SecurityRejectedRequestsCount": {},
+                    "0:RejectedRequestsCount": {}
+                },
+                "0:SamplingIntervalDiagnosticsArray": {},
+                "0:SubscriptionDiagnosticsArray": {},
+                "0:SessionsDiagnosticsSummary": {
+                    "0:SessionDiagnosticsArray": {},
+                    "0:SessionSecurityDiagnosticsArray": {}
+                },
+                "0:EnabledFlag": {}
+            },
+            "0:VendorServerInfo": {},
+            "0:ServerRedundancy": {
+                "0:RedundancySupport": {},
+                "0:CurrentServerId": {},
+                "0:RedundantServerArray": {},
+                "0:ServerUriArray": {},
+                "0:ServerNetworkGroups": {}
+            },
+            "0:Namespaces": {
+                "0:http://opcfoundation.org/UA/": {
+                    "0:NamespaceUri": {},
+                    "0:NamespaceVersion": {},
+                    "0:NamespacePublicationDate": {},
+                    "0:IsNamespaceSubset": {},
+                    "0:StaticNodeIdTypes": {},
+                    "0:StaticNumericNodeIdRange": {},
+                    "0:StaticStringNodeIdPattern": {},
+                    "0:DefaultRolePermissions": {},
+                    "0:DefaultUserRolePermissions": {},
+                    "0:DefaultAccessRestrictions": {}
+                }
+            },
+            "0:GetMonitoredItems": {
+                "0:InputArguments": {},
+                "0:OutputArguments": {}
+            },
+            "0:ResendData": {
+                "0:InputArguments": {}
+            },
+            "0:SetSubscriptionDurable": {
+                "0:InputArguments": {},
+                "0:OutputArguments": {}
+            },
+            "0:RequestServerStateChange": {
+                "0:InputArguments": {}
+            },
+            "0:Dictionaries": {}
+        },
+        "3:ServerInterfaces": {
+            "4:WELD_DATA_RAMY": {
+                "4:ROB_DB": {
+                    "4:ROB_Actual_Speed": {},
+                    "4:ROB_Weld_Start": {},
+                    "4:ROB_Job_Number": {},
+                    "4:ROB_Wire_Speed": {},
+                    "4:ROB_Weaving_Set_Num": {}
+                },
+                "4:PS_DB": {
+                    "4:PS_Process_Active": {},
+                    "4:PS_Weld_Voltage": {},
+                    "4:PS_Weld_Current": {},
+                    "4:PS_Wire_Feed": {},
+                    "4:PS_Error_Number": {},
+                    "4:PS_Arc_Stable": {}
+                },
+                "4:PLC_DB": {
+                    "4:PLC_time": {
+                        "4:NANOSECOND": {}
+                    }
+                }
+            }
+        }
+    },
+    "0:Types": {
+        "0:ObjectTypes": {
+            "0:BaseObjectType": {
+                "0:FolderType": {
+                    "0:OperationLimitsType": {
+                        "0:MaxNodesPerRead": {},
+                        "0:MaxNodesPerHistoryReadData": {},
+                        "0:MaxNodesPerHistoryReadEvents": {},
+                        "0:MaxNodesPerWrite": {},
+                        "0:MaxNodesPerHistoryUpdateData": {},
+                        "0:MaxNodesPerHistoryUpdateEvents": {},
+                        "0:MaxNodesPerMethodCall": {},
+                        "0:MaxNodesPerBrowse": {},
+                        "0:MaxNodesPerRegisterNodes": {},
+                        "0:MaxNodesPerTranslateBrowsePathsToNodeIds": {},
+                        "0:MaxNodesPerNodeManagement": {},
+                        "0:MaxMonitoredItemsPerCall": {}
+                    },
+                    "0:FileDirectoryType": {
+                        "0:<FileDirectoryName>": {
+                            "0:CreateDirectory": {
+                                "0:InputArguments": {},
+                                "0:OutputArguments": {}
+                            },
+                            "0:CreateFile": {
+                                "0:InputArguments": {},
+                                "0:OutputArguments": {}
+                            },
+                            "0:Delete": {
+                                "0:InputArguments": {}
+                            },
+                            "0:MoveOrCopy": {
+                                "0:InputArguments": {},
+                                "0:OutputArguments": {}
+                            }
+                        },
+                        "0:<FileName>": {
+                            "0:Size": {},
+                            "0:Writable": {},
+                            "0:UserWritable": {},
+                            "0:OpenCount": {},
+                            "0:Open": {
+                                "0:InputArguments": {},
+                                "0:OutputArguments": {}
+                            },
+                            "0:Close": {
+                                "0:InputArguments": {}
+                            },
+                            "0:Read": {
+                                "0:InputArguments": {},
+                                "0:OutputArguments": {}
+                            },
+                            "0:Write": {
+                                "0:InputArguments": {}
+                            },
+                            "0:GetPosition": {
+                                "0:InputArguments": {},
+                                "0:OutputArguments": {}
+                            },
+                            "0:SetPosition": {
+                                "0:InputArguments": {}
+                            }
+                        },
+                        "0:CreateDirectory": {
+                            "0:InputArguments": {},
+                            "0:OutputArguments": {}
+                        },
+                        "0:CreateFile": {
+                            "0:InputArguments": {},
+                            "0:OutputArguments": {}
+                        },
+                        "0:Delete": {
+                            "0:InputArguments": {}
+                        },
+                        "0:MoveOrCopy": {
+                            "0:InputArguments": {},
+                            "0:OutputArguments": {}
+                        }
+                    },
+                    "0:DictionaryFolderType": {
+                        "0:<DictionaryFolderName>": {},
+                        "0:<DictionaryEntryName>": {}
+                    },
+                    "0:AlarmGroupType": {
+                        "0:<AlarmConditionInstance>": {
+                            "0:EventId": {},
+                            "0:EventType": {},
+                            "0:SourceNode": {},
+                            "0:SourceName": {},
+                            "0:Time": {},
+                            "0:ReceiveTime": {},
+                            "0:Message": {},
+                            "0:Severity": {},
+                            "0:ConditionClassId": {},
+                            "0:ConditionClassName": {},
+                            "0:ConditionName": {},
+                            "0:BranchId": {},
+                            "0:Retain": {},
+                            "0:EnabledState": {
+                                "0:Id": {}
+                            },
+                            "0:Quality": {
+                                "0:SourceTimestamp": {}
+                            },
+                            "0:LastSeverity": {
+                                "0:SourceTimestamp": {}
+                            },
+                            "0:Comment": {
+                                "0:SourceTimestamp": {}
+                            },
+                            "0:ClientUserId": {},
+                            "0:Disable": {},
+                            "0:Enable": {},
+                            "0:AddComment": {
+                                "0:InputArguments": {}
+                            },
+                            "0:AckedState": {
+                                "0:Id": {}
+                            },
+                            "0:Acknowledge": {
+                                "0:InputArguments": {}
+                            },
+                            "0:ActiveState": {
+                                "0:Id": {}
+                            },
+                            "0:InputNode": {},
+                            "0:SuppressedOrShelved": {}
+                        }
+                    }
+                },
+                "0:DataTypeSystemType": {},
+                "0:DataTypeEncodingType": {},
+                "0:ModellingRuleType": {
+                    "0:NamingRule": {}
+                },
+                "0:ServerType": {
+                    "0:ServerArray": {},
+                    "0:NamespaceArray": {},
+                    "0:UrisVersion": {},
+                    "0:ServerStatus": {
+                        "0:StartTime": {},
+                        "0:CurrentTime": {},
+                        "0:State": {},
+                        "0:BuildInfo": {
+                            "0:ProductUri": {},
+                            "0:ManufacturerName": {},
+                            "0:ProductName": {},
+                            "0:SoftwareVersion": {},
+                            "0:BuildNumber": {},
+                            "0:BuildDate": {}
+                        },
+                        "0:SecondsTillShutdown": {},
+                        "0:ShutdownReason": {}
+                    },
+                    "0:ServiceLevel": {},
+                    "0:Auditing": {},
+                    "0:EstimatedReturnTime": {},
+                    "0:LocalTime": {},
+                    "0:ServerCapabilities": {
+                        "0:ServerProfileArray": {},
+                        "0:LocaleIdArray": {},
+                        "0:MinSupportedSampleRate": {},
+                        "0:MaxBrowseContinuationPoints": {},
+                        "0:MaxQueryContinuationPoints": {},
+                        "0:MaxHistoryContinuationPoints": {},
+                        "0:SoftwareCertificates": {},
+                        "0:ModellingRules": {},
+                        "0:AggregateFunctions": {}
+                    },
+                    "0:ServerDiagnostics": {
+                        "0:ServerDiagnosticsSummary": {
+                            "0:ServerViewCount": {},
+                            "0:CurrentSessionCount": {},
+                            "0:CumulatedSessionCount": {},
+                            "0:SecurityRejectedSessionCount": {},
+                            "0:RejectedSessionCount": {},
+                            "0:SessionTimeoutCount": {},
+                            "0:SessionAbortCount": {},
+                            "0:PublishingIntervalCount": {},
+                            "0:CurrentSubscriptionCount": {},
+                            "0:CumulatedSubscriptionCount": {},
+                            "0:SecurityRejectedRequestsCount": {},
+                            "0:RejectedRequestsCount": {}
+                        },
+                        "0:SubscriptionDiagnosticsArray": {},
+                        "0:SessionsDiagnosticsSummary": {
+                            "0:SessionDiagnosticsArray": {},
+                            "0:SessionSecurityDiagnosticsArray": {}
+                        },
+                        "0:EnabledFlag": {}
+                    },
+                    "0:VendorServerInfo": {},
+                    "0:ServerRedundancy": {
+                        "0:RedundancySupport": {}
+                    },
+                    "0:Namespaces": {},
+                    "0:GetMonitoredItems": {
+                        "0:InputArguments": {},
+                        "0:OutputArguments": {}
+                    },
+                    "0:ResendData": {
+                        "0:InputArguments": {}
+                    },
+                    "0:SetSubscriptionDurable": {
+                        "0:InputArguments": {},
+                        "0:OutputArguments": {}
+                    },
+                    "0:RequestServerStateChange": {
+                        "0:InputArguments": {}
+                    }
+                },
+                "0:ServerCapabilitiesType": {
+                    "0:ServerProfileArray": {},
+                    "0:LocaleIdArray": {},
+                    "0:MinSupportedSampleRate": {},
+                    "0:MaxBrowseContinuationPoints": {},
+                    "0:MaxQueryContinuationPoints": {},
+                    "0:MaxHistoryContinuationPoints": {},
+                    "0:SoftwareCertificates": {},
+                    "0:MaxArrayLength": {},
+                    "0:MaxStringLength": {},
+                    "0:MaxByteStringLength": {},
+                    "0:OperationLimits": {},
+                    "0:ModellingRules": {},
+                    "0:AggregateFunctions": {},
+                    "0:<VendorCapability>": {},
+                    "0:RoleSet": {
+                        "0:AddRole": {
+                            "0:InputArguments": {},
+                            "0:OutputArguments": {}
+                        },
+                        "0:RemoveRole": {
+                            "0:InputArguments": {}
+                        }
+                    }
+                },
+                "0:ServerDiagnosticsType": {
+                    "0:ServerDiagnosticsSummary": {
+                        "0:ServerViewCount": {},
+                        "0:CurrentSessionCount": {},
+                        "0:CumulatedSessionCount": {},
+                        "0:SecurityRejectedSessionCount": {},
+                        "0:RejectedSessionCount": {},
+                        "0:SessionTimeoutCount": {},
+                        "0:SessionAbortCount": {},
+                        "0:PublishingIntervalCount": {},
+                        "0:CurrentSubscriptionCount": {},
+                        "0:CumulatedSubscriptionCount": {},
+                        "0:SecurityRejectedRequestsCount": {},
+                        "0:RejectedRequestsCount": {}
+                    },
+                    "0:SamplingIntervalDiagnosticsArray": {},
+                    "0:SubscriptionDiagnosticsArray": {},
+                    "0:SessionsDiagnosticsSummary": {
+                        "0:SessionDiagnosticsArray": {},
+                        "0:SessionSecurityDiagnosticsArray": {}
+                    },
+                    "0:EnabledFlag": {}
+                },
+                "0:SessionsDiagnosticsSummaryType": {
+                    "0:SessionDiagnosticsArray": {},
+                    "0:SessionSecurityDiagnosticsArray": {},
+                    "0:<ClientName>": {
+                        "0:SessionDiagnostics": {
+                            "0:SessionId": {},
+                            "0:SessionName": {},
+                            "0:ClientDescription": {},
+                            "0:ServerUri": {},
+                            "0:EndpointUrl": {},
+                            "0:LocaleIds": {},
+                            "0:ActualSessionTimeout": {},
+                            "0:MaxResponseMessageSize": {},
+                            "0:ClientConnectionTime": {},
+                            "0:ClientLastContactTime": {},
+                            "0:CurrentSubscriptionsCount": {},
+                            "0:CurrentMonitoredItemsCount": {},
+                            "0:CurrentPublishRequestsInQueue": {},
+                            "0:TotalRequestCount": {},
+                            "0:UnauthorizedRequestCount": {},
+                            "0:ReadCount": {},
+                            "0:HistoryReadCount": {},
+                            "0:WriteCount": {},
+                            "0:HistoryUpdateCount": {},
+                            "0:CallCount": {},
+                            "0:CreateMonitoredItemsCount": {},
+                            "0:ModifyMonitoredItemsCount": {},
+                            "0:SetMonitoringModeCount": {},
+                            "0:SetTriggeringCount": {},
+                            "0:DeleteMonitoredItemsCount": {},
+                            "0:CreateSubscriptionCount": {},
+                            "0:ModifySubscriptionCount": {},
+                            "0:SetPublishingModeCount": {},
+                            "0:PublishCount": {},
+                            "0:RepublishCount": {},
+                            "0:TransferSubscriptionsCount": {},
+                            "0:DeleteSubscriptionsCount": {},
+                            "0:AddNodesCount": {},
+                            "0:AddReferencesCount": {},
+                            "0:DeleteNodesCount": {},
+                            "0:DeleteReferencesCount": {},
+                            "0:BrowseCount": {},
+                            "0:BrowseNextCount": {},
+                            "0:TranslateBrowsePathsToNodeIdsCount": {},
+                            "0:QueryFirstCount": {},
+                            "0:QueryNextCount": {},
+                            "0:RegisterNodesCount": {},
+                            "0:UnregisterNodesCount": {}
+                        },
+                        "0:SessionSecurityDiagnostics": {
+                            "0:SessionId": {},
+                            "0:ClientUserIdOfSession": {},
+                            "0:ClientUserIdHistory": {},
+                            "0:AuthenticationMechanism": {},
+                            "0:Encoding": {},
+                            "0:TransportProtocol": {},
+                            "0:SecurityMode": {},
+                            "0:SecurityPolicyUri": {},
+                            "0:ClientCertificate": {}
+                        },
+                        "0:SubscriptionDiagnosticsArray": {}
+                    }
+                },
+                "0:SessionDiagnosticsObjectType": {
+                    "0:SessionDiagnostics": {
+                        "0:SessionId": {},
+                        "0:SessionName": {},
+                        "0:ClientDescription": {},
+                        "0:ServerUri": {},
+                        "0:EndpointUrl": {},
+                        "0:LocaleIds": {},
+                        "0:ActualSessionTimeout": {},
+                        "0:MaxResponseMessageSize": {},
+                        "0:ClientConnectionTime": {},
+                        "0:ClientLastContactTime": {},
+                        "0:CurrentSubscriptionsCount": {},
+                        "0:CurrentMonitoredItemsCount": {},
+                        "0:CurrentPublishRequestsInQueue": {},
+                        "0:TotalRequestCount": {},
+                        "0:UnauthorizedRequestCount": {},
+                        "0:ReadCount": {},
+                        "0:HistoryReadCount": {},
+                        "0:WriteCount": {},
+                        "0:HistoryUpdateCount": {},
+                        "0:CallCount": {},
+                        "0:CreateMonitoredItemsCount": {},
+                        "0:ModifyMonitoredItemsCount": {},
+                        "0:SetMonitoringModeCount": {},
+                        "0:SetTriggeringCount": {},
+                        "0:DeleteMonitoredItemsCount": {},
+                        "0:CreateSubscriptionCount": {},
+                        "0:ModifySubscriptionCount": {},
+                        "0:SetPublishingModeCount": {},
+                        "0:PublishCount": {},
+                        "0:RepublishCount": {},
+                        "0:TransferSubscriptionsCount": {},
+                        "0:DeleteSubscriptionsCount": {},
+                        "0:AddNodesCount": {},
+                        "0:AddReferencesCount": {},
+                        "0:DeleteNodesCount": {},
+                        "0:DeleteReferencesCount": {},
+                        "0:BrowseCount": {},
+                        "0:BrowseNextCount": {},
+                        "0:TranslateBrowsePathsToNodeIdsCount": {},
+                        "0:QueryFirstCount": {},
+                        "0:QueryNextCount": {},
+                        "0:RegisterNodesCount": {},
+                        "0:UnregisterNodesCount": {}
+                    },
+                    "0:SessionSecurityDiagnostics": {
+                        "0:SessionId": {},
+                        "0:ClientUserIdOfSession": {},
+                        "0:ClientUserIdHistory": {},
+                        "0:AuthenticationMechanism": {},
+                        "0:Encoding": {},
+                        "0:TransportProtocol": {},
+                        "0:SecurityMode": {},
+                        "0:SecurityPolicyUri": {},
+                        "0:ClientCertificate": {}
+                    },
+                    "0:SubscriptionDiagnosticsArray": {}
+                },
+                "0:VendorServerInfoType": {},
+                "0:ServerRedundancyType": {
+                    "0:RedundancySupport": {},
+                    "0:TransparentRedundancyType": {
+                        "0:CurrentServerId": {},
+                        "0:RedundantServerArray": {}
+                    },
+                    "0:NonTransparentRedundancyType": {
+                        "0:ServerUriArray": {},
+                        "0:NonTransparentNetworkRedundancyType": {
+                            "0:ServerNetworkGroups": {}
+                        }
+                    }
+                },
+                "0:FileType": {
+                    "0:Size": {},
+                    "0:Writable": {},
+                    "0:UserWritable": {},
+                    "0:OpenCount": {},
+                    "0:MimeType": {},
+                    "0:Open": {
+                        "0:InputArguments": {},
+                        "0:OutputArguments": {}
+                    },
+                    "0:Close": {
+                        "0:InputArguments": {}
+                    },
+                    "0:Read": {
+                        "0:InputArguments": {},
+                        "0:OutputArguments": {}
+                    },
+                    "0:Write": {
+                        "0:InputArguments": {}
+                    },
+                    "0:GetPosition": {
+                        "0:InputArguments": {},
+                        "0:OutputArguments": {}
+                    },
+                    "0:SetPosition": {
+                        "0:InputArguments": {}
+                    },
+                    "0:AddressSpaceFileType": {
+                        "0:ExportNamespace": {}
+                    }
+                },
+                "0:NamespaceMetadataType": {
+                    "0:NamespaceUri": {},
+                    "0:NamespaceVersion": {},
+                    "0:NamespacePublicationDate": {},
+                    "0:IsNamespaceSubset": {},
+                    "0:StaticNodeIdTypes": {},
+                    "0:StaticNumericNodeIdRange": {},
+                    "0:StaticStringNodeIdPattern": {},
+                    "0:NamespaceFile": {
+                        "0:Size": {},
+                        "0:Writable": {},
+                        "0:UserWritable": {},
+                        "0:OpenCount": {},
+                        "0:Open": {
+                            "0:InputArguments": {},
+                            "0:OutputArguments": {}
+                        },
+                        "0:Close": {
+                            "0:InputArguments": {}
+                        },
+                        "0:Read": {
+                            "0:InputArguments": {},
+                            "0:OutputArguments": {}
+                        },
+                        "0:Write": {
+                            "0:InputArguments": {}
+                        },
+                        "0:GetPosition": {
+                            "0:InputArguments": {},
+                            "0:OutputArguments": {}
+                        },
+                        "0:SetPosition": {
+                            "0:InputArguments": {}
+                        }
+                    },
+                    "0:DefaultRolePermissions": {},
+                    "0:DefaultUserRolePermissions": {},
+                    "0:DefaultAccessRestrictions": {}
+                },
+                "0:NamespacesType": {
+                    "0:<NamespaceIdentifier>": {
+                        "0:NamespaceUri": {},
+                        "0:NamespaceVersion": {},
+                        "0:NamespacePublicationDate": {},
+                        "0:IsNamespaceSubset": {},
+                        "0:StaticNodeIdTypes": {},
+                        "0:StaticNumericNodeIdRange": {},
+                        "0:StaticStringNodeIdPattern": {}
+                    }
+                },
+                "0:BaseEventType": {
+                    "0:EventId": {},
+                    "0:EventType": {},
+                    "0:SourceNode": {},
+                    "0:SourceName": {},
+                    "0:Time": {},
+                    "0:ReceiveTime": {},
+                    "0:LocalTime": {},
+                    "0:Message": {},
+                    "0:Severity": {},
+                    "0:AuditEventType": {
+                        "0:ActionTimeStamp": {},
+                        "0:Status": {},
+                        "0:ServerId": {},
+                        "0:ClientAuditEntryId": {},
+                        "0:ClientUserId": {},
+                        "0:AuditSecurityEventType": {
+                            "0:StatusCodeId": {},
+                            "0:AuditChannelEventType": {
+                                "0:SecureChannelId": {},
+                                "0:AuditOpenSecureChannelEventType": {
+                                    "0:ClientCertificate": {},
+                                    "0:ClientCertificateThumbprint": {},
+                                    "0:RequestType": {},
+                                    "0:SecurityPolicyUri": {},
+                                    "0:SecurityMode": {},
+                                    "0:RequestedLifetime": {}
+                                }
+                            },
+                            "0:AuditSessionEventType": {
+                                "0:SessionId": {},
+                                "0:AuditCreateSessionEventType": {
+                                    "0:SecureChannelId": {},
+                                    "0:ClientCertificate": {},
+                                    "0:ClientCertificateThumbprint": {},
+                                    "0:RevisedSessionTimeout": {},
+                                    "0:AuditUrlMismatchEventType": {
+                                        "0:EndpointUrl": {}
+                                    }
+                                },
+                                "0:AuditActivateSessionEventType": {
+                                    "0:ClientSoftwareCertificates": {},
+                                    "0:UserIdentityToken": {},
+                                    "0:SecureChannelId": {}
+                                },
+                                "0:AuditCancelEventType": {
+                                    "0:RequestHandle": {}
+                                }
+                            },
+                            "0:AuditCertificateEventType": {
+                                "0:Certificate": {},
+                                "0:AuditCertificateDataMismatchEventType": {
+                                    "0:InvalidHostname": {},
+                                    "0:InvalidUri": {}
+                                },
+                                "0:AuditCertificateExpiredEventType": {},
+                                "0:AuditCertificateInvalidEventType": {},
+                                "0:AuditCertificateUntrustedEventType": {},
+                                "0:AuditCertificateRevokedEventType": {},
+                                "0:AuditCertificateMismatchEventType": {}
+                            }
+                        },
+                        "0:AuditNodeManagementEventType": {
+                            "0:AuditAddNodesEventType": {
+                                "0:NodesToAdd": {}
+                            },
+                            "0:AuditDeleteNodesEventType": {
+                                "0:NodesToDelete": {}
+                            },
+                            "0:AuditAddReferencesEventType": {
+                                "0:ReferencesToAdd": {}
+                            },
+                            "0:AuditDeleteReferencesEventType": {
+                                "0:ReferencesToDelete": {}
+                            }
+                        },
+                        "0:AuditUpdateEventType": {
+                            "0:AuditWriteUpdateEventType": {
+                                "0:AttributeId": {},
+                                "0:IndexRange": {},
+                                "0:OldValue": {},
+                                "0:NewValue": {}
+                            },
+                            "0:AuditHistoryUpdateEventType": {
+                                "0:ParameterDataTypeId": {},
+                                "0:AuditHistoryEventUpdateEventType": {
+                                    "0:UpdatedNode": {},
+                                    "0:PerformInsertReplace": {},
+                                    "0:Filter": {},
+                                    "0:NewValues": {},
+                                    "0:OldValues": {}
+                                },
+                                "0:AuditHistoryValueUpdateEventType": {
+                                    "0:UpdatedNode": {},
+                                    "0:PerformInsertReplace": {},
+                                    "0:NewValues": {},
+                                    "0:OldValues": {}
+                                },
+                                "0:AuditHistoryAnnotationUpdateEventType": {
+                                    "0:PerformInsertReplace": {},
+                                    "0:NewValues": {},
+                                    "0:OldValues": {}
+                                },
+                                "0:AuditHistoryDeleteEventType": {
+                                    "0:UpdatedNode": {},
+                                    "0:AuditHistoryRawModifyDeleteEventType": {
+                                        "0:IsDeleteModified": {},
+                                        "0:StartTime": {},
+                                        "0:EndTime": {},
+                                        "0:OldValues": {}
+                                    },
+                                    "0:AuditHistoryAtTimeDeleteEventType": {
+                                        "0:ReqTimes": {},
+                                        "0:OldValues": {}
+                                    },
+                                    "0:AuditHistoryEventDeleteEventType": {
+                                        "0:EventIds": {},
+                                        "0:OldValues": {}
+                                    }
+                                }
+                            }
+                        },
+                        "0:AuditUpdateMethodEventType": {
+                            "0:MethodId": {},
+                            "0:InputArguments": {},
+                            "0:AuditUpdateStateEventType": {
+                                "0:OldStateId": {},
+                                "0:NewStateId": {},
+                                "0:AuditProgramTransitionEventType": {
+                                    "0:TransitionNumber": {}
+                                },
+                                "0:ProgramTransitionAuditEventType": {
+                                    "0:Transition": {
+                                        "0:Id": {}
+                                    }
+                                }
+                            },
+                            "0:RoleMappingRuleChangedAuditEventType": {},
+                            "0:AuditConditionEventType": {
+                                "0:AuditConditionEnableEventType": {},
+                                "0:AuditConditionCommentEventType": {
+                                    "0:ConditionEventId": {},
+                                    "0:Comment": {}
+                                },
+                                "0:AuditConditionRespondEventType": {
+                                    "0:SelectedResponse": {}
+                                },
+                                "0:AuditConditionAcknowledgeEventType": {
+                                    "0:ConditionEventId": {},
+                                    "0:Comment": {}
+                                },
+                                "0:AuditConditionConfirmEventType": {
+                                    "0:ConditionEventId": {},
+                                    "0:Comment": {}
+                                },
+                                "0:AuditConditionShelvingEventType": {
+                                    "0:ShelvingTime": {}
+                                },
+                                "0:AuditConditionSuppressionEventType": {},
+                                "0:AuditConditionSilenceEventType": {},
+                                "0:AuditConditionResetEventType": {},
+                                "0:AuditConditionOutOfServiceEventType": {}
+                            }
+                        }
+                    },
+                    "0:SystemEventType": {
+                        "0:DeviceFailureEventType": {},
+                        "0:SystemStatusChangeEventType": {
+                            "0:SystemState": {}
+                        },
+                        "0:RefreshStartEventType": {},
+                        "0:RefreshEndEventType": {},
+                        "0:RefreshRequiredEventType": {}
+                    },
+                    "0:BaseModelChangeEventType": {
+                        "0:GeneralModelChangeEventType": {
+                            "0:Changes": {}
+                        }
+                    },
+                    "0:SemanticChangeEventType": {
+                        "0:Changes": {}
+                    },
+                    "0:EventQueueOverflowEventType": {},
+                    "0:ProgressEventType": {
+                        "0:Context": {},
+                        "0:Progress": {}
+                    },
+                    "0:TransitionEventType": {
+                        "0:Transition": {
+                            "0:Id": {}
+                        },
+                        "0:FromState": {
+                            "0:Id": {}
+                        },
+                        "0:ToState": {
+                            "0:Id": {}
+                        },
+                        "0:ProgramTransitionEventType": {
+                            "0:IntermediateResult": {}
+                        }
+                    },
+                    "0:ConditionType": {
+                        "0:ConditionClassId": {},
+                        "0:ConditionClassName": {},
+                        "0:ConditionSubClassId": {},
+                        "0:ConditionSubClassName": {},
+                        "0:ConditionName": {},
+                        "0:BranchId": {},
+                        "0:Retain": {},
+                        "0:EnabledState": {
+                            "0:Id": {},
+                            "0:EffectiveDisplayName": {},
+                            "0:TransitionTime": {},
+                            "0:EffectiveTransitionTime": {},
+                            "0:TrueState": {},
+                            "0:FalseState": {}
+                        },
+                        "0:Quality": {
+                            "0:SourceTimestamp": {}
+                        },
+                        "0:LastSeverity": {
+                            "0:SourceTimestamp": {}
+                        },
+                        "0:Comment": {
+                            "0:SourceTimestamp": {}
+                        },
+                        "0:ClientUserId": {},
+                        "0:Disable": {},
+                        "0:Enable": {},
+                        "0:AddComment": {
+                            "0:InputArguments": {}
+                        },
+                        "0:ConditionRefresh": {
+                            "0:InputArguments": {}
+                        },
+                        "0:ConditionRefresh2": {
+                            "0:InputArguments": {}
+                        },
+                        "0:DialogConditionType": {
+                            "0:EnabledState": {
+                                "0:Id": {}
+                            },
+                            "0:DialogState": {
+                                "0:Id": {},
+                                "0:TransitionTime": {},
+                                "0:TrueState": {},
+                                "0:FalseState": {}
+                            },
+                            "0:Prompt": {},
+                            "0:ResponseOptionSet": {},
+                            "0:DefaultResponse": {},
+                            "0:OkResponse": {},
+                            "0:CancelResponse": {},
+                            "0:LastResponse": {},
+                            "0:Respond": {
+                                "0:InputArguments": {}
+                            }
+                        },
+                        "0:AcknowledgeableConditionType": {
+                            "0:EnabledState": {
+                                "0:Id": {}
+                            },
+                            "0:AckedState": {
+                                "0:Id": {},
+                                "0:TransitionTime": {},
+                                "0:TrueState": {},
+                                "0:FalseState": {}
+                            },
+                            "0:ConfirmedState": {
+                                "0:Id": {},
+                                "0:TransitionTime": {},
+                                "0:TrueState": {},
+                                "0:FalseState": {}
+                            },
+                            "0:Acknowledge": {
+                                "0:InputArguments": {}
+                            },
+                            "0:Confirm": {
+                                "0:InputArguments": {}
+                            },
+                            "0:AlarmConditionType": {
+                                "0:EnabledState": {
+                                    "0:Id": {}
+                                },
+                                "0:ActiveState": {
+                                    "0:Id": {},
+                                    "0:EffectiveDisplayName": {},
+                                    "0:TransitionTime": {},
+                                    "0:EffectiveTransitionTime": {},
+                                    "0:TrueState": {},
+                                    "0:FalseState": {}
+                                },
+                                "0:InputNode": {},
+                                "0:SuppressedState": {
+                                    "0:Id": {},
+                                    "0:TransitionTime": {},
+                                    "0:TrueState": {},
+                                    "0:FalseState": {}
+                                },
+                                "0:OutOfServiceState": {
+                                    "0:Id": {},
+                                    "0:TransitionTime": {},
+                                    "0:TrueState": {},
+                                    "0:FalseState": {}
+                                },
+                                "0:ShelvingState": {
+                                    "0:CurrentState": {
+                                        "0:Id": {}
+                                    },
+                                    "0:LastTransition": {
+                                        "0:Id": {},
+                                        "0:TransitionTime": {}
+                                    },
+                                    "0:UnshelveTime": {},
+                                    "0:TimedShelve": {
+                                        "0:InputArguments": {}
+                                    },
+                                    "0:Unshelve": {},
+                                    "0:OneShotShelve": {}
+                                },
+                                "0:SuppressedOrShelved": {},
+                                "0:MaxTimeShelved": {},
+                                "0:AudibleEnabled": {},
+                                "0:AudibleSound": {},
+                                "0:SilenceState": {
+                                    "0:Id": {},
+                                    "0:TransitionTime": {},
+                                    "0:TrueState": {},
+                                    "0:FalseState": {}
+                                },
+                                "0:OnDelay": {},
+                                "0:OffDelay": {},
+                                "0:FirstInGroupFlag": {},
+                                "0:FirstInGroup": {},
+                                "0:LatchedState": {
+                                    "0:Id": {},
+                                    "0:TransitionTime": {},
+                                    "0:TrueState": {},
+                                    "0:FalseState": {}
+                                },
+                                "0:<AlarmGroup>": {},
+                                "0:ReAlarmTime": {},
+                                "0:ReAlarmRepeatCount": {},
+                                "0:Silence": {},
+                                "0:Suppress": {},
+                                "0:Unsuppress": {},
+                                "0:RemoveFromService": {},
+                                "0:PlaceInService": {},
+                                "0:Reset": {},
+                                "0:LimitAlarmType": {
+                                    "0:HighHighLimit": {},
+                                    "0:HighLimit": {},
+                                    "0:LowLimit": {},
+                                    "0:LowLowLimit": {},
+                                    "0:BaseHighHighLimit": {},
+                                    "0:BaseHighLimit": {},
+                                    "0:BaseLowLimit": {},
+                                    "0:BaseLowLowLimit": {},
+                                    "0:ExclusiveLimitAlarmType": {
+                                        "0:ActiveState": {
+                                            "0:Id": {}
+                                        },
+                                        "0:LimitState": {
+                                            "0:CurrentState": {
+                                                "0:Id": {}
+                                            },
+                                            "0:LastTransition": {
+                                                "0:Id": {},
+                                                "0:TransitionTime": {}
+                                            }
+                                        },
+                                        "0:ExclusiveLevelAlarmType": {},
+                                        "0:ExclusiveDeviationAlarmType": {
+                                            "0:SetpointNode": {},
+                                            "0:BaseSetpointNode": {}
+                                        },
+                                        "0:ExclusiveRateOfChangeAlarmType": {
+                                            "0:EngineeringUnits": {}
+                                        }
+                                    },
+                                    "0:NonExclusiveLimitAlarmType": {
+                                        "0:ActiveState": {
+                                            "0:Id": {}
+                                        },
+                                        "0:HighHighState": {
+                                            "0:Id": {},
+                                            "0:TransitionTime": {},
+                                            "0:TrueState": {},
+                                            "0:FalseState": {}
+                                        },
+                                        "0:HighState": {
+                                            "0:Id": {},
+                                            "0:TransitionTime": {},
+                                            "0:TrueState": {},
+                                            "0:FalseState": {}
+                                        },
+                                        "0:LowState": {
+                                            "0:Id": {},
+                                            "0:TransitionTime": {},
+                                            "0:TrueState": {},
+                                            "0:FalseState": {}
+                                        },
+                                        "0:LowLowState": {
+                                            "0:Id": {},
+                                            "0:TransitionTime": {},
+                                            "0:TrueState": {},
+                                            "0:FalseState": {}
+                                        },
+                                        "0:NonExclusiveLevelAlarmType": {},
+                                        "0:NonExclusiveDeviationAlarmType": {
+                                            "0:SetpointNode": {},
+                                            "0:BaseSetpointNode": {}
+                                        },
+                                        "0:NonExclusiveRateOfChangeAlarmType": {
+                                            "0:EngineeringUnits": {}
+                                        }
+                                    }
+                                },
+                                "0:DiscreteAlarmType": {
+                                    "0:OffNormalAlarmType": {
+                                        "0:NormalState": {},
+                                        "0:SystemOffNormalAlarmType": {
+                                            "0:CertificateExpirationAlarmType": {
+                                                "0:ExpirationDate": {},
+                                                "0:ExpirationLimit": {},
+                                                "0:CertificateType": {},
+                                                "0:Certificate": {}
+                                            }
+                                        },
+                                        "0:TripAlarmType": {},
+                                        "0:InstrumentDiagnosticAlarmType": {},
+                                        "0:SystemDiagnosticAlarmType": {}
+                                    }
+                                },
+                                "0:DiscrepancyAlarmType": {
+                                    "0:TargetValueNode": {},
+                                    "0:ExpectedTime": {},
+                                    "0:Tolerance": {}
+                                }
+                            }
+                        }
+                    }
+                },
+                "0:AggregateFunctionType": {},
+                "0:StateMachineType": {
+                    "0:CurrentState": {
+                        "0:Id": {}
+                    },
+                    "0:LastTransition": {
+                        "0:Id": {}
+                    },
+                    "0:FiniteStateMachineType": {
+                        "0:CurrentState": {
+                            "0:Id": {}
+                        },
+                        "0:LastTransition": {
+                            "0:Id": {}
+                        },
+                        "0:AvailableStates": {},
+                        "0:AvailableTransitions": {},
+                        "0:FileTransferStateMachineType": {
+                            "0:Idle": {
+                                "0:StateNumber": {}
+                            },
+                            "0:ReadPrepare": {
+                                "0:StateNumber": {}
+                            },
+                            "0:ReadTransfer": {
+                                "0:StateNumber": {}
+                            },
+                            "0:ApplyWrite": {
+                                "0:StateNumber": {}
+                            },
+                            "0:Error": {
+                                "0:StateNumber": {}
+                            },
+                            "0:IdleToReadPrepare": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:ReadPrepareToReadTransfer": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:ReadTransferToIdle": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:IdleToApplyWrite": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:ApplyWriteToIdle": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:ReadPrepareToError": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:ReadTransferToError": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:ApplyWriteToError": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:ErrorToIdle": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:Reset": {}
+                        },
+                        "0:ShelvedStateMachineType": {
+                            "0:UnshelveTime": {},
+                            "0:Unshelved": {
+                                "0:StateNumber": {}
+                            },
+                            "0:TimedShelved": {
+                                "0:StateNumber": {}
+                            },
+                            "0:OneShotShelved": {
+                                "0:StateNumber": {}
+                            },
+                            "0:UnshelvedToTimedShelved": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:UnshelvedToOneShotShelved": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:TimedShelvedToUnshelved": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:TimedShelvedToOneShotShelved": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:OneShotShelvedToUnshelved": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:OneShotShelvedToTimedShelved": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:TimedShelve": {
+                                "0:InputArguments": {}
+                            },
+                            "0:Unshelve": {},
+                            "0:OneShotShelve": {}
+                        },
+                        "0:ExclusiveLimitStateMachineType": {
+                            "0:HighHigh": {
+                                "0:StateNumber": {}
+                            },
+                            "0:High": {
+                                "0:StateNumber": {}
+                            },
+                            "0:Low": {
+                                "0:StateNumber": {}
+                            },
+                            "0:LowLow": {
+                                "0:StateNumber": {}
+                            },
+                            "0:LowLowToLow": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:LowToLowLow": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:HighHighToHigh": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:HighToHighHigh": {
+                                "0:TransitionNumber": {}
+                            }
+                        },
+                        "0:ProgramStateMachineType": {
+                            "0:CurrentState": {
+                                "0:Id": {},
+                                "0:Number": {}
+                            },
+                            "0:LastTransition": {
+                                "0:Id": {},
+                                "0:Number": {},
+                                "0:TransitionTime": {}
+                            },
+                            "0:Creatable": {},
+                            "0:Deletable": {},
+                            "0:AutoDelete": {},
+                            "0:RecycleCount": {},
+                            "0:InstanceCount": {},
+                            "0:MaxInstanceCount": {},
+                            "0:MaxRecycleCount": {},
+                            "0:ProgramDiagnostic": {
+                                "0:CreateSessionId": {},
+                                "0:CreateClientName": {},
+                                "0:InvocationCreationTime": {},
+                                "0:LastTransitionTime": {},
+                                "0:LastMethodCall": {},
+                                "0:LastMethodSessionId": {},
+                                "0:LastMethodInputArguments": {},
+                                "0:LastMethodOutputArguments": {},
+                                "0:LastMethodInputValues": {},
+                                "0:LastMethodOutputValues": {},
+                                "0:LastMethodCallTime": {},
+                                "0:LastMethodReturnStatus": {}
+                            },
+                            "0:FinalResultData": {},
+                            "0:Halted": {
+                                "0:StateNumber": {}
+                            },
+                            "0:Ready": {
+                                "0:StateNumber": {}
+                            },
+                            "0:Running": {
+                                "0:StateNumber": {}
+                            },
+                            "0:Suspended": {
+                                "0:StateNumber": {}
+                            },
+                            "0:HaltedToReady": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:ReadyToRunning": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:RunningToHalted": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:RunningToReady": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:RunningToSuspended": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:SuspendedToRunning": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:SuspendedToHalted": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:SuspendedToReady": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:ReadyToHalted": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:Start": {},
+                            "0:Suspend": {},
+                            "0:Resume": {},
+                            "0:Halt": {},
+                            "0:Reset": {}
+                        }
+                    }
+                },
+                "0:StateType": {
+                    "0:StateNumber": {},
+                    "0:InitialStateType": {},
+                    "0:ChoiceStateType": {}
+                },
+                "0:TransitionType": {
+                    "0:TransitionNumber": {}
+                },
+                "0:TemporaryFileTransferType": {
+                    "0:ClientProcessingTimeout": {},
+                    "0:GenerateFileForRead": {
+                        "0:InputArguments": {},
+                        "0:OutputArguments": {}
+                    },
+                    "0:GenerateFileForWrite": {
+                        "0:InputArguments": {},
+                        "0:OutputArguments": {}
+                    },
+                    "0:CloseAndCommit": {
+                        "0:InputArguments": {},
+                        "0:OutputArguments": {}
+                    },
+                    "0:<TransferState>": {
+                        "0:CurrentState": {
+                            "0:Id": {}
+                        },
+                        "0:Reset": {}
+                    }
+                },
+                "0:RoleSetType": {
+                    "0:<RoleName>": {
+                        "0:Identities": {}
+                    },
+                    "0:AddRole": {
+                        "0:InputArguments": {},
+                        "0:OutputArguments": {}
+                    },
+                    "0:RemoveRole": {
+                        "0:InputArguments": {}
+                    }
+                },
+                "0:RoleType": {
+                    "0:Identities": {},
+                    "0:Applications": {},
+                    "0:ApplicationsExclude": {},
+                    "0:Endpoints": {},
+                    "0:EndpointsExclude": {},
+                    "0:AddIdentity": {
+                        "0:InputArguments": {}
+                    },
+                    "0:RemoveIdentity": {
+                        "0:InputArguments": {}
+                    },
+                    "0:AddApplication": {
+                        "0:InputArguments": {}
+                    },
+                    "0:RemoveApplication": {
+                        "0:InputArguments": {}
+                    },
+                    "0:AddEndpoint": {
+                        "0:InputArguments": {}
+                    },
+                    "0:RemoveEndpoint": {
+                        "0:InputArguments": {}
+                    }
+                },
+                "0:DictionaryEntryType": {
+                    "0:<DictionaryEntryName>": {},
+                    "0:IrdiDictionaryEntryType": {},
+                    "0:UriDictionaryEntryType": {}
+                },
+                "0:BaseInterfaceType": {},
+                "0:BaseConditionClassType": {
+                    "0:ProcessConditionClassType": {},
+                    "0:MaintenanceConditionClassType": {},
+                    "0:SystemConditionClassType": {},
+                    "0:SafetyConditionClassType": {},
+                    "0:HighlyManagedAlarmConditionClassType": {},
+                    "0:TrainingConditionClassType": {},
+                    "0:StatisticalConditionClassType": {},
+                    "0:TestingConditionSubClassType": {}
+                },
+                "0:AlarmMetricsType": {
+                    "0:AlarmCount": {},
+                    "0:StartTime": {},
+                    "0:MaximumActiveState": {},
+                    "0:MaximumUnAck": {},
+                    "0:CurrentAlarmRate": {
+                        "0:Rate": {}
+                    },
+                    "0:MaximumAlarmRate": {
+                        "0:Rate": {}
+                    },
+                    "0:MaximumReAlarmCount": {},
+                    "0:AverageAlarmRate": {
+                        "0:Rate": {}
+                    },
+                    "0:Reset": {}
+                },
+                "0:HistoricalDataConfigurationType": {
+                    "0:AggregateConfiguration": {
+                        "0:TreatUncertainAsBad": {},
+                        "0:PercentDataBad": {},
+                        "0:PercentDataGood": {},
+                        "0:UseSlopedExtrapolation": {}
+                    },
+                    "0:AggregateFunctions": {},
+                    "0:Stepped": {},
+                    "0:Definition": {},
+                    "0:MaxTimeInterval": {},
+                    "0:MinTimeInterval": {},
+                    "0:ExceptionDeviation": {},
+                    "0:ExceptionDeviationFormat": {},
+                    "0:StartOfArchive": {},
+                    "0:StartOfOnlineArchive": {},
+                    "0:ServerTimestampSupported": {}
+                },
+                "0:HistoryServerCapabilitiesType": {
+                    "0:AccessHistoryDataCapability": {},
+                    "0:AccessHistoryEventsCapability": {},
+                    "0:MaxReturnDataValues": {},
+                    "0:MaxReturnEventValues": {},
+                    "0:InsertDataCapability": {},
+                    "0:ReplaceDataCapability": {},
+                    "0:UpdateDataCapability": {},
+                    "0:DeleteRawCapability": {},
+                    "0:DeleteAtTimeCapability": {},
+                    "0:InsertEventCapability": {},
+                    "0:ReplaceEventCapability": {},
+                    "0:UpdateEventCapability": {},
+                    "0:DeleteEventCapability": {},
+                    "0:InsertAnnotationCapability": {},
+                    "0:AggregateFunctions": {},
+                    "0:ServerTimestampSupported": {}
+                },
+                "0:AggregateConfigurationType": {
+                    "0:TreatUncertainAsBad": {},
+                    "0:PercentDataBad": {},
+                    "0:PercentDataGood": {},
+                    "0:UseSlopedExtrapolation": {}
+                }
+            }
+        },
+        "0:VariableTypes": {
+            "0:BaseVariableType": {
+                "0:BaseDataVariableType": {
+                    "0:DataTypeDescriptionType": {
+                        "0:DataTypeVersion": {},
+                        "0:DictionaryFragment": {}
+                    },
+                    "0:DataTypeDictionaryType": {
+                        "0:DataTypeVersion": {},
+                        "0:NamespaceUri": {},
+                        "0:Deprecated": {}
+                    },
+                    "0:ServerVendorCapabilityType": {},
+                    "0:ServerStatusType": {
+                        "0:StartTime": {},
+                        "0:CurrentTime": {},
+                        "0:State": {},
+                        "0:BuildInfo": {
+                            "0:ProductUri": {},
+                            "0:ManufacturerName": {},
+                            "0:ProductName": {},
+                            "0:SoftwareVersion": {},
+                            "0:BuildNumber": {},
+                            "0:BuildDate": {}
+                        },
+                        "0:SecondsTillShutdown": {},
+                        "0:ShutdownReason": {}
+                    },
+                    "0:BuildInfoType": {
+                        "0:ProductUri": {},
+                        "0:ManufacturerName": {},
+                        "0:ProductName": {},
+                        "0:SoftwareVersion": {},
+                        "0:BuildNumber": {},
+                        "0:BuildDate": {}
+                    },
+                    "0:ServerDiagnosticsSummaryType": {
+                        "0:ServerViewCount": {},
+                        "0:CurrentSessionCount": {},
+                        "0:CumulatedSessionCount": {},
+                        "0:SecurityRejectedSessionCount": {},
+                        "0:RejectedSessionCount": {},
+                        "0:SessionTimeoutCount": {},
+                        "0:SessionAbortCount": {},
+                        "0:PublishingIntervalCount": {},
+                        "0:CurrentSubscriptionCount": {},
+                        "0:CumulatedSubscriptionCount": {},
+                        "0:SecurityRejectedRequestsCount": {},
+                        "0:RejectedRequestsCount": {}
+                    },
+                    "0:SamplingIntervalDiagnosticsArrayType": {
+                        "0:SamplingIntervalDiagnostics": {
+                            "0:SamplingInterval": {},
+                            "0:SampledMonitoredItemsCount": {},
+                            "0:MaxSampledMonitoredItemsCount": {},
+                            "0:DisabledMonitoredItemsSamplingCount": {}
+                        }
+                    },
+                    "0:SamplingIntervalDiagnosticsType": {
+                        "0:SamplingInterval": {},
+                        "0:SampledMonitoredItemsCount": {},
+                        "0:MaxSampledMonitoredItemsCount": {},
+                        "0:DisabledMonitoredItemsSamplingCount": {}
+                    },
+                    "0:SubscriptionDiagnosticsArrayType": {
+                        "0:SubscriptionDiagnostics": {
+                            "0:SessionId": {},
+                            "0:SubscriptionId": {},
+                            "0:Priority": {},
+                            "0:PublishingInterval": {},
+                            "0:MaxKeepAliveCount": {},
+                            "0:MaxLifetimeCount": {},
+                            "0:MaxNotificationsPerPublish": {},
+                            "0:PublishingEnabled": {},
+                            "0:ModifyCount": {},
+                            "0:EnableCount": {},
+                            "0:DisableCount": {},
+                            "0:RepublishRequestCount": {},
+                            "0:RepublishMessageRequestCount": {},
+                            "0:RepublishMessageCount": {},
+                            "0:TransferRequestCount": {},
+                            "0:TransferredToAltClientCount": {},
+                            "0:TransferredToSameClientCount": {},
+                            "0:PublishRequestCount": {},
+                            "0:DataChangeNotificationsCount": {},
+                            "0:EventNotificationsCount": {},
+                            "0:NotificationsCount": {},
+                            "0:LatePublishRequestCount": {},
+                            "0:CurrentKeepAliveCount": {},
+                            "0:CurrentLifetimeCount": {},
+                            "0:UnacknowledgedMessageCount": {},
+                            "0:DiscardedMessageCount": {},
+                            "0:MonitoredItemCount": {},
+                            "0:DisabledMonitoredItemCount": {},
+                            "0:MonitoringQueueOverflowCount": {},
+                            "0:NextSequenceNumber": {},
+                            "0:EventQueueOverflowCount": {}
+                        }
+                    },
+                    "0:SubscriptionDiagnosticsType": {
+                        "0:SessionId": {},
+                        "0:SubscriptionId": {},
+                        "0:Priority": {},
+                        "0:PublishingInterval": {},
+                        "0:MaxKeepAliveCount": {},
+                        "0:MaxLifetimeCount": {},
+                        "0:MaxNotificationsPerPublish": {},
+                        "0:PublishingEnabled": {},
+                        "0:ModifyCount": {},
+                        "0:EnableCount": {},
+                        "0:DisableCount": {},
+                        "0:RepublishRequestCount": {},
+                        "0:RepublishMessageRequestCount": {},
+                        "0:RepublishMessageCount": {},
+                        "0:TransferRequestCount": {},
+                        "0:TransferredToAltClientCount": {},
+                        "0:TransferredToSameClientCount": {},
+                        "0:PublishRequestCount": {},
+                        "0:DataChangeNotificationsCount": {},
+                        "0:EventNotificationsCount": {},
+                        "0:NotificationsCount": {},
+                        "0:LatePublishRequestCount": {},
+                        "0:CurrentKeepAliveCount": {},
+                        "0:CurrentLifetimeCount": {},
+                        "0:UnacknowledgedMessageCount": {},
+                        "0:DiscardedMessageCount": {},
+                        "0:MonitoredItemCount": {},
+                        "0:DisabledMonitoredItemCount": {},
+                        "0:MonitoringQueueOverflowCount": {},
+                        "0:NextSequenceNumber": {},
+                        "0:EventQueueOverflowCount": {}
+                    },
+                    "0:SessionDiagnosticsArrayType": {
+                        "0:SessionDiagnostics": {
+                            "0:SessionId": {},
+                            "0:SessionName": {},
+                            "0:ClientDescription": {},
+                            "0:ServerUri": {},
+                            "0:EndpointUrl": {},
+                            "0:LocaleIds": {},
+                            "0:ActualSessionTimeout": {},
+                            "0:MaxResponseMessageSize": {},
+                            "0:ClientConnectionTime": {},
+                            "0:ClientLastContactTime": {},
+                            "0:CurrentSubscriptionsCount": {},
+                            "0:CurrentMonitoredItemsCount": {},
+                            "0:CurrentPublishRequestsInQueue": {},
+                            "0:TotalRequestCount": {},
+                            "0:UnauthorizedRequestCount": {},
+                            "0:ReadCount": {},
+                            "0:HistoryReadCount": {},
+                            "0:WriteCount": {},
+                            "0:HistoryUpdateCount": {},
+                            "0:CallCount": {},
+                            "0:CreateMonitoredItemsCount": {},
+                            "0:ModifyMonitoredItemsCount": {},
+                            "0:SetMonitoringModeCount": {},
+                            "0:SetTriggeringCount": {},
+                            "0:DeleteMonitoredItemsCount": {},
+                            "0:CreateSubscriptionCount": {},
+                            "0:ModifySubscriptionCount": {},
+                            "0:SetPublishingModeCount": {},
+                            "0:PublishCount": {},
+                            "0:RepublishCount": {},
+                            "0:TransferSubscriptionsCount": {},
+                            "0:DeleteSubscriptionsCount": {},
+                            "0:AddNodesCount": {},
+                            "0:AddReferencesCount": {},
+                            "0:DeleteNodesCount": {},
+                            "0:DeleteReferencesCount": {},
+                            "0:BrowseCount": {},
+                            "0:BrowseNextCount": {},
+                            "0:TranslateBrowsePathsToNodeIdsCount": {},
+                            "0:QueryFirstCount": {},
+                            "0:QueryNextCount": {},
+                            "0:RegisterNodesCount": {},
+                            "0:UnregisterNodesCount": {}
+                        }
+                    },
+                    "0:SessionDiagnosticsVariableType": {
+                        "0:SessionId": {},
+                        "0:SessionName": {},
+                        "0:ClientDescription": {},
+                        "0:ServerUri": {},
+                        "0:EndpointUrl": {},
+                        "0:LocaleIds": {},
+                        "0:ActualSessionTimeout": {},
+                        "0:MaxResponseMessageSize": {},
+                        "0:ClientConnectionTime": {},
+                        "0:ClientLastContactTime": {},
+                        "0:CurrentSubscriptionsCount": {},
+                        "0:CurrentMonitoredItemsCount": {},
+                        "0:CurrentPublishRequestsInQueue": {},
+                        "0:TotalRequestCount": {},
+                        "0:UnauthorizedRequestCount": {},
+                        "0:ReadCount": {},
+                        "0:HistoryReadCount": {},
+                        "0:WriteCount": {},
+                        "0:HistoryUpdateCount": {},
+                        "0:CallCount": {},
+                        "0:CreateMonitoredItemsCount": {},
+                        "0:ModifyMonitoredItemsCount": {},
+                        "0:SetMonitoringModeCount": {},
+                        "0:SetTriggeringCount": {},
+                        "0:DeleteMonitoredItemsCount": {},
+                        "0:CreateSubscriptionCount": {},
+                        "0:ModifySubscriptionCount": {},
+                        "0:SetPublishingModeCount": {},
+                        "0:PublishCount": {},
+                        "0:RepublishCount": {},
+                        "0:TransferSubscriptionsCount": {},
+                        "0:DeleteSubscriptionsCount": {},
+                        "0:AddNodesCount": {},
+                        "0:AddReferencesCount": {},
+                        "0:DeleteNodesCount": {},
+                        "0:DeleteReferencesCount": {},
+                        "0:BrowseCount": {},
+                        "0:BrowseNextCount": {},
+                        "0:TranslateBrowsePathsToNodeIdsCount": {},
+                        "0:QueryFirstCount": {},
+                        "0:QueryNextCount": {},
+                        "0:RegisterNodesCount": {},
+                        "0:UnregisterNodesCount": {}
+                    },
+                    "0:SessionSecurityDiagnosticsArrayType": {
+                        "0:SessionSecurityDiagnostics": {
+                            "0:SessionId": {},
+                            "0:ClientUserIdOfSession": {},
+                            "0:ClientUserIdHistory": {},
+                            "0:AuthenticationMechanism": {},
+                            "0:Encoding": {},
+                            "0:TransportProtocol": {},
+                            "0:SecurityMode": {},
+                            "0:SecurityPolicyUri": {},
+                            "0:ClientCertificate": {}
+                        }
+                    },
+                    "0:SessionSecurityDiagnosticsType": {
+                        "0:SessionId": {},
+                        "0:ClientUserIdOfSession": {},
+                        "0:ClientUserIdHistory": {},
+                        "0:AuthenticationMechanism": {},
+                        "0:Encoding": {},
+                        "0:TransportProtocol": {},
+                        "0:SecurityMode": {},
+                        "0:SecurityPolicyUri": {},
+                        "0:ClientCertificate": {}
+                    },
+                    "0:OptionSetType": {
+                        "0:OptionSetValues": {},
+                        "0:BitMask": {}
+                    },
+                    "0:SelectionListType": {
+                        "0:Selections": {},
+                        "0:SelectionDescriptions": {},
+                        "0:RestrictToList": {}
+                    },
+                    "0:AudioVariableType": {
+                        "0:ListId": {},
+                        "0:AgencyId": {},
+                        "0:VersionId": {}
+                    },
+                    "0:StateVariableType": {
+                        "0:Id": {},
+                        "0:Name": {},
+                        "0:Number": {},
+                        "0:EffectiveDisplayName": {},
+                        "0:FiniteStateVariableType": {
+                            "0:Id": {}
+                        },
+                        "0:TwoStateVariableType": {
+                            "0:Id": {},
+                            "0:TransitionTime": {},
+                            "0:EffectiveTransitionTime": {},
+                            "0:TrueState": {},
+                            "0:FalseState": {}
+                        }
+                    },
+                    "0:TransitionVariableType": {
+                        "0:Id": {},
+                        "0:Name": {},
+                        "0:Number": {},
+                        "0:TransitionTime": {},
+                        "0:EffectiveTransitionTime": {},
+                        "0:FiniteTransitionVariableType": {
+                            "0:Id": {}
+                        }
+                    },
+                    "0:GuardVariableType": {
+                        "0:ExpressionGuardVariableType": {
+                            "0:Expression": {}
+                        },
+                        "0:ElseGuardVariableType": {}
+                    },
+                    "0:RationalNumberType": {
+                        "0:Numerator": {},
+                        "0:Denominator": {}
+                    },
+                    "0:VectorType": {
+                        "0:VectorUnit": {},
+                        "0:3DVectorType": {
+                            "0:X": {},
+                            "0:Y": {},
+                            "0:Z": {}
+                        }
+                    },
+                    "0:CartesianCoordinatesType": {
+                        "0:LengthUnit": {},
+                        "0:3DCartesianCoordinatesType": {
+                            "0:X": {},
+                            "0:Y": {},
+                            "0:Z": {}
+                        }
+                    },
+                    "0:OrientationType": {
+                        "0:AngleUnit": {},
+                        "0:3DOrientationType": {
+                            "0:A": {},
+                            "0:B": {},
+                            "0:C": {}
+                        }
+                    },
+                    "0:FrameType": {
+                        "0:CartesianCoordinates": {},
+                        "0:Orientation": {},
+                        "0:Constant": {},
+                        "0:BaseFrame": {},
+                        "0:FixedBase": {},
+                        "0:3DFrameType": {
+                            "0:CartesianCoordinates": {
+                                "0:X": {},
+                                "0:Y": {},
+                                "0:Z": {}
+                            },
+                            "0:Orientation": {
+                                "0:A": {},
+                                "0:B": {},
+                                "0:C": {}
+                            }
+                        }
+                    },
+                    "0:DataItemType": {
+                        "0:Definition": {},
+                        "0:ValuePrecision": {},
+                        "0:BaseAnalogType": {
+                            "0:InstrumentRange": {},
+                            "0:EURange": {},
+                            "0:EngineeringUnits": {},
+                            "0:AnalogItemType": {
+                                "0:EURange": {},
+                                "0:AnalogUnitRangeType": {
+                                    "0:EngineeringUnits": {}
+                                }
+                            },
+                            "0:AnalogUnitType": {
+                                "0:EngineeringUnits": {}
+                            }
+                        },
+                        "0:DiscreteItemType": {
+                            "0:TwoStateDiscreteType": {
+                                "0:FalseState": {},
+                                "0:TrueState": {}
+                            },
+                            "0:MultiStateDiscreteType": {
+                                "0:EnumStrings": {}
+                            },
+                            "0:MultiStateValueDiscreteType": {
+                                "0:EnumValues": {},
+                                "0:ValueAsText": {}
+                            }
+                        },
+                        "0:ArrayItemType": {
+                            "0:InstrumentRange": {},
+                            "0:EURange": {},
+                            "0:EngineeringUnits": {},
+                            "0:Title": {},
+                            "0:AxisScaleType": {},
+                            "0:YArrayItemType": {
+                                "0:XAxisDefinition": {}
+                            },
+                            "0:XYArrayItemType": {
+                                "0:XAxisDefinition": {}
+                            },
+                            "0:ImageItemType": {
+                                "0:XAxisDefinition": {},
+                                "0:YAxisDefinition": {}
+                            },
+                            "0:CubeItemType": {
+                                "0:XAxisDefinition": {},
+                                "0:YAxisDefinition": {},
+                                "0:ZAxisDefinition": {}
+                            },
+                            "0:NDimensionArrayItemType": {
+                                "0:AxisDefinition": {}
+                            }
+                        }
+                    },
+                    "0:ConditionVariableType": {
+                        "0:SourceTimestamp": {}
+                    },
+                    "0:AlarmRateVariableType": {
+                        "0:Rate": {}
+                    },
+                    "0:ProgramDiagnosticType": {
+                        "0:CreateSessionId": {},
+                        "0:CreateClientName": {},
+                        "0:InvocationCreationTime": {},
+                        "0:LastTransitionTime": {},
+                        "0:LastMethodCall": {},
+                        "0:LastMethodSessionId": {},
+                        "0:LastMethodInputArguments": {},
+                        "0:LastMethodOutputArguments": {},
+                        "0:LastMethodCallTime": {},
+                        "0:LastMethodReturnStatus": {}
+                    },
+                    "0:ProgramDiagnostic2Type": {
+                        "0:CreateSessionId": {},
+                        "0:CreateClientName": {},
+                        "0:InvocationCreationTime": {},
+                        "0:LastTransitionTime": {},
+                        "0:LastMethodCall": {},
+                        "0:LastMethodSessionId": {},
+                        "0:LastMethodInputArguments": {},
+                        "0:LastMethodOutputArguments": {},
+                        "0:LastMethodInputValues": {},
+                        "0:LastMethodOutputValues": {},
+                        "0:LastMethodCallTime": {},
+                        "0:LastMethodReturnStatus": {}
+                    }
+                },
+                "0:PropertyType": {}
+            }
+        },
+        "0:DataTypes": {
+            "0:BaseDataType": {
+                "0:Number": {
+                    "0:Integer": {
+                        "0:SByte": {},
+                        "0:Int16": {},
+                        "0:Int32": {},
+                        "0:Int64": {}
+                    },
+                    "0:UInteger": {
+                        "0:Byte": {
+                            "0:AccessLevelType": {
+                                "0:OptionSetValues": {}
+                            },
+                            "0:EventNotifierType": {
+                                "0:OptionSetValues": {}
+                            }
+                        },
+                        "0:UInt16": {},
+                        "0:UInt32": {
+                            "0:PermissionType": {
+                                "0:OptionSetValues": {}
+                            },
+                            "0:AccessLevelExType": {
+                                "0:OptionSetValues": {}
+                            },
+                            "0:AccessRestrictionType": {
+                                "0:OptionSetValues": {}
+                            },
+                            "0:Index": {},
+                            "0:IntegerId": {},
+                            "0:VersionTime": {},
+                            "0:AttributeWriteMask": {
+                                "0:OptionSetValues": {}
+                            },
+                            "0:Counter": {}
+                        },
+                        "0:UInt64": {
+                            "0:BitFieldMaskDataType": {}
+                        }
+                    },
+                    "0:Float": {},
+                    "0:Double": {
+                        "0:Duration": {}
+                    },
+                    "0:Decimal": {}
+                },
+                "0:Enumeration": {
+                    "0:NamingRuleType": {
+                        "0:EnumValues": {}
+                    },
+                    "0:IdType": {
+                        "0:EnumStrings": {}
+                    },
+                    "0:NodeClass": {
+                        "0:EnumValues": {}
+                    },
+                    "0:StructureType": {
+                        "0:EnumStrings": {}
+                    },
+                    "0:ApplicationType": {
+                        "0:EnumStrings": {}
+                    },
+                    "0:MessageSecurityMode": {
+                        "0:EnumStrings": {}
+                    },
+                    "0:UserTokenType": {
+                        "0:EnumStrings": {}
+                    },
+                    "0:SecurityTokenRequestType": {
+                        "0:EnumStrings": {}
+                    },
+                    "0:NodeAttributesMask": {
+                        "0:EnumValues": {}
+                    },
+                    "0:BrowseDirection": {
+                        "0:EnumStrings": {}
+                    },
+                    "0:BrowseResultMask": {
+                        "0:EnumValues": {}
+                    },
+                    "0:FilterOperator": {
+                        "0:EnumStrings": {}
+                    },
+                    "0:TimestampsToReturn": {
+                        "0:EnumStrings": {}
+                    },
+                    "0:HistoryUpdateType": {
+                        "0:EnumValues": {}
+                    },
+                    "0:PerformUpdateType": {
+                        "0:EnumValues": {}
+                    },
+                    "0:MonitoringMode": {
+                        "0:EnumStrings": {}
+                    },
+                    "0:DataChangeTrigger": {
+                        "0:EnumStrings": {}
+                    },
+                    "0:DeadbandType": {
+                        "0:EnumStrings": {}
+                    },
+                    "0:OpenFileMode": {
+                        "0:EnumValues": {}
+                    },
+                    "0:IdentityCriteriaType": {
+                        "0:EnumValues": {}
+                    },
+                    "0:RedundancySupport": {
+                        "0:EnumStrings": {}
+                    },
+                    "0:ServerState": {
+                        "0:EnumStrings": {}
+                    },
+                    "0:ModelChangeStructureVerbMask": {
+                        "0:EnumValues": {}
+                    },
+                    "0:AxisScaleEnumeration": {
+                        "0:EnumStrings": {}
+                    },
+                    "0:ExceptionDeviationFormat": {
+                        "0:EnumStrings": {}
+                    }
+                },
+                "0:Boolean": {},
+                "0:String": {
+                    "0:NormalizedString": {},
+                    "0:DecimalString": {},
+                    "0:DurationString": {},
+                    "0:TimeString": {},
+                    "0:DateString": {},
+                    "0:LocaleId": {},
+                    "0:NumericRange": {},
+                    "0:Time": {}
+                },
+                "0:DateTime": {
+                    "0:UtcTime": {},
+                    "0:Date": {}
+                },
+                "0:Guid": {},
+                "0:ByteString": {
+                    "0:Image": {
+                        "0:ImageBMP": {},
+                        "0:ImageGIF": {},
+                        "0:ImageJPG": {},
+                        "0:ImagePNG": {}
+                    },
+                    "0:AudioDataType": {},
+                    "0:ApplicationInstanceCertificate": {},
+                    "0:ContinuationPoint": {}
+                },
+                "0:XmlElement": {},
+                "0:NodeId": {
+                    "0:SessionAuthenticationToken": {}
+                },
+                "0:QualifiedName": {},
+                "0:LocalizedText": {},
+                "0:Structure": {
+                    "0:DecimalDataType": {},
+                    "0:RolePermissionType": {},
+                    "0:DataTypeDefinition": {
+                        "0:StructureDefinition": {},
+                        "0:EnumDefinition": {}
+                    },
+                    "0:StructureField": {},
+                    "0:Node": {
+                        "0:InstanceNode": {
+                            "0:ObjectNode": {},
+                            "0:VariableNode": {},
+                            "0:MethodNode": {},
+                            "0:ViewNode": {}
+                        },
+                        "0:TypeNode": {
+                            "0:ObjectTypeNode": {},
+                            "0:VariableTypeNode": {},
+                            "0:ReferenceTypeNode": {},
+                            "0:DataTypeNode": {}
+                        }
+                    },
+                    "0:ReferenceNode": {},
+                    "0:Argument": {},
+                    "0:EnumValueType": {
+                        "0:EnumField": {}
+                    },
+                    "0:OptionSet": {},
+                    "0:Union": {},
+                    "0:TimeZoneDataType": {},
+                    "0:ApplicationDescription": {},
+                    "0:RequestHeader": {},
+                    "0:ResponseHeader": {},
+                    "0:ServiceFault": {},
+                    "0:SessionlessInvokeRequestType": {},
+                    "0:SessionlessInvokeResponseType": {},
+                    "0:FindServersRequest": {},
+                    "0:FindServersResponse": {},
+                    "0:ServerOnNetwork": {},
+                    "0:FindServersOnNetworkRequest": {},
+                    "0:FindServersOnNetworkResponse": {},
+                    "0:UserTokenPolicy": {},
+                    "0:EndpointDescription": {},
+                    "0:GetEndpointsRequest": {},
+                    "0:GetEndpointsResponse": {},
+                    "0:RegisteredServer": {},
+                    "0:RegisterServerRequest": {},
+                    "0:RegisterServerResponse": {},
+                    "0:DiscoveryConfiguration": {
+                        "0:MdnsDiscoveryConfiguration": {}
+                    },
+                    "0:RegisterServer2Request": {},
+                    "0:RegisterServer2Response": {},
+                    "0:ChannelSecurityToken": {},
+                    "0:OpenSecureChannelRequest": {},
+                    "0:OpenSecureChannelResponse": {},
+                    "0:CloseSecureChannelRequest": {},
+                    "0:CloseSecureChannelResponse": {},
+                    "0:SignedSoftwareCertificate": {},
+                    "0:SignatureData": {},
+                    "0:CreateSessionRequest": {},
+                    "0:CreateSessionResponse": {},
+                    "0:UserIdentityToken": {
+                        "0:AnonymousIdentityToken": {},
+                        "0:UserNameIdentityToken": {},
+                        "0:X509IdentityToken": {},
+                        "0:IssuedIdentityToken": {}
+                    },
+                    "0:ActivateSessionRequest": {},
+                    "0:ActivateSessionResponse": {},
+                    "0:CloseSessionRequest": {},
+                    "0:CloseSessionResponse": {},
+                    "0:CancelRequest": {},
+                    "0:CancelResponse": {},
+                    "0:NodeAttributes": {
+                        "0:ObjectAttributes": {},
+                        "0:VariableAttributes": {},
+                        "0:MethodAttributes": {},
+                        "0:ObjectTypeAttributes": {},
+                        "0:VariableTypeAttributes": {},
+                        "0:ReferenceTypeAttributes": {},
+                        "0:DataTypeAttributes": {},
+                        "0:ViewAttributes": {},
+                        "0:GenericAttributes": {}
+                    },
+                    "0:GenericAttributeValue": {},
+                    "0:AddNodesItem": {},
+                    "0:AddNodesResult": {},
+                    "0:AddNodesRequest": {},
+                    "0:AddNodesResponse": {},
+                    "0:AddReferencesItem": {},
+                    "0:AddReferencesRequest": {},
+                    "0:AddReferencesResponse": {},
+                    "0:DeleteNodesItem": {},
+                    "0:DeleteNodesRequest": {},
+                    "0:DeleteNodesResponse": {},
+                    "0:DeleteReferencesItem": {},
+                    "0:DeleteReferencesRequest": {},
+                    "0:DeleteReferencesResponse": {},
+                    "0:ViewDescription": {},
+                    "0:BrowseDescription": {},
+                    "0:ReferenceDescription": {},
+                    "0:BrowseResult": {},
+                    "0:BrowseRequest": {},
+                    "0:BrowseResponse": {},
+                    "0:BrowseNextRequest": {},
+                    "0:BrowseNextResponse": {},
+                    "0:RelativePathElement": {},
+                    "0:RelativePath": {},
+                    "0:BrowsePath": {},
+                    "0:BrowsePathTarget": {},
+                    "0:BrowsePathResult": {},
+                    "0:TranslateBrowsePathsToNodeIdsRequest": {},
+                    "0:TranslateBrowsePathsToNodeIdsResponse": {},
+                    "0:RegisterNodesRequest": {},
+                    "0:RegisterNodesResponse": {},
+                    "0:UnregisterNodesRequest": {},
+                    "0:UnregisterNodesResponse": {},
+                    "0:EndpointConfiguration": {},
+                    "0:QueryDataDescription": {},
+                    "0:NodeTypeDescription": {},
+                    "0:QueryDataSet": {},
+                    "0:NodeReference": {},
+                    "0:ContentFilterElement": {},
+                    "0:ContentFilter": {},
+                    "0:FilterOperand": {
+                        "0:ElementOperand": {},
+                        "0:LiteralOperand": {},
+                        "0:AttributeOperand": {},
+                        "0:SimpleAttributeOperand": {}
+                    },
+                    "0:ContentFilterElementResult": {},
+                    "0:ContentFilterResult": {},
+                    "0:ParsingResult": {},
+                    "0:QueryFirstRequest": {},
+                    "0:QueryFirstResponse": {},
+                    "0:QueryNextRequest": {},
+                    "0:QueryNextResponse": {},
+                    "0:ReadValueId": {},
+                    "0:ReadRequest": {},
+                    "0:ReadResponse": {},
+                    "0:HistoryReadValueId": {},
+                    "0:HistoryReadResult": {},
+                    "0:HistoryReadDetails": {
+                        "0:ReadEventDetails": {},
+                        "0:ReadRawModifiedDetails": {},
+                        "0:ReadProcessedDetails": {},
+                        "0:ReadAtTimeDetails": {},
+                        "0:ReadAnnotationDataDetails": {}
+                    },
+                    "0:HistoryData": {
+                        "0:HistoryModifiedData": {}
+                    },
+                    "0:ModificationInfo": {},
+                    "0:HistoryEvent": {},
+                    "0:HistoryReadRequest": {},
+                    "0:HistoryReadResponse": {},
+                    "0:WriteValue": {},
+                    "0:WriteRequest": {},
+                    "0:WriteResponse": {},
+                    "0:HistoryUpdateDetails": {
+                        "0:UpdateDataDetails": {},
+                        "0:UpdateStructureDataDetails": {},
+                        "0:UpdateEventDetails": {},
+                        "0:DeleteRawModifiedDetails": {},
+                        "0:DeleteAtTimeDetails": {},
+                        "0:DeleteEventDetails": {}
+                    },
+                    "0:HistoryUpdateResult": {},
+                    "0:HistoryUpdateRequest": {},
+                    "0:HistoryUpdateResponse": {},
+                    "0:CallMethodRequest": {},
+                    "0:CallMethodResult": {},
+                    "0:CallRequest": {},
+                    "0:CallResponse": {},
+                    "0:MonitoringFilter": {
+                        "0:DataChangeFilter": {},
+                        "0:EventFilter": {},
+                        "0:AggregateFilter": {}
+                    },
+                    "0:AggregateConfiguration": {},
+                    "0:MonitoringFilterResult": {
+                        "0:EventFilterResult": {},
+                        "0:AggregateFilterResult": {}
+                    },
+                    "0:MonitoringParameters": {},
+                    "0:MonitoredItemCreateRequest": {},
+                    "0:MonitoredItemCreateResult": {},
+                    "0:CreateMonitoredItemsRequest": {},
+                    "0:CreateMonitoredItemsResponse": {},
+                    "0:MonitoredItemModifyRequest": {},
+                    "0:MonitoredItemModifyResult": {},
+                    "0:ModifyMonitoredItemsRequest": {},
+                    "0:ModifyMonitoredItemsResponse": {},
+                    "0:SetMonitoringModeRequest": {},
+                    "0:SetMonitoringModeResponse": {},
+                    "0:SetTriggeringRequest": {},
+                    "0:SetTriggeringResponse": {},
+                    "0:DeleteMonitoredItemsRequest": {},
+                    "0:DeleteMonitoredItemsResponse": {},
+                    "0:CreateSubscriptionRequest": {},
+                    "0:CreateSubscriptionResponse": {},
+                    "0:ModifySubscriptionRequest": {},
+                    "0:ModifySubscriptionResponse": {},
+                    "0:SetPublishingModeRequest": {},
+                    "0:SetPublishingModeResponse": {},
+                    "0:NotificationMessage": {},
+                    "0:NotificationData": {
+                        "0:DataChangeNotification": {},
+                        "0:EventNotificationList": {},
+                        "0:StatusChangeNotification": {}
+                    },
+                    "0:MonitoredItemNotification": {},
+                    "0:EventFieldList": {},
+                    "0:HistoryEventFieldList": {},
+                    "0:SubscriptionAcknowledgement": {},
+                    "0:PublishRequest": {},
+                    "0:PublishResponse": {},
+                    "0:RepublishRequest": {},
+                    "0:RepublishResponse": {},
+                    "0:TransferResult": {},
+                    "0:TransferSubscriptionsRequest": {},
+                    "0:TransferSubscriptionsResponse": {},
+                    "0:DeleteSubscriptionsRequest": {},
+                    "0:DeleteSubscriptionsResponse": {},
+                    "0:KeyValuePair": {},
+                    "0:EndpointType": {},
+                    "0:RationalNumber": {},
+                    "0:Vector": {
+                        "0:3DVector": {}
+                    },
+                    "0:CartesianCoordinates": {
+                        "0:3DCartesianCoordinates": {}
+                    },
+                    "0:Orientation": {
+                        "0:3DOrientation": {}
+                    },
+                    "0:Frame": {
+                        "0:3DFrame": {}
+                    },
+                    "0:IdentityMappingRuleType": {},
+                    "0:CurrencyUnitType": {},
+                    "0:BuildInfo": {},
+                    "0:RedundantServerDataType": {},
+                    "0:EndpointUrlListDataType": {},
+                    "0:NetworkGroupDataType": {},
+                    "0:SamplingIntervalDiagnosticsDataType": {},
+                    "0:ServerDiagnosticsSummaryDataType": {},
+                    "0:ServerStatusDataType": {},
+                    "0:SessionDiagnosticsDataType": {},
+                    "0:SessionSecurityDiagnosticsDataType": {},
+                    "0:ServiceCounterDataType": {},
+                    "0:StatusResult": {},
+                    "0:SubscriptionDiagnosticsDataType": {},
+                    "0:ModelChangeStructureDataType": {},
+                    "0:SemanticChangeStructureDataType": {},
+                    "0:Range": {},
+                    "0:EUInformation": {},
+                    "0:ComplexNumberType": {},
+                    "0:DoubleComplexNumberType": {},
+                    "0:AxisInformation": {},
+                    "0:XVType": {},
+                    "0:ProgramDiagnosticDataType": {},
+                    "0:ProgramDiagnostic2DataType": {},
+                    "0:Annotation": {}
+                },
+                "0:ExpandedNodeId": {},
+                "0:StatusCode": {},
+                "0:DataValue": {},
+                "0:DiagnosticInfo": {},
+                "0:RsaEncryptedSecret": {}
+            },
+            "0:XML Schema": {
+                "0:Opc.Ua": {
+                    "0:NamespaceUri": {},
+                    "0:Deprecated": {},
+                    "0:KeyValuePair": {},
+                    "0:EndpointType": {},
+                    "0:RationalNumber": {},
+                    "0:Vector": {},
+                    "0:3DVector": {},
+                    "0:CartesianCoordinates": {},
+                    "0:3DCartesianCoordinates": {},
+                    "0:Orientation": {},
+                    "0:3DOrientation": {},
+                    "0:Frame": {},
+                    "0:3DFrame": {},
+                    "0:IdentityMappingRuleType": {},
+                    "0:CurrencyUnitType": {},
+                    "0:TrustListDataType": {},
+                    "0:DataTypeSchemaHeader": {},
+                    "0:DataTypeDescription": {},
+                    "0:StructureDescription": {},
+                    "0:EnumDescription": {},
+                    "0:SimpleTypeDescription": {},
+                    "0:UABinaryFileDataType": {},
+                    "0:DataSetMetaDataType": {},
+                    "0:FieldMetaData": {},
+                    "0:ConfigurationVersionDataType": {},
+                    "0:PublishedDataSetDataType": {},
+                    "0:PublishedDataSetSourceDataType": {},
+                    "0:PublishedVariableDataType": {},
+                    "0:PublishedDataItemsDataType": {},
+                    "0:PublishedEventsDataType": {},
+                    "0:DataSetWriterDataType": {},
+                    "0:DataSetWriterTransportDataType": {},
+                    "0:DataSetWriterMessageDataType": {},
+                    "0:PubSubGroupDataType": {},
+                    "0:WriterGroupDataType": {},
+                    "0:WriterGroupTransportDataType": {},
+                    "0:WriterGroupMessageDataType": {},
+                    "0:PubSubConnectionDataType": {},
+                    "0:ConnectionTransportDataType": {},
+                    "0:NetworkAddressDataType": {},
+                    "0:NetworkAddressUrlDataType": {},
+                    "0:ReaderGroupDataType": {},
+                    "0:ReaderGroupTransportDataType": {},
+                    "0:ReaderGroupMessageDataType": {},
+                    "0:DataSetReaderDataType": {},
+                    "0:DataSetReaderTransportDataType": {},
+                    "0:DataSetReaderMessageDataType": {},
+                    "0:SubscribedDataSetDataType": {},
+                    "0:TargetVariablesDataType": {},
+                    "0:FieldTargetDataType": {},
+                    "0:SubscribedDataSetMirrorDataType": {},
+                    "0:PubSubConfigurationDataType": {},
+                    "0:UadpWriterGroupMessageDataType": {},
+                    "0:UadpDataSetWriterMessageDataType": {},
+                    "0:UadpDataSetReaderMessageDataType": {},
+                    "0:JsonWriterGroupMessageDataType": {},
+                    "0:JsonDataSetWriterMessageDataType": {},
+                    "0:JsonDataSetReaderMessageDataType": {},
+                    "0:DatagramConnectionTransportDataType": {},
+                    "0:DatagramWriterGroupTransportDataType": {},
+                    "0:BrokerConnectionTransportDataType": {},
+                    "0:BrokerWriterGroupTransportDataType": {},
+                    "0:BrokerDataSetWriterTransportDataType": {},
+                    "0:BrokerDataSetReaderTransportDataType": {},
+                    "0:AliasNameDataType": {},
+                    "0:RolePermissionType": {},
+                    "0:DataTypeDefinition": {},
+                    "0:StructureField": {},
+                    "0:StructureDefinition": {},
+                    "0:EnumDefinition": {},
+                    "0:Argument": {},
+                    "0:EnumValueType": {},
+                    "0:EnumField": {},
+                    "0:OptionSet": {},
+                    "0:Union": {},
+                    "0:TimeZoneDataType": {},
+                    "0:ApplicationDescription": {},
+                    "0:ServerOnNetwork": {},
+                    "0:UserTokenPolicy": {},
+                    "0:EndpointDescription": {},
+                    "0:RegisteredServer": {},
+                    "0:DiscoveryConfiguration": {},
+                    "0:MdnsDiscoveryConfiguration": {},
+                    "0:SignedSoftwareCertificate": {},
+                    "0:UserIdentityToken": {},
+                    "0:AnonymousIdentityToken": {},
+                    "0:UserNameIdentityToken": {},
+                    "0:X509IdentityToken": {},
+                    "0:IssuedIdentityToken": {},
+                    "0:AddNodesItem": {},
+                    "0:AddReferencesItem": {},
+                    "0:DeleteNodesItem": {},
+                    "0:DeleteReferencesItem": {},
+                    "0:RelativePathElement": {},
+                    "0:RelativePath": {},
+                    "0:EndpointConfiguration": {},
+                    "0:ContentFilterElement": {},
+                    "0:ContentFilter": {},
+                    "0:FilterOperand": {},
+                    "0:ElementOperand": {},
+                    "0:LiteralOperand": {},
+                    "0:AttributeOperand": {},
+                    "0:SimpleAttributeOperand": {},
+                    "0:HistoryEvent": {},
+                    "0:MonitoringFilter": {},
+                    "0:EventFilter": {},
+                    "0:AggregateConfiguration": {},
+                    "0:HistoryEventFieldList": {},
+                    "0:BuildInfo": {},
+                    "0:RedundantServerDataType": {},
+                    "0:EndpointUrlListDataType": {},
+                    "0:NetworkGroupDataType": {},
+                    "0:SamplingIntervalDiagnosticsDataType": {},
+                    "0:ServerDiagnosticsSummaryDataType": {},
+                    "0:ServerStatusDataType": {},
+                    "0:SessionDiagnosticsDataType": {},
+                    "0:SessionSecurityDiagnosticsDataType": {},
+                    "0:ServiceCounterDataType": {},
+                    "0:StatusResult": {},
+                    "0:SubscriptionDiagnosticsDataType": {},
+                    "0:ModelChangeStructureDataType": {},
+                    "0:SemanticChangeStructureDataType": {},
+                    "0:Range": {},
+                    "0:EUInformation": {},
+                    "0:ComplexNumberType": {},
+                    "0:DoubleComplexNumberType": {},
+                    "0:AxisInformation": {},
+                    "0:XVType": {},
+                    "0:ProgramDiagnosticDataType": {},
+                    "0:ProgramDiagnostic2DataType": {},
+                    "0:Annotation": {}
+                }
+            },
+            "0:OPC Binary": {
+                "0:Opc.Ua": {
+                    "0:NamespaceUri": {},
+                    "0:Deprecated": {},
+                    "0:KeyValuePair": {},
+                    "0:EndpointType": {},
+                    "0:RationalNumber": {},
+                    "0:Vector": {},
+                    "0:3DVector": {},
+                    "0:CartesianCoordinates": {},
+                    "0:3DCartesianCoordinates": {},
+                    "0:Orientation": {},
+                    "0:3DOrientation": {},
+                    "0:Frame": {},
+                    "0:3DFrame": {},
+                    "0:IdentityMappingRuleType": {},
+                    "0:CurrencyUnitType": {},
+                    "0:TrustListDataType": {},
+                    "0:DataTypeSchemaHeader": {},
+                    "0:DataTypeDescription": {},
+                    "0:StructureDescription": {},
+                    "0:EnumDescription": {},
+                    "0:SimpleTypeDescription": {},
+                    "0:UABinaryFileDataType": {},
+                    "0:DataSetMetaDataType": {},
+                    "0:FieldMetaData": {},
+                    "0:ConfigurationVersionDataType": {},
+                    "0:PublishedDataSetDataType": {},
+                    "0:PublishedDataSetSourceDataType": {},
+                    "0:PublishedVariableDataType": {},
+                    "0:PublishedDataItemsDataType": {},
+                    "0:PublishedEventsDataType": {},
+                    "0:DataSetWriterDataType": {},
+                    "0:DataSetWriterTransportDataType": {},
+                    "0:DataSetWriterMessageDataType": {},
+                    "0:PubSubGroupDataType": {},
+                    "0:WriterGroupDataType": {},
+                    "0:WriterGroupTransportDataType": {},
+                    "0:WriterGroupMessageDataType": {},
+                    "0:PubSubConnectionDataType": {},
+                    "0:ConnectionTransportDataType": {},
+                    "0:NetworkAddressDataType": {},
+                    "0:NetworkAddressUrlDataType": {},
+                    "0:ReaderGroupDataType": {},
+                    "0:ReaderGroupTransportDataType": {},
+                    "0:ReaderGroupMessageDataType": {},
+                    "0:DataSetReaderDataType": {},
+                    "0:DataSetReaderTransportDataType": {},
+                    "0:DataSetReaderMessageDataType": {},
+                    "0:SubscribedDataSetDataType": {},
+                    "0:TargetVariablesDataType": {},
+                    "0:FieldTargetDataType": {},
+                    "0:SubscribedDataSetMirrorDataType": {},
+                    "0:PubSubConfigurationDataType": {},
+                    "0:UadpWriterGroupMessageDataType": {},
+                    "0:UadpDataSetWriterMessageDataType": {},
+                    "0:UadpDataSetReaderMessageDataType": {},
+                    "0:JsonWriterGroupMessageDataType": {},
+                    "0:JsonDataSetWriterMessageDataType": {},
+                    "0:JsonDataSetReaderMessageDataType": {},
+                    "0:DatagramConnectionTransportDataType": {},
+                    "0:DatagramWriterGroupTransportDataType": {},
+                    "0:BrokerConnectionTransportDataType": {},
+                    "0:BrokerWriterGroupTransportDataType": {},
+                    "0:BrokerDataSetWriterTransportDataType": {},
+                    "0:BrokerDataSetReaderTransportDataType": {},
+                    "0:AliasNameDataType": {},
+                    "0:RolePermissionType": {},
+                    "0:DataTypeDefinition": {},
+                    "0:StructureField": {},
+                    "0:StructureDefinition": {},
+                    "0:EnumDefinition": {},
+                    "0:Argument": {},
+                    "0:EnumValueType": {},
+                    "0:EnumField": {},
+                    "0:OptionSet": {},
+                    "0:Union": {},
+                    "0:TimeZoneDataType": {},
+                    "0:ApplicationDescription": {},
+                    "0:ServerOnNetwork": {},
+                    "0:UserTokenPolicy": {},
+                    "0:EndpointDescription": {},
+                    "0:RegisteredServer": {},
+                    "0:DiscoveryConfiguration": {},
+                    "0:MdnsDiscoveryConfiguration": {},
+                    "0:SignedSoftwareCertificate": {},
+                    "0:UserIdentityToken": {},
+                    "0:AnonymousIdentityToken": {},
+                    "0:UserNameIdentityToken": {},
+                    "0:X509IdentityToken": {},
+                    "0:IssuedIdentityToken": {},
+                    "0:AddNodesItem": {},
+                    "0:AddReferencesItem": {},
+                    "0:DeleteNodesItem": {},
+                    "0:DeleteReferencesItem": {},
+                    "0:RelativePathElement": {},
+                    "0:RelativePath": {},
+                    "0:EndpointConfiguration": {},
+                    "0:ContentFilterElement": {},
+                    "0:ContentFilter": {},
+                    "0:FilterOperand": {},
+                    "0:ElementOperand": {},
+                    "0:LiteralOperand": {},
+                    "0:AttributeOperand": {},
+                    "0:SimpleAttributeOperand": {},
+                    "0:HistoryEvent": {},
+                    "0:MonitoringFilter": {},
+                    "0:EventFilter": {},
+                    "0:AggregateConfiguration": {},
+                    "0:HistoryEventFieldList": {},
+                    "0:BuildInfo": {},
+                    "0:RedundantServerDataType": {},
+                    "0:EndpointUrlListDataType": {},
+                    "0:NetworkGroupDataType": {},
+                    "0:SamplingIntervalDiagnosticsDataType": {},
+                    "0:ServerDiagnosticsSummaryDataType": {},
+                    "0:ServerStatusDataType": {},
+                    "0:SessionDiagnosticsDataType": {},
+                    "0:SessionSecurityDiagnosticsDataType": {},
+                    "0:ServiceCounterDataType": {},
+                    "0:StatusResult": {},
+                    "0:SubscriptionDiagnosticsDataType": {},
+                    "0:ModelChangeStructureDataType": {},
+                    "0:SemanticChangeStructureDataType": {},
+                    "0:Range": {},
+                    "0:EUInformation": {},
+                    "0:ComplexNumberType": {},
+                    "0:DoubleComplexNumberType": {},
+                    "0:AxisInformation": {},
+                    "0:XVType": {},
+                    "0:ProgramDiagnosticDataType": {},
+                    "0:ProgramDiagnostic2DataType": {},
+                    "0:Annotation": {}
+                }
+            }
+        },
+        "0:ReferenceTypes": {
+            "0:References": {
+                "0:NonHierarchicalReferences": {
+                    "0:HasModellingRule": {},
+                    "0:HasEncoding": {},
+                    "0:HasDescription": {},
+                    "0:HasTypeDefinition": {},
+                    "0:GeneratesEvent": {
+                        "0:AlwaysGeneratesEvent": {}
+                    },
+                    "0:FromState": {},
+                    "0:ToState": {},
+                    "0:HasCause": {},
+                    "0:HasEffect": {
+                        "0:HasEffectDisable": {},
+                        "0:HasEffectEnable": {},
+                        "0:HasEffectSuppressed": {},
+                        "0:HasEffectUnsuppressed": {}
+                    },
+                    "0:HasSubStateMachine": {},
+                    "0:HasDictionaryEntry": {},
+                    "0:HasInterface": {},
+                    "0:HasTrueSubState": {},
+                    "0:HasFalseSubState": {},
+                    "0:HasCondition": {}
+                },
+                "0:HierarchicalReferences": {
+                    "0:HasChild": {
+                        "0:Aggregates": {
+                            "0:HasProperty": {},
+                            "0:HasComponent": {
+                                "0:HasOrderedComponent": {},
+                                "0:HasArgumentDescription": {
+                                    "0:HasOptionalInputArgumentDescription": {}
+                                },
+                                "0:HasGuard": {},
+                                "0:HasAddIn": {},
+                                "0:HasAlarmSuppressionGroup": {}
+                            },
+                            "0:HasHistoricalConfiguration": {}
+                        },
+                        "0:HasSubtype": {}
+                    },
+                    "0:Organizes": {
+                        "0:AlarmGroupMember": {}
+                    },
+                    "0:HasEventSource": {
+                        "0:HasNotifier": {}
+                    }
+                }
+            }
+        },
+        "0:EventTypes": {
+            "0:BaseEventType": {
+                "0:EventId": {},
+                "0:EventType": {},
+                "0:SourceNode": {},
+                "0:SourceName": {},
+                "0:Time": {},
+                "0:ReceiveTime": {},
+                "0:LocalTime": {},
+                "0:Message": {},
+                "0:Severity": {},
+                "0:AuditEventType": {
+                    "0:ActionTimeStamp": {},
+                    "0:Status": {},
+                    "0:ServerId": {},
+                    "0:ClientAuditEntryId": {},
+                    "0:ClientUserId": {},
+                    "0:AuditSecurityEventType": {
+                        "0:StatusCodeId": {},
+                        "0:AuditChannelEventType": {
+                            "0:SecureChannelId": {},
+                            "0:AuditOpenSecureChannelEventType": {
+                                "0:ClientCertificate": {},
+                                "0:ClientCertificateThumbprint": {},
+                                "0:RequestType": {},
+                                "0:SecurityPolicyUri": {},
+                                "0:SecurityMode": {},
+                                "0:RequestedLifetime": {}
+                            }
+                        },
+                        "0:AuditSessionEventType": {
+                            "0:SessionId": {},
+                            "0:AuditCreateSessionEventType": {
+                                "0:SecureChannelId": {},
+                                "0:ClientCertificate": {},
+                                "0:ClientCertificateThumbprint": {},
+                                "0:RevisedSessionTimeout": {},
+                                "0:AuditUrlMismatchEventType": {
+                                    "0:EndpointUrl": {}
+                                }
+                            },
+                            "0:AuditActivateSessionEventType": {
+                                "0:ClientSoftwareCertificates": {},
+                                "0:UserIdentityToken": {},
+                                "0:SecureChannelId": {}
+                            },
+                            "0:AuditCancelEventType": {
+                                "0:RequestHandle": {}
+                            }
+                        },
+                        "0:AuditCertificateEventType": {
+                            "0:Certificate": {},
+                            "0:AuditCertificateDataMismatchEventType": {
+                                "0:InvalidHostname": {},
+                                "0:InvalidUri": {}
+                            },
+                            "0:AuditCertificateExpiredEventType": {},
+                            "0:AuditCertificateInvalidEventType": {},
+                            "0:AuditCertificateUntrustedEventType": {},
+                            "0:AuditCertificateRevokedEventType": {},
+                            "0:AuditCertificateMismatchEventType": {}
+                        }
+                    },
+                    "0:AuditNodeManagementEventType": {
+                        "0:AuditAddNodesEventType": {
+                            "0:NodesToAdd": {}
+                        },
+                        "0:AuditDeleteNodesEventType": {
+                            "0:NodesToDelete": {}
+                        },
+                        "0:AuditAddReferencesEventType": {
+                            "0:ReferencesToAdd": {}
+                        },
+                        "0:AuditDeleteReferencesEventType": {
+                            "0:ReferencesToDelete": {}
+                        }
+                    },
+                    "0:AuditUpdateEventType": {
+                        "0:AuditWriteUpdateEventType": {
+                            "0:AttributeId": {},
+                            "0:IndexRange": {},
+                            "0:OldValue": {},
+                            "0:NewValue": {}
+                        },
+                        "0:AuditHistoryUpdateEventType": {
+                            "0:ParameterDataTypeId": {},
+                            "0:AuditHistoryEventUpdateEventType": {
+                                "0:UpdatedNode": {},
+                                "0:PerformInsertReplace": {},
+                                "0:Filter": {},
+                                "0:NewValues": {},
+                                "0:OldValues": {}
+                            },
+                            "0:AuditHistoryValueUpdateEventType": {
+                                "0:UpdatedNode": {},
+                                "0:PerformInsertReplace": {},
+                                "0:NewValues": {},
+                                "0:OldValues": {}
+                            },
+                            "0:AuditHistoryAnnotationUpdateEventType": {
+                                "0:PerformInsertReplace": {},
+                                "0:NewValues": {},
+                                "0:OldValues": {}
+                            },
+                            "0:AuditHistoryDeleteEventType": {
+                                "0:UpdatedNode": {},
+                                "0:AuditHistoryRawModifyDeleteEventType": {
+                                    "0:IsDeleteModified": {},
+                                    "0:StartTime": {},
+                                    "0:EndTime": {},
+                                    "0:OldValues": {}
+                                },
+                                "0:AuditHistoryAtTimeDeleteEventType": {
+                                    "0:ReqTimes": {},
+                                    "0:OldValues": {}
+                                },
+                                "0:AuditHistoryEventDeleteEventType": {
+                                    "0:EventIds": {},
+                                    "0:OldValues": {}
+                                }
+                            }
+                        }
+                    },
+                    "0:AuditUpdateMethodEventType": {
+                        "0:MethodId": {},
+                        "0:InputArguments": {},
+                        "0:AuditUpdateStateEventType": {
+                            "0:OldStateId": {},
+                            "0:NewStateId": {},
+                            "0:AuditProgramTransitionEventType": {
+                                "0:TransitionNumber": {}
+                            },
+                            "0:ProgramTransitionAuditEventType": {
+                                "0:Transition": {
+                                    "0:Id": {}
+                                }
+                            }
+                        },
+                        "0:RoleMappingRuleChangedAuditEventType": {},
+                        "0:AuditConditionEventType": {
+                            "0:AuditConditionEnableEventType": {},
+                            "0:AuditConditionCommentEventType": {
+                                "0:ConditionEventId": {},
+                                "0:Comment": {}
+                            },
+                            "0:AuditConditionRespondEventType": {
+                                "0:SelectedResponse": {}
+                            },
+                            "0:AuditConditionAcknowledgeEventType": {
+                                "0:ConditionEventId": {},
+                                "0:Comment": {}
+                            },
+                            "0:AuditConditionConfirmEventType": {
+                                "0:ConditionEventId": {},
+                                "0:Comment": {}
+                            },
+                            "0:AuditConditionShelvingEventType": {
+                                "0:ShelvingTime": {}
+                            },
+                            "0:AuditConditionSuppressionEventType": {},
+                            "0:AuditConditionSilenceEventType": {},
+                            "0:AuditConditionResetEventType": {},
+                            "0:AuditConditionOutOfServiceEventType": {}
+                        }
+                    }
+                },
+                "0:SystemEventType": {
+                    "0:DeviceFailureEventType": {},
+                    "0:SystemStatusChangeEventType": {
+                        "0:SystemState": {}
+                    },
+                    "0:RefreshStartEventType": {},
+                    "0:RefreshEndEventType": {},
+                    "0:RefreshRequiredEventType": {}
+                },
+                "0:BaseModelChangeEventType": {
+                    "0:GeneralModelChangeEventType": {
+                        "0:Changes": {}
+                    }
+                },
+                "0:SemanticChangeEventType": {
+                    "0:Changes": {}
+                },
+                "0:EventQueueOverflowEventType": {},
+                "0:ProgressEventType": {
+                    "0:Context": {},
+                    "0:Progress": {}
+                },
+                "0:TransitionEventType": {
+                    "0:Transition": {
+                        "0:Id": {}
+                    },
+                    "0:FromState": {
+                        "0:Id": {}
+                    },
+                    "0:ToState": {
+                        "0:Id": {}
+                    },
+                    "0:ProgramTransitionEventType": {
+                        "0:IntermediateResult": {}
+                    }
+                },
+                "0:ConditionType": {
+                    "0:ConditionClassId": {},
+                    "0:ConditionClassName": {},
+                    "0:ConditionSubClassId": {},
+                    "0:ConditionSubClassName": {},
+                    "0:ConditionName": {},
+                    "0:BranchId": {},
+                    "0:Retain": {},
+                    "0:EnabledState": {
+                        "0:Id": {},
+                        "0:EffectiveDisplayName": {},
+                        "0:TransitionTime": {},
+                        "0:EffectiveTransitionTime": {},
+                        "0:TrueState": {},
+                        "0:FalseState": {}
+                    },
+                    "0:Quality": {
+                        "0:SourceTimestamp": {}
+                    },
+                    "0:LastSeverity": {
+                        "0:SourceTimestamp": {}
+                    },
+                    "0:Comment": {
+                        "0:SourceTimestamp": {}
+                    },
+                    "0:ClientUserId": {},
+                    "0:Disable": {},
+                    "0:Enable": {},
+                    "0:AddComment": {
+                        "0:InputArguments": {}
+                    },
+                    "0:ConditionRefresh": {
+                        "0:InputArguments": {}
+                    },
+                    "0:ConditionRefresh2": {
+                        "0:InputArguments": {}
+                    },
+                    "0:DialogConditionType": {
+                        "0:EnabledState": {
+                            "0:Id": {}
+                        },
+                        "0:DialogState": {
+                            "0:Id": {},
+                            "0:TransitionTime": {},
+                            "0:TrueState": {},
+                            "0:FalseState": {}
+                        },
+                        "0:Prompt": {},
+                        "0:ResponseOptionSet": {},
+                        "0:DefaultResponse": {},
+                        "0:OkResponse": {},
+                        "0:CancelResponse": {},
+                        "0:LastResponse": {},
+                        "0:Respond": {
+                            "0:InputArguments": {}
+                        }
+                    },
+                    "0:AcknowledgeableConditionType": {
+                        "0:EnabledState": {
+                            "0:Id": {}
+                        },
+                        "0:AckedState": {
+                            "0:Id": {},
+                            "0:TransitionTime": {},
+                            "0:TrueState": {},
+                            "0:FalseState": {}
+                        },
+                        "0:ConfirmedState": {
+                            "0:Id": {},
+                            "0:TransitionTime": {},
+                            "0:TrueState": {},
+                            "0:FalseState": {}
+                        },
+                        "0:Acknowledge": {
+                            "0:InputArguments": {}
+                        },
+                        "0:Confirm": {
+                            "0:InputArguments": {}
+                        },
+                        "0:AlarmConditionType": {
+                            "0:EnabledState": {
+                                "0:Id": {}
+                            },
+                            "0:ActiveState": {
+                                "0:Id": {},
+                                "0:EffectiveDisplayName": {},
+                                "0:TransitionTime": {},
+                                "0:EffectiveTransitionTime": {},
+                                "0:TrueState": {},
+                                "0:FalseState": {}
+                            },
+                            "0:InputNode": {},
+                            "0:SuppressedState": {
+                                "0:Id": {},
+                                "0:TransitionTime": {},
+                                "0:TrueState": {},
+                                "0:FalseState": {}
+                            },
+                            "0:OutOfServiceState": {
+                                "0:Id": {},
+                                "0:TransitionTime": {},
+                                "0:TrueState": {},
+                                "0:FalseState": {}
+                            },
+                            "0:ShelvingState": {
+                                "0:CurrentState": {
+                                    "0:Id": {}
+                                },
+                                "0:LastTransition": {
+                                    "0:Id": {},
+                                    "0:TransitionTime": {}
+                                },
+                                "0:UnshelveTime": {},
+                                "0:TimedShelve": {
+                                    "0:InputArguments": {}
+                                },
+                                "0:Unshelve": {},
+                                "0:OneShotShelve": {}
+                            },
+                            "0:SuppressedOrShelved": {},
+                            "0:MaxTimeShelved": {},
+                            "0:AudibleEnabled": {},
+                            "0:AudibleSound": {},
+                            "0:SilenceState": {
+                                "0:Id": {},
+                                "0:TransitionTime": {},
+                                "0:TrueState": {},
+                                "0:FalseState": {}
+                            },
+                            "0:OnDelay": {},
+                            "0:OffDelay": {},
+                            "0:FirstInGroupFlag": {},
+                            "0:FirstInGroup": {},
+                            "0:LatchedState": {
+                                "0:Id": {},
+                                "0:TransitionTime": {},
+                                "0:TrueState": {},
+                                "0:FalseState": {}
+                            },
+                            "0:<AlarmGroup>": {},
+                            "0:ReAlarmTime": {},
+                            "0:ReAlarmRepeatCount": {},
+                            "0:Silence": {},
+                            "0:Suppress": {},
+                            "0:Unsuppress": {},
+                            "0:RemoveFromService": {},
+                            "0:PlaceInService": {},
+                            "0:Reset": {},
+                            "0:LimitAlarmType": {
+                                "0:HighHighLimit": {},
+                                "0:HighLimit": {},
+                                "0:LowLimit": {},
+                                "0:LowLowLimit": {},
+                                "0:BaseHighHighLimit": {},
+                                "0:BaseHighLimit": {},
+                                "0:BaseLowLimit": {},
+                                "0:BaseLowLowLimit": {},
+                                "0:ExclusiveLimitAlarmType": {
+                                    "0:ActiveState": {
+                                        "0:Id": {}
+                                    },
+                                    "0:LimitState": {
+                                        "0:CurrentState": {
+                                            "0:Id": {}
+                                        },
+                                        "0:LastTransition": {
+                                            "0:Id": {},
+                                            "0:TransitionTime": {}
+                                        }
+                                    },
+                                    "0:ExclusiveLevelAlarmType": {},
+                                    "0:ExclusiveDeviationAlarmType": {
+                                        "0:SetpointNode": {},
+                                        "0:BaseSetpointNode": {}
+                                    },
+                                    "0:ExclusiveRateOfChangeAlarmType": {
+                                        "0:EngineeringUnits": {}
+                                    }
+                                },
+                                "0:NonExclusiveLimitAlarmType": {
+                                    "0:ActiveState": {
+                                        "0:Id": {}
+                                    },
+                                    "0:HighHighState": {
+                                        "0:Id": {},
+                                        "0:TransitionTime": {},
+                                        "0:TrueState": {},
+                                        "0:FalseState": {}
+                                    },
+                                    "0:HighState": {
+                                        "0:Id": {},
+                                        "0:TransitionTime": {},
+                                        "0:TrueState": {},
+                                        "0:FalseState": {}
+                                    },
+                                    "0:LowState": {
+                                        "0:Id": {},
+                                        "0:TransitionTime": {},
+                                        "0:TrueState": {},
+                                        "0:FalseState": {}
+                                    },
+                                    "0:LowLowState": {
+                                        "0:Id": {},
+                                        "0:TransitionTime": {},
+                                        "0:TrueState": {},
+                                        "0:FalseState": {}
+                                    },
+                                    "0:NonExclusiveLevelAlarmType": {},
+                                    "0:NonExclusiveDeviationAlarmType": {
+                                        "0:SetpointNode": {},
+                                        "0:BaseSetpointNode": {}
+                                    },
+                                    "0:NonExclusiveRateOfChangeAlarmType": {
+                                        "0:EngineeringUnits": {}
+                                    }
+                                }
+                            },
+                            "0:DiscreteAlarmType": {
+                                "0:OffNormalAlarmType": {
+                                    "0:NormalState": {},
+                                    "0:SystemOffNormalAlarmType": {
+                                        "0:CertificateExpirationAlarmType": {
+                                            "0:ExpirationDate": {},
+                                            "0:ExpirationLimit": {},
+                                            "0:CertificateType": {},
+                                            "0:Certificate": {}
+                                        }
+                                    },
+                                    "0:TripAlarmType": {},
+                                    "0:InstrumentDiagnosticAlarmType": {},
+                                    "0:SystemDiagnosticAlarmType": {}
+                                }
+                            },
+                            "0:DiscrepancyAlarmType": {
+                                "0:TargetValueNode": {},
+                                "0:ExpectedTime": {},
+                                "0:Tolerance": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "0:InterfaceTypes": {
+            "0:BaseInterfaceType": {}
+        }
+    },
+    "0:Views": {}
+}
