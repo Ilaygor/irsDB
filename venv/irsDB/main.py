@@ -239,7 +239,7 @@ class UImodif(Ui_MainWindow):
         for i in range(self.tableWidget.rowCount()):
             if self.tableWidget.item(i, 0) is None or self.tableWidget.item(i, 0).text() == "":
                 if (self.tableWidget.item(i, 1) is not None and
-                    self.tableWidget.item(i,2) is not None and
+                    self.tableWidget.item(i, 2) is not None and
                     self.tableWidget.item(i, 3) is not None):
                     try:
                         User(login=self.tableWidget.item(i, 1).text(),

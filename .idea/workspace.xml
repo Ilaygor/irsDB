@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="36008499-1f64-4380-b3f6-8d904b9280fa" name="Default Changelist" comment="221125">
-      <change afterPath="$PROJECT_DIR$/gui.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/irsDB/IRS256.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/irsDB/IRS_протокол.spec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/irsDB/experimental.spec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/irsDB/imgs.qrc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/irsDB/imgs_rc.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/venv/irsDB/localhost.json" afterDir="false" />
+    <list default="true" id="36008499-1f64-4380-b3f6-8d904b9280fa" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/irsDB/readme.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/venv/irsDB/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/irsDB/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/irsDB/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/chartPainter.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/irsDB/mainWinFunc/chartPainter.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -239,7 +238,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669367610057</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="221125v2">
+      <created>1669374394424</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1669374394424</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -248,7 +254,8 @@
     <MESSAGE value="Рамы протестированы" />
     <MESSAGE value="Рабочая альфа версия" />
     <MESSAGE value="221125" />
-    <option name="LAST_COMMIT_MESSAGE" value="221125" />
+    <MESSAGE value="221125v2" />
+    <option name="LAST_COMMIT_MESSAGE" value="221125v2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -357,11 +364,6 @@
           <url>file://$PROJECT_DIR$/venv/irsDB/mainWinFunc/popUpWins.py</url>
           <line>33</line>
           <option name="timeStamp" value="198" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/venv/irsDB/mainWinFunc/pdfGenerator.py</url>
-          <line>335</line>
-          <option name="timeStamp" value="201" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/venv/irsDB/mainWinFunc/pdfGenerator.py</url>

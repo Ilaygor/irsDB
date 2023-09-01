@@ -8,7 +8,7 @@ from mainWinFunc.models import *
 import numpy as np
 
 def initChart(self, seamId):
-    # 7+3(2)#получение данных
+    #получение данных
     seam = Seam.get(Seam.id == seamId)
     duration = 2
     fraqency = 10
